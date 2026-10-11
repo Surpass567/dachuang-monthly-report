@@ -27,7 +27,7 @@
 **会 Git**：
 
 ```bash
-git clone https://github.com/<你的用户名>/dachuang-monthly-report.git
+git clone https://github.com/Surpass567/dachuang-monthly-report.git
 ```
 
 **不会 Git**：点本页绿色 `Code` 按钮 → `Download ZIP` → 解压。效果一样。
