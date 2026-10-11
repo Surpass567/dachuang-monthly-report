@@ -1,0 +1,184 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  月度阅读总结 · 阶段一（初步阅读）  ——  空白骨架
+%
+%  怎么用
+%    1. 把文件另存为  2026-10_阶段一_你的名字_方向.tex
+%    2. 填下面「只改这里」的六项信息
+%    3. 在每个章节的 { } 或环境里填入你的内容
+%    4. 编译：xelatex 文件名.tex   （跑两遍）
+%       Overleaf：Menu -> Compiler -> XeLaTeX
+%
+%  注意事项
+%    · 章节标题不要手写编号（不要写「一、」或「1.」），类文件会自动编号
+%    · 数字与单位之间加空格：2.8 mm，不要写 2.8mm
+%    · 表格用 tabularx + Y 列（Y 会自适应页宽，不会超出页面）
+%    · 不要用 emoji（✅❌⚠️★①）——中文字体没有这些字形，会变空白
+%      要表达状态请用文字：已完成 / 未完成 / 注意
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[stage1]{ydzjreport}
+
+% ===================== 只改这里：你的信息 =====================
+\stageonesetup
+  {阶段一 · 初步阅读}%          1 报告阶段
+  {你的姓名}%                   2 姓名
+  {你的方向}%                   3 方向（2-6 个汉字）
+  {2026-10-01 至 2026-10-31}%   4 报告周期
+  {关键词一；关键词二；关键词三}%   5 关键词
+  {一句话说清本月收获。}%          6 一句话摘要
+% ============================================================
+
+\begin{document}
+\makestageonehead
+
+% ==================================================================
+\section{阅读范围}
+
+\subsection{文献清单}
+
+% 必填，至少 3 篇。列数固定 4 列，不要加列。
+\begin{table}[htbp]
+\centering
+\caption{本月阅读文献}
+\begin{tabularx}{\textwidth}{@{}c Y c Y@{}}
+\toprule
+\rowcolor{ydzjlight} 序号 & 文献 & 类型 & 与本方向的关系 \\
+\midrule
+1 &  &  &  \\
+2 &  &  &  \\
+3 &  &  &  \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{选读理由}
+
+% 说明为什么选这几篇，围绕本方向的什么问题。100--200 字。
+% 写清「阅读线索」：先读什么、为什么、解决什么疑问。
+
+
+% ==================================================================
+\section{核心概念梳理}
+
+% 2--4 个概念。每个概念写：定义 + 为什么重要 + 在本项目里对应什么。
+% 不要抄定义就完事，必须落到「对本项目意味着什么」。
+
+\subsection{概念一：}
+
+\subsection{概念二：}
+
+
+% ==================================================================
+\section{阶段一：通读与摘录}
+
+\subsection{学习路径}
+
+% 按时间或逻辑顺序说明「先看什么、再看什么、为什么」。3--6 条。
+\begin{enumerate}
+  \item 
+  \item 
+  \item 
+\end{enumerate}
+
+\subsection{关键摘录}
+
+% 必填，至少 3 条。第二列写原文要点，第三列写你自己的理解（不是复述）。
+\begin{table}[htbp]
+\centering
+\caption{关键摘录与理解}
+\begin{tabularx}{\textwidth}{@{}Y Y Y@{}}
+\toprule
+\rowcolor{ydzjlight} 文献 & 原文要点 & 我的理解 \\
+\midrule
+ &  &  \\
+ &  &  \\
+ &  &  \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+
+% ==================================================================
+\section{阶段二：导出与复现}
+
+% ★ 阶段一的核心：只读不做不算完成。
+%   必须给出可复现的环境、步骤、结果。
+
+\subsection{复现目标}
+
+% 明确到具体对象：哪张图、哪个公式、哪套数据。
+
+
+\subsection{复现环境与步骤}
+
+% 软件 + 版本 + 关键设置 + 步骤。要求：别人照着能重复出来。
+\begin{enumerate}
+  \item 
+  \item 
+  \item 
+\end{enumerate}
+
+
+\subsection{复现结果}
+
+% 必须给图或表。并说明与原文的差异在哪。
+\begin{table}[htbp]
+\centering
+\caption{复现结果与原文对比}
+\begin{tabularx}{0.85\textwidth}{@{}Y c c c@{}}
+\toprule
+\rowcolor{ydzjlight} 项目 & 原文值 & 我的复现值 & 偏差 \\
+\midrule
+ &  &  &  \\
+ &  &  &  \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+
+% ==================================================================
+\section{阶段性收获}
+
+\subsection{认知上的变化}
+
+% 至少 1 条，写成「我原以为 X，现在认为是 Y」。
+% 这是最能体现是否真正消化的部分，不要写空话。
+
+
+\subsection{尚存的疑问}
+
+% 至少 2 条，要具体到可以回答的问题。
+\begin{enumerate}
+  \item 
+  \item 
+\end{enumerate}
+
+
+% ==================================================================
+\section{下月计划}
+
+\begin{table}[htbp]
+\centering
+\caption{下月工作计划}
+\begin{tabularx}{\textwidth}{@{}Y Y c@{}}
+\toprule
+\rowcolor{ydzjlight} 事项 & 预期产出 & 时间 \\
+\midrule
+ &  & 第 1 周 \\
+ &  & 第 2--3 周 \\
+ &  & 第 4 周 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+
+% ==================================================================
+% 参考文献：按正文引用顺序排列
+% 正文引用写法：见表~\ref{tab:xxx}；文献引用用 \cite{key}
+% 若不想用 \cite，也可直接写 [1]
+\begin{thebibliography}{9}
+\bibitem{ref1} 
+\bibitem{ref2} 
+\bibitem{ref3} 
+\end{thebibliography}
+
+\end{document}

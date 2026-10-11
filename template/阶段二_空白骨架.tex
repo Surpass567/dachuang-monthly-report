@@ -1,0 +1,190 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  月度总结 · 阶段二（研究推进）  ——  空白骨架
+%
+%  怎么用
+%    1. 把文件另存为  2026-10_阶段二_你的名字_方向.tex
+%    2. 填下面「只改这里」的六项信息
+%    3. 在每个章节的 { } 或环境里填入你的内容
+%    4. 编译：xelatex 文件名.tex   （跑两遍）
+%       Overleaf：Menu -> Compiler -> XeLaTeX
+%
+%  阶段二与阶段一的区别
+%    · 主线是「研究推进」而不是「学习过程」
+%    · 「关键结果」必须有量化数据
+%    · 「与预期的差异」和「尚不能确定的」不能为空
+%      —— 全都符合预期等于没有深入思考
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[stage2]{ydzjreport}
+
+% ===================== 只改这里：你的信息 =====================
+\stagetwosetup
+  {阶段二 · 进阶阅读}%          1 报告阶段
+  {你的姓名}%                   2 姓名
+  {你的方向}%                   3 方向（2-6 个汉字）
+  {2026-10-01 至 2026-10-31}%   4 报告周期
+  {关键词一；关键词二；关键词三}%   5 关键词
+  {一句话说清本月推进了什么。}%     6 一句话摘要
+% ============================================================
+
+\begin{document}
+\makestagetwohead
+
+% ==================================================================
+\section{本月研究任务}
+
+\subsection{任务目标}
+
+% 月初定的目标，2--4 条。
+\begin{enumerate}
+  \item 
+  \item 
+\end{enumerate}
+
+\subsection{完成情况}
+
+% 状态列只写三种：已完成 / 部分完成 / 未开始。
+\begin{table}[htbp]
+\centering
+\caption{本月任务完成情况}
+\begin{tabularx}{\textwidth}{@{}Y c Y@{}}
+\toprule
+\rowcolor{ydzjlight} 任务 & 状态 & 说明 \\
+\midrule
+ & 已完成 &  \\
+ & 部分完成 &  \\
+ & 未开始 &  \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+
+% ==================================================================
+\section{进阶阅读与理论支撑}
+
+\subsection{本阶段文献清单}
+
+% 与阶段一不同：这里每篇文献必须对应「解决了我哪个问题」。
+\begin{table}[htbp]
+\centering
+\caption{本阶段文献}
+\begin{tabularx}{\textwidth}{@{}c Y Y@{}}
+\toprule
+\rowcolor{ydzjlight} 序号 & 文献 & 解决了我哪个问题 \\
+\midrule
+1 &  &  \\
+2 &  &  \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{对本方向的启示}
+
+% 这些文献怎么改变了我的做法。150--300 字。
+% 关键：要写出「因为读了 X，所以我决定改成 Y」。
+
+
+% ==================================================================
+\section{研究进展}
+
+\subsection{已完成的工作}
+
+% 具体做了什么，写到别人可以照着做的程度。
+\begin{enumerate}
+  \item 
+  \item 
+\end{enumerate}
+
+\subsection{关键结果}
+
+% ★ 必须有量化数据：表格或图。不能只有文字描述。
+\begin{table}[htbp]
+\centering
+\caption{关键结果}
+\begin{tabularx}{\textwidth}{@{}Y c Y@{}}
+\toprule
+\rowcolor{ydzjlight} 指标 & 数值 & 说明 \\
+\midrule
+ &  &  \\
+ &  &  \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{与预期的差异}
+
+% ★ 本节不可为空。即使结果符合预期，也要写清「为什么符合」。
+%   有偏差就分析原因（把相关曲线/数据叠在一起看，找主因）。
+
+
+% ==================================================================
+\section{问题与对策}
+
+\subsection{遇到的主要问题}
+
+% 至少 2 条，写清卡在哪。
+\begin{enumerate}
+  \item 
+  \item 
+\end{enumerate}
+
+\subsection{已尝试的方案}
+
+% 试过什么、为什么不行。与上面的问题一一对应。
+\begin{enumerate}
+  \item 
+  \item 
+\end{enumerate}
+
+\subsection{下一步对策}
+
+% 打算怎么办。与上面的问题一一对应。
+\begin{enumerate}
+  \item 
+  \item 
+\end{enumerate}
+
+
+% ==================================================================
+\section{阶段性结论}
+
+\subsection{可以确定的}
+
+% 有证据支撑的结论，至少 2 条。
+\begin{enumerate}
+  \item 
+  \item 
+\end{enumerate}
+
+\subsection{尚不能确定的}
+
+% ★ 本节不可为空，至少 1 条。写清「缺什么证据才能确定」。
+\begin{enumerate}
+  \item 
+\end{enumerate}
+
+
+% ==================================================================
+\section{下月计划}
+
+\begin{table}[htbp]
+\centering
+\caption{下月工作计划}
+\begin{tabularx}{\textwidth}{@{}Y Y c@{}}
+\toprule
+\rowcolor{ydzjlight} 事项 & 预期产出 & 时间 \\
+\midrule
+ &  & 第 1 周 \\
+ &  & 第 2--3 周 \\
+ &  & 第 4 周 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+
+% ==================================================================
+\begin{thebibliography}{9}
+\bibitem{ref1} 
+\bibitem{ref2} 
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,174 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  月度阅读总结 · 阶段一（初步阅读）
+%  编译：xelatex 本文件（跑两遍）
+%  Overleaf：Menu -> Compiler -> XeLaTeX
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[stage1]{ydzjreport}
+
+% ============ 只改这里：你的信息 ============
+\stageonesetup
+  {阶段一 · 初步阅读}%     报告阶段
+  {张三}%                  姓名
+  {导流柱结构设计}%         方向
+  {2026-10-01 ~ 2026-10-31}% 报告周期
+  {微通道；翼型导流柱；拓扑优化}% 关键词
+  {通读 5 篇核心文献并复现了 1 张传热云图，明确导流柱构型有 3 个可选方向。}% 一句话摘要
+% ===========================================
+
+\begin{document}
+\makestageonehead
+
+\section{阅读范围}
+
+\subsection{文献清单}
+
+\begin{table}[htbp]
+\centering
+\caption{本月阅读文献}
+\begin{tabularx}{\textwidth}{@{}c Y c Y@{}}
+\toprule
+\rowcolor{ydzjlight} 序号 & 文献 & 类型 & 与本方向的关系 \\
+\midrule
+1 & Tuckerman \& Pease, 1981, 嵌入式微通道冷却 & 期刊 & 本方向的起点，确立微通道基本构型 \\
+2 & Van Erp 等, 2020, \textit{Nature}, 内嵌式歧管微通道 & 期刊 & 提供「宏观拓扑分区」的设计思路 \\
+3 & Yue 等, 2024, 复合叶脉蜂窝微通道 & 期刊 & 仿生拓扑，与我的分区构型直接可比 \\
+4 & 季俊杰, 2021, 微通道冷却芯片热点的动态特性 & 学位论文 & 唯一讨论热点动态漂移的中文文献 \\
+5 & 苗杰, 2023, 变截面通道液冷板设计 & 学位论文 & 变截面思路，可迁移到翼型柱 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{选读理由}
+
+我的任务是确定导流柱的构型。选文献时围绕三条线索：一是\textbf{起点}（Tuckerman 1981，明确微通道为什么有效）；二是\textbf{拓扑分区}（Van Erp 和 Yue，因为我要做的正是「分区差异化设计」）；三是\textbf{变截面与热点}（苗杰、季俊杰，因为导流柱本质上是流道内的变截面扰动，且最终要服务于热点冷却）。其余风冷、浸没式液冷的文献只是背景，未列入清单。
+
+\section{核心概念梳理}
+
+\subsection{概念一：水力直径与尺度判据}
+
+水力直径定义为 $D_h = 4A/P$。对矩形通道退化为 $D_h = 2WH/(W+H)$。它是判断「是否属于微通道」的唯一定量依据：Kandlikar 分类为 10--200 $\mu$m 属微通道、200 $\mu$m--3 mm 属小通道、3 mm 以上属常规通道。
+
+\note
+\textbf{对本项目的影响}：我们模型的 $D_h$ 是 2.81 mm，属于小通道而非微通道，计划书里的措辞需要修正。
+\noteend
+
+\subsection{概念二：热边界层与入口段效应}
+
+流体进入通道后，热边界层从零开始发展，直到填满通道达到「充分发展」。入口段的换热系数显著高于充分发展段。我们的通道长 3.5 mm、$D_h$ 2.81 mm，长径比只有约 1.25，\textbf{入口段效应不可忽略}。
+
+\subsection{概念三：场协同与局部强化}
+
+过增元提出的场协同理论指出，换热强弱取决于速度场与温度梯度场的协同程度——夹角越小，换热越强。导流柱的作用可以理解为\textbf{局部改变速度矢量方向，改善与温度梯度的协同角}。
+
+\section{阶段一：通读与摘录}
+
+\subsection{学习路径}
+
+\begin{enumerate}
+  \item 先读 Tuckerman 1981 原文，搞清楚微通道冷却的基本机理与量级；
+  \item 再读 Van Erp 2020 的 \textit{Nature} 文章，重点看它如何用歧管实现「分区供液」；
+  \item 接着读 Yue 2024 与赵雨亭的仿生拓扑，对比不同拓扑的换热与压降表现；
+  \item 最后读两篇中文学位论文，看国内团队怎么处理「变截面」和「热点动态」；
+  \item 边读边用 Fluent 复现第 2 篇的关键云图，验证自己是否真的理解了。
+\end{enumerate}
+
+\subsection{关键摘录}
+
+\begin{table}[htbp]
+\centering
+\caption{关键摘录与理解}
+\begin{tabularx}{\textwidth}{@{}Y Y Y@{}}
+\toprule
+\rowcolor{ydzjlight} 文献 & 原文要点 & 我的理解 \\
+\midrule
+Van Erp 2020 & 内嵌式歧管可将压降降低一个数量级，同时维持换热 & 关键在于「缩短流体路径」，而非单纯增加扰动 \\
+Yue 2024 & 复合叶脉-蜂窝结构使传热效率提高 30\% 以上 & 提升主要来自流量分配均匀化，而非表面强化 \\
+季俊杰 2021 & 热点位置随计算任务发生时空漂移 & 静态结构优化存在天花板，必须引入动态调控 \\
+苗杰 2023 & 变截面通道可在压降增幅可控前提下增强换热 & 截面的「变化方式」比「变化幅度」更重要 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{阶段二：导出与复现}
+
+\subsection{复现目标}
+
+复现 Van Erp 2020 论文中的\textbf{速度场与温度场分布云图}（论文图 3），验证内嵌歧管结构下流动分区的实际效果。
+
+\subsection{复现环境与步骤}
+
+\textbf{环境}：Fluent 25.1，层流 + 能量方程，瞬态，时间步 1 ms。
+
+\textbf{几何}：按论文数据重建，通道长 3.5 mm、宽 3.2 mm、高 2.5 mm，入口面积 8 mm$^2$。
+
+\textbf{步骤}：
+
+\begin{enumerate}
+  \item 用 SpaceClaim 建模，导出 STP；
+  \item ICEM 划分网格，流固界面加密，总单元数约 258 万；
+  \item 设置边界：入口速度 2 m/s、温度 300 K，出口压力出口（表压 0），加热面热流密度 350 W/cm$^2$；
+  \item 工质按水的多项式物性（REFPROP 拟合）；
+  \item 求解至 0.2 s，提取速度与温度场。
+\end{enumerate}
+
+\subsection{复现结果}
+
+复现结果与论文趋势一致：入口段速度偏高、柱后出现低速回流区、温度沿流向单调上升。定量对比见表~\ref{tab:vf}。
+
+\begin{table}[htbp]
+\centering
+\caption{复现结果与论文对比}
+\label{tab:vf}
+\begin{tabularx}{0.85\textwidth}{@{}Y c c c@{}}
+\toprule
+\rowcolor{ydzjlight} 项目 & 论文值 & 我的复现值 & 偏差 \\
+\midrule
+最高温度 & 331 K & 330.5 K & 0.2\% \\
+压降 & 约 4.3 kPa & 4.29 kPa & 0.2\% \\
+最大速度 & 约 3.6 m/s & 3.57 m/s & 0.8\% \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\textbf{结论}：复现成功，模型可信。差异主要来自网格密度与收敛判据的不同。
+
+\section{阶段性收获}
+
+\subsection{认知上的变化}
+
+我原以为「导流柱越多、越密，散热越好」。复现之后发现\textbf{压降的代价比换热收益增长更快}：本算例中柱体只占通道截面积 10.5\%，却贡献了全部压降的主要部分（每排柱压降约 830 Pa，而全长温升只有 0.64 K）。也就是说，\textbf{柱体设计的目标不是「更多扰动」，而是「用最小的阻力换取近壁区最大的换热改善」}。
+
+\subsection{尚存的疑问}
+
+\begin{enumerate}
+  \item 攻角分布目前是「中轴 $0^\circ$、两侧 $\pm 6^\circ$」的收敛式，但数据显示两侧边壁反而是高阻高温区。\textbf{收敛式导向到底是对的还是错的？}
+  \item 边界层只在底部 0.5 mm 内有温差，柱体上部 1.5 mm 似乎没起作用。\textbf{柱体是否应该做成变高的？}
+  \item 论文里的关联式都基于「光滑通道充分发展」，我们通道长径比只有 1.25，\textbf{这些关联式还能用吗？}
+\end{enumerate}
+
+\section{下月计划}
+
+\begin{table}[htbp]
+\centering
+\caption{下月工作计划}
+\begin{tabularx}{\textwidth}{@{}Y Y c@{}}
+\toprule
+\rowcolor{ydzjlight} 事项 & 预期产出 & 时间 \\
+\midrule
+补读 3 篇关于变截面/翼型柱的文献 & 文献笔记 & 第 1 周 \\
+做攻角方案的对照算例（收敛式 / 均匀 / 反向） & 三组对比数据 & 第 2--3 周 \\
+试算变高柱方案 & 压降与温度对比 & 第 3--4 周 \\
+整理本月复现脚本与数据 & 可复现代码 + 数据表 & 第 4 周 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{thebibliography}{9}
+\bibitem{tuck81} TUCKERMAN D B, PEASE R F. High-performance heat sinking for VLSI[J]. IEEE Electron Device Letters, 1981, 2(5): 126-129.
+\bibitem{vanerp20} VAN ERP R, SOLEIMANZADEH R, NELA L, et al. Co-designing electronics with microfluidics for more sustainable cooling[J]. Nature, 2020, 585(7824): 211-216.
+\bibitem{yue24} YUE L F, QI C, TANG M Q. A novel composite bionic leaf vein and honeycomb microchannel heat sink[J]. Applied Thermal Engineering, 2024, 252: 123716.
+\bibitem{ji21} 季俊杰. 微通道冷却芯片及其热点的动态特性研究[D]. 杭州: 浙江大学, 2021.
+\bibitem{miao23} 苗杰. 面向服务器 CPU 芯片散热的变截面通道液冷板设计及性能分析[D]. 广州: 华南理工大学, 2023.
+\end{thebibliography}
+
+\end{document}

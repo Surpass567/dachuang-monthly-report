@@ -1,0 +1,38 @@
+# LaTeX 编译中间产物
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bbl
+*.blg
+*.nav
+*.snm
+*.vrb
+*.bcf
+*.run.xml
+
+# 编辑器 / 系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+check_report.txt
+
+# Overleaf 下载的源码包（一般不用提交）
+*-overleaf.zip
+
+# 注意：PDF 是有意提交的（方便直接看结果），不要加进忽略
+# 如果想忽略编译产物 PDF，取消下面这行注释（但 examples/ 里的样例 PDF 建议保留）
+# reports/*.pdf
