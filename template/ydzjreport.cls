@@ -29,7 +29,7 @@
 %    需要判断字体时，改用 ctex 的 fontset 机制。
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{ydzjreport}[2026/10/08 v1.0 月度阶段总结报告]
+\ProvidesClass{ydzjreport}[2026/10/12 v1.1 月度阶段总结报告]
 
 \newif\if@stageone
 \@stageonetrue
@@ -222,37 +222,43 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  8. 常用盒子
-%     用法：
-%       \note ... \noteend            注意事项（黄色边框）
-%       \keypoint ... \keypointend    要点提示（蓝色边框）
+%     用法（标准环境语法）：
+%       \begin{notebox} ... \end{notebox}        注意事项（橙色上下横线）
+%       \begin{keybox}  ... \end{keybox}         要点提示（蓝色上下横线）
 %
 %     实现说明（踩过的坑，别改回去）：
 %       · 不要用 \colorbox{\begin{minipage}...\end{minipage}}：
 %         \colorbox 的参数会在读到 minipage 开始后就被闭合，
 %         导致 "Extra }, or forgotten \endgroup"。
-%       · 不要给 \newenvironment 的第一个参数组里塞 math/figure 等，
-%         否则报 "File ended while scanning use of \@newenv"。
-%       · 环境名不要用 \note / \endnote（\endnote 已被占用）。
-%       这里用「整行 minipage + 上下彩色横线」，最稳且不需要额外宏包。
+%       · 不要用 minipage 包内容：不能跨页，且报
+%         "begin{minipage} ... ended by \end{...}"。
+%       · 不要把 \begin{notebox} 包装成 \newcommand{\note} 再用
+%         \noteend 收尾：LaTeX 会做环境名匹配检查，
+%         \end{note} 会被判成 "\begin{list} ended by \end{note}"。
+%         必须用 \begin{notebox} / \end{notebox} 原样写。
+%       · 环境名不要叫 \note / \notebox（\note 已被 LaTeX 占用）。
+%
+%       这里用「list + 彩色横线」：可跨页、可嵌套、无需额外宏包，最稳。
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newenvironment{ydzjnotebox}%
-  {\par\medskip\noindent\begin{minipage}{\linewidth}%
-   \color{ydzjwarnline}\hrule height 1.2pt\vspace{3pt}\par
-   \small\color{black}}%
-  {\vspace{3pt}\par\color{ydzjwarnline}\hrule height 1.2pt%
-   \end{minipage}\par\medskip}
+\newenvironment{notebox}%
+  {\par\addvspace{3pt plus 2pt}%
+   \begin{list}{}{\leftmargin=1.2em \rightmargin=0pt
+                  \topsep=3pt \partopsep=0pt \parsep=2pt \itemsep=2pt}%
+   \item\relax
+   {\color{ydzjwarnline}\hrule height 1.2pt}\par\vspace{3pt}%
+   \small}%
+  {\par\vspace{3pt}{\color{ydzjwarnline}\hrule height 1.2pt}%
+   \end{list}\par\addvspace{3pt plus 2pt}}
 
-\newenvironment{ydzjkeybox}%
-  {\par\medskip\noindent\begin{minipage}{\linewidth}%
-   \color{ydzjblueii}\hrule height 1.2pt\vspace{3pt}\par
-   \small\color{black}}%
-  {\vspace{3pt}\par\color{ydzjblueii}\hrule height 1.2pt%
-   \end{minipage}\par\medskip}
-
-\newcommand{\note}{\begin{ydzjnotebox}}
-\newcommand{\noteend}{\end{ydzjnotebox}}
-\newcommand{\keypoint}{\begin{ydzjkeybox}}
-\newcommand{\keypointend}{\end{ydzjkeybox}}
+\newenvironment{keybox}%
+  {\par\addvspace{3pt plus 2pt}%
+   \begin{list}{}{\leftmargin=1.2em \rightmargin=0pt
+                  \topsep=3pt \partopsep=0pt \parsep=2pt \itemsep=2pt}%
+   \item\relax
+   {\color{ydzjblueii}\hrule height 1.2pt}\par\vspace{3pt}%
+   \small}%
+  {\par\vspace{3pt}{\color{ydzjblueii}\hrule height 1.2pt}%
+   \end{list}\par\addvspace{3pt plus 2pt}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  9. 表格便利命令

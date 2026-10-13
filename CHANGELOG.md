@@ -1,5 +1,42 @@
 # 更新记录
 
+## v1.1 — 2026-10-12
+
+**改了什么**：修复提示盒子的实现，`\note ... \noteend` 改为标准环境写法。
+
+**影响范围**：用了提示盒子的报告需改写法；未用的也要重新拉取 `.cls` 再编译。
+
+**要做什么**：
+
+1. 重新拉取 `template/ydzjreport.cls`
+2. 如果你用过提示盒子，把
+   `\note` / `\noteend` 改成 `\begin{notebox}` / `\end{notebox}`；
+   `\keypoint` / `\keypointend` 改成 `\begin{keybox}` / `\end{keybox}`
+3. 重新编译，确认日志三项为 0
+
+**改的原因**：旧实现有两个问题——
+
+- 用 `minipage` 包内容，**不能跨页**，内容里出现段落命令时报
+  `begin{minipage} ... ended by \end{...}`；
+- 把环境包装成 `\newcommand{\note}{...}` 再配 `\noteend` 收尾时，
+  LaTeX 会做环境名匹配检查，报 `\begin{list} ended by \end{note}`。
+
+新实现用「`list` + 上下彩色横线」：**可跨页、可嵌套、无需额外宏包**。
+
+**验证结果**：
+
+```
+examples/阶段一_初步阅读.tex     Overfull=0 Missing=0 Error=0   4 页
+reports/阶段一_控制算法.tex      Overfull=0 Missing=0 Error=0   5 页
+reports/阶段二_控制算法.tex      Overfull=0 Missing=0 Error=0   6 页
+template/阶段一_空白骨架.tex     Overfull=0 Missing=0 Error=0   3 页
+template/阶段二_空白骨架.tex     Overfull=0 Missing=0 Error=0   3 页
+```
+
+**新增内容**：`reports/` 下加入控制算法方向的两份报告示例。
+
+---
+
 ## v1.0 — 2026-10-08
 
 **首次发布。**
@@ -10,7 +47,7 @@
   - 两种阶段共用同一套版式（标题、元信息表、页眉页脚、章节编号、表格、配色）
   - 字体由 ctex 自动检测，Overleaf 与本地均可用
   - 提供 `Y` / `C` 自适应列型，杜绝表格超框
-  - 提示盒子：`\note ... \noteend`、`\keypoint ... \keypointend`
+  - 提示盒子：`\begin{notebox} ... \end{notebox}`、`\begin{keybox} ... \end{keybox}`
 - `template/阶段一_空白骨架.tex`：阶段一（初步阅读）骨架
 - `template/阶段二_空白骨架.tex`：阶段二（研究推进）骨架
 - `examples/阶段一_初步阅读.tex`：填好的样例

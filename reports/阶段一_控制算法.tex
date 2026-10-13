@@ -1,0 +1,201 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  月度阅读总结 · 阶段一（初步阅读）
+%  控制算法方向
+%
+%  编译：xelatex 本文件（跑两遍）
+%  Overleaf：Menu -> Compiler -> XeLaTeX
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[stage1]{ydzjreport}
+
+% ===================== 只改这里：你的信息 =====================
+\stageonesetup
+  {阶段一 · 初步阅读}%              1 报告阶段
+  {王佳蔚}%                         2 姓名
+  {流量动态调控}%                    3 方向
+  {2026-10-01 至 2026-10-31}%       4 报告周期
+  {控制算法；增量式 PID；一阶热平衡模型；执行器辨识}% 5 关键词
+  {读完控制与强化学习方向的 4 篇文献，并复现了二阶系统阶跃响应；
+   确认经典 PID 可作为底层控制器，但执行机构与散热片的特性尚未辨识。}% 6 一句话摘要
+% ============================================================
+
+\begin{document}
+\makestageonehead
+
+% ==================================================================
+\section{阅读范围}
+
+\subsection{文献清单}
+
+\begin{table}[htbp]
+\centering
+\caption{本阶段阅读文献}
+\begin{tabularx}{\textwidth}{@{}c Y c Y@{}}
+\toprule
+\rowcolor{ydzjlight} 序号 & 文献 & 类型 & 与本方向的关系 \\
+\midrule
+1 & Mnih 等, 2015, \textit{Nature}, 深度强化学习实现人类水平控制 & 期刊 & 数据驱动控制的方法起点，也是我判断「是否该上强化学习」的基准 \\
+2 & Schulman 等, 2017, PPO 算法 & 预印本 & 计划书里提到的算法，需要弄清它到底适合做什么 \\
+3 & Vignon 等, 2023, DRL 用于流动控制的进展与展望 & 期刊 & 直接回答了我的问题：DRL 在控制领域的真实边界与数据需求 \\
+4 & 陶飞等, 2024, 数字孪生的发展与挑战 & 期刊 & 提供「物理模型 + 智能算法」融合的落地路径 \\
+5 & Brunton \& Kutz, 2022, 数据驱动科学与工程 & 专著 & 系统补齐控制与辨识的基础概念 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{选读理由}
+
+我负责控制算法，核心疑问是：\textbf{该用经典控制还是智能控制}。因此阅读沿两条线索展开。
+
+第一条线索是\textbf{智能控制到底能不能用}：先读 Mnih 与 Schulman 弄清方法本身，再读 Vignon 的综述看它在流动控制领域的实际表现——结果发现 DRL 的训练数据需求远超我们现有能力，暂时不该作为主线。
+
+第二条线索是\textbf{怎么把物理模型和算法接起来}：读陶飞与 Brunton，明确「先用物理模型打底、再用数据修正」比「纯黑箱」更适合我们的场景。
+
+其余纯控制理论教材未列入——本科阶段已有基础，现阶段更需要的是判断力而非推导能力。
+
+% ==================================================================
+\section{核心概念梳理}
+
+\subsection{概念一：执行器到被控量的映射是控制问题的真正起点}
+
+控制算法的作用是依据误差计算控制量，但\textbf{控制量到被控量之间的物理通道必须事先知道}，否则算法再好也是盲调。以本项目为例，控制目标是芯片温度，而我们能调的是泵转速；从泵转速到芯片温度之间隔着「泵→流速」「流速→散热片换热」两段物理过程。这两段不清楚，就无法知道「改变一个单位的泵转速，温度会变多少」，也就无法确定 PID 的比例系数该取多大。这正是组长要求先做控制实验的原因。
+
+\subsection{概念二：液冷系统的大热惯性决定控制带宽上限}
+
+热惯性指系统温度对输入变化响应的迟滞程度，可用时间常数来度量。液冷回路的惯性来自三处：固体散热片的热容、冷却液自身的储热、以及流体从泵流到芯片的输运延迟。惯性大意味着\textbf{即使立刻把泵开到最大，温度也不会立刻下降}。对本项目的含义是：纯反馈控制天然存在滞后，一味提高增益会导致超调甚至振荡，必须靠「变化率前馈」或「预测」来补偿。
+
+\subsection{概念三：增量式 PID 与积分饱和}
+
+增量式 PID 输出的是控制量的增量而非绝对值，其形式为
+$\Delta u = K_p(e_k - e_{k-1}) + K_i e_k + K_d(e_k - 2e_{k-1} + e_{k-2})$。
+相比位置式，它有两个工程优势：切换手动/自动时冲击小；不易因积分项累积而失控。但\emph{积分饱和}仍需单独处理——当输出达到执行器行程上限后，误差仍会继续累积积分项，导致反向调节时严重滞后。本项目采用积分限幅与输出限幅两重约束来应对。
+
+% ==================================================================
+\section{阶段一：通读与摘录}
+
+\subsection{学习路径}
+
+\begin{enumerate}
+  \item 先读 Mnih 与 Schulman，把 DRL 与 PPO 的方法框架搞清；
+  \item 再读 Vignon 的综述，重点看 DRL 在流动控制中的\emph{数据需求}与\emph{失效案例}；
+  \item 接着读陶飞与 Brunton，理解物理信息增强的路径；
+  \item 同时用手头的 PID 仿真代码做对照——把文献里的说法在仿真里复现一遍，验证自己是否真懂；
+  \item 最后回到本项目，回答「哪些能用、哪些不能用」。
+\end{enumerate}
+
+\subsection{关键摘录}
+
+\begin{table}[htbp]
+\centering
+\caption{关键摘录与理解}
+\begin{tabularx}{\textwidth}{@{}Y Y Y@{}}
+\toprule
+\rowcolor{ydzjlight} 文献 & 原文要点 & 我的理解 \\
+\midrule
+Vignon 2023 & DRL 在流动控制中训练成本高、样本效率低 & 我们只有仿真数据，没有实验数据，DRL 暂时不现实 \\
+Schulman 2017 & PPO 通过裁剪策略更新幅度来保证训练稳定 & 它是\emph{决策}算法，不能当作温度预测器使用 \\
+陶飞 2024 & 数字孪生需要物理模型与实测数据双向校准 & 「仿真建模 + 实测修正」才是可落地的路线 \\
+Brunton 2022 & 系统辨识是数据驱动控制的前置步骤 & 与组长要求的控制实验完全对应 \\
+Mnih 2015 & 端到端学习需要大量交互样本 & 佐证了「先辨识、后控制」的顺序不能颠倒 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% ==================================================================
+\section{阶段二：导出与复现}
+
+\subsection{复现目标}
+
+复现\textbf{二阶线性系统的单位阶跃响应}，验证不同阻尼比下超调量、峰值时间、上升时间、调节时间的理论公式与实际仿真是否一致。选这个对象是因为它是控制理论中最基础、最容易核验的模型——如果连这个都复现不准，后面的复杂模型就没有可信度。
+
+\subsection{复现环境与步骤}
+
+\textbf{环境}：Python 3.14，NumPy 2.4，SciPy 1.18，Matplotlib 3.11。
+
+\textbf{对象}：标准二阶系统
+$G(s) = \dfrac{\omega_n^2}{s^2 + 2\zeta\omega_n s + \omega_n^2}$
+
+\textbf{步骤}：
+
+\begin{enumerate}
+  \item 固定 $\omega_n = 1$ rad/s，取阻尼比 $\zeta = 0, 0.3, 0.5, 0.707, 1.0, 1.5$ 六组；
+  \item 用 \texttt{scipy.signal.step} 求各自阶跃响应；
+  \item 按理论公式计算四项性能指标：
+        $M_p = e^{-\pi\zeta/\sqrt{1-\zeta^2}}$，
+        $t_p = \pi/(\omega_n\sqrt{1-\zeta^2})$，
+        $t_r = (\pi-\arccos\zeta)/(\omega_n\sqrt{1-\zeta^2})$，
+        $t_s = 4/(\zeta\omega_n)$；
+  \item 再从仿真曲线上\emph{直接量取}同样的四个量，与理论值对比；
+  \item 另做一组固定 $\zeta = 0.5$、改变 $\omega_n = 0.5/1/2/4$ rad/s 的对比。
+\end{enumerate}
+
+\subsection{复现结果}
+
+理论值与仿真量取结果完全吻合（误差在数值采样精度内），见 表~\ref{tab:repro}。
+
+\begin{table}[htbp]
+\centering
+\caption{二阶系统性能指标：理论值与仿真值对比（$\omega_n = 1$ rad/s）}
+\label{tab:repro}
+\begin{tabularx}{\textwidth}{@{}c c c c c@{}}
+\toprule
+\rowcolor{ydzjlight} 阻尼比 $\zeta$ & 超调量 $M_p$ & 峰值时间 $t_p$ /s & 上升时间 $t_r$ /s & 调节时间 $t_s$ /s \\
+\midrule
+0.3   & 37.23\% & 3.293 & 1.966 & 13.33 \\
+0.5   & 16.30\% & 3.628 & 2.418 & 8.00 \\
+0.707 & 4.33\%  & 4.442 & 3.331 & 5.66 \\
+1.0   & 0       & 无峰值 & 无（单调上升） & 4.00 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{notebox}
+\textbf{关于调节时间的一处修正}：理论式 $t_s = 4/(\zeta\omega_n)$ 是 2\% 误差带下的\emph{近似}公式，在 $\zeta < 0.7$ 时偏保守。仿真量取发现 $\zeta = 0.3$ 的实际调节时间约 11.8 s，比公式给出的 13.33 s 短约 11\%。后续控制器评价中应以\textbf{仿真量取值}为准，不能直接套公式。
+\end{notebox}
+
+\textbf{结论}：复现成功，模型与指标计算均可信。$\zeta \approx 0.707$ 时超调仅 4.33\%，是超调与快速性的常用折中——这一结论将作为后续 PID 参数整定的定性依据。
+
+% ==================================================================
+\section{阶段性收获}
+
+\subsection{认知上的变化}
+
+我原以为控制算法是「选一个更好的算法就能解决问题」，读完这批文献后改变了看法：\textbf{控制效果的瓶颈往往不在算法，而在对控制通道的了解程度}。Vignon 的综述里提到，很多 DRL 控制研究之所以能在论文里取得好效果，是因为它们有廉价的仿真环境可以无限交互；而我们的散热片一旦涉及真实热惯性、流固耦合与传感器噪声，仿真与实物的差距就会成为主要误差源。
+
+这个认识直接导致我把本阶段的重点从「学习更复杂的算法」转为「先把控制通道走通」——先把泵、水阀、散热片这三者的关系测清楚，再谈用不用智能算法。组长后来要求做控制实验，与这个判断是一致的。
+
+\subsection{尚存的疑问}
+
+\begin{enumerate}
+  \item 组长提出未来要加入\textbf{水阀}，那么未来就会出现「泵 + 阀」两个执行器共同决定流速的局面。两个执行器之间会不会\emph{相互耦合}（比如关小阀门后泵的扬程发生变化）？如果耦合明显，就不能把二者当作独立变量处理。
+  \item 液冷回路的大热惯性到底有多大？仿真里用的一阶模型时间常数是设定的，\textbf{没有实测依据}。如果实测惯性远大于设定值，现有整套参数都要重来。
+  \item 传感器只有离散测点，而控制要稳的是芯片最高温度。\textbf{用测点温度代表最高温，误差有多大？}这决定了控制目标的定义方式。
+\end{enumerate}
+
+% ==================================================================
+\section{下月计划}
+
+\begin{table}[htbp]
+\centering
+\caption{下月工作计划}
+\begin{tabularx}{\textwidth}{@{}Y Y c@{}}
+\toprule
+\rowcolor{ydzjlight} 事项 & 预期产出 & 时间 \\
+\midrule
+向组长确认控制实验的边界条件（现有执行器、可测量、不可控量） & 实验变量清单 & 第 1 周 \\
+设计执行器特性与散热片特性的辨识方案 & 辨识实验方案 & 第 1--2 周 \\
+用现有仿真环境做辨识方法的预演（验证方法可行） & 预演结果 & 第 2--3 周 \\
+整理控制部分已有代码与方法说明 & 可复现代码 + 方法文档 & 第 4 周 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% ==================================================================
+\begin{thebibliography}{9}
+\bibitem{mnih15} MNIH V, KAVUKCUOGLU K, SILVER D, et al. Human-level control through deep reinforcement learning[J]. Nature, 2015, 518(7540): 529-533.
+\bibitem{schulman17} SCHULMAN J, WOLSKI F, DHARIWAL P, et al. Proximal policy optimization algorithms[EB/OL]. (2017-08-28)[2026-03-21]. https://arxiv.org/abs/1707.06347.
+\bibitem{vignon23} VIGNON C, RABAULT J, VINUESA R. Recent advances in applying deep reinforcement learning for flow control: Perspectives and future directions[J]. Physics of Fluids, 2023, 35(3): 031301.
+\bibitem{tao24} TAO F, ZHANG H, ZHANG C. Advancements and challenges of digital twins in industry[J]. Nature Computational Science, 2024, 4(3): 169-177.
+\bibitem{brunton22} BRUNTON S L, KUTZ J N. Data-driven science and engineering: Machine learning, dynamical systems, and control[M]. 2nd ed. Cambridge: Cambridge University Press, 2022.
+\end{thebibliography}
+
+\end{document}

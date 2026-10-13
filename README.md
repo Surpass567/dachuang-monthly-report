@@ -158,7 +158,7 @@ python check.py
 | 元信息表 | `\stageonesetup{...}` / `\stagetwosetup{...}` |
 | 防超框表格列 | `Y`（自适应页宽自动换行）、`C`（居中自适应） |
 | 表头行 | `\rowcolor{ydzjlight} 列1 & 列2 \\` |
-| 提示盒子 | `\note ... \noteend`（黄线）、`\keypoint ... \keypointend`（蓝线） |
+| 提示盒子 | `\begin{notebox} ... \end{notebox}`（黄线）、`\begin{keybox} ... \end{keybox}`（蓝线） |
 | 章节自动编号 | `1` / `1.1` / `1.1.1` |
 | 图表标题 | `\caption{...}`，自动带编号 |
 | 页眉 | 左：报告名；右：姓名 |
