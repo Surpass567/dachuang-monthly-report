@@ -23,6 +23,11 @@
 Thumbs.db
 desktop.ini
 
+# 临时检测文件（pdftotext 提取的中间产物）
+reports/_*.txt
+*.chk.txt
+*.ctx.txt
+
 # Python
 __pycache__/
 *.pyc
