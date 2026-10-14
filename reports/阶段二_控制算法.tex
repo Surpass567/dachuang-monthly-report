@@ -10,7 +10,7 @@
 % ===================== 只改这里：你的信息 =====================
 \stagetwosetup
   {阶段二 · 进阶阅读}%              1 报告阶段
-  {王佳蔚}%                         2 姓名
+  {张昊洋}%                         2 姓名
   {流量动态调控}%                    3 方向
   {2026-10-01 至 2026-10-31}%       4 报告周期
   {控制算法；增量式 PID；函数辨识；执行器特性}% 5 关键词
@@ -98,7 +98,14 @@
         \]
         其中 $P$ 为泵转速、$V$ 为阀开度（未来加装）、$Q$ 为流速、$T_c$ 为芯片温度；
         入口水温 $T_{in}$ 为另一自变量，热流密度 $q$ 为不可控扰动。
-        \textbf{待辨识的是 $f$ 与 $g$ 两个函数。}
+        \textbf{待辨识的是 $f$ 与 $g$ 两个函数。}变量结构见 图~\ref{fig:block2}。
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.92\textwidth]{figs/fig_block.png}
+\caption{控制系统的变量结构与待辨识的两个函数}
+\label{fig:block2}
+\end{figure}
+
 
   \item \textbf{建立一阶热平衡模型。} 将「热源—散热片—冷却液」简化为集总参数模型：
         \[
@@ -125,12 +132,13 @@
 \rowcolor{ydzjlight} 项目 & 取值 \\
 \midrule
 目标温度 & 68 \textcelsius \\
-热源基础温度 / 波动幅度 & 70 \textcelsius\ / $\pm$15 \textcelsius \\
+热源基础温度 / 波动幅度 & 82 \textcelsius\ / $\pm$12 \textcelsius \\
 热源波动周期 & 15 s（可调 5--30 s） \\
 初始温度 / 环境温度 & 50 \textcelsius\ / 25 \textcelsius \\
 PID 参数 & $K_p = 8.0$，$K_i = 0.5$，$K_d = 2.0$ \\
 控制周期 & 50 ms \\
-执行器散热系数范围 & $k_{min}=0.02$（全关）$\sim k_{max}=0.15$（全开） \\
+加热系数 $a$ & 0.45 \\
+执行器散热系数范围 & $k_{min}=0.03$（全关）$\sim k_{max}=0.20$（全开） \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -150,13 +158,42 @@ PID 参数 & $K_p = 8.0$，$K_i = 0.5$，$K_d = 2.0$ \\
 \end{tabularx}
 \end{table}
 
-\textbf{说明}：上表为\emph{对象自身}的动态特性，用于确定控制器应有的响应速度；它不是控制器闭环性能，后者需在接入辨识模型后重新评估。
+\textbf{说明}：上表为\emph{对象自身}的动态特性，用于确定控制器应有的响应速度；它不是控制器闭环性能，后者需在接入辨识模型后重新评估。控制器闭环的仿真时程见 图~\ref{fig:pidsim}。
+
+上述工况下的闭环仿真结果汇总于 表~\ref{tab:simres}。
+
+\begin{table}[htbp]
+\centering
+\caption{闭环仿真结果（对应 图~\ref{fig:pidsim}）}
+\label{tab:simres}
+\begin{tabularx}{\textwidth}{@{}Y c Y@{}}
+\toprule
+\rowcolor{ydzjlight} 指标 & 数值 & 说明 \\
+\midrule
+芯片温度范围 & 50.7 $\sim$ 72.1 \textcelsius & 含启动阶段的爬升过程 \\
+稳态平均温度 & 68.7 \textcelsius & 后半程均值，与目标 68 \textcelsius\ 相差 0.7 \textcelsius \\
+峰值超调 & $+$3.9 \textcelsius（5.7\%） & 相对目标温度 \\
+阀开度范围 & 0 $\sim$ 100\% & \textbf{触及两端行程} \\
+阀开度均值 & 54.4\% & 说明执行器工作在可用行程中部 \\
+上行程饱和时间占比 & 29.3\% & 开度已达 100\% 仍无法降温的时段 \\
+下行程饱和时间占比 & 16.7\% & 开度已关到 0 的时段 \\
+积分项峰值 & 100（已被限幅） & 未限幅时可达 1052.6 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.86\textwidth]{figs/fig_pid_sim.png}
+\caption{增量式 PID 温控仿真时程：温度、阀开度与误差/积分项}
+\label{fig:pidsim}
+\end{figure}
+
 
 \subsection{与预期的差异}
 
 \textbf{预期}：增量式 PID 加入积分限幅后，应能消除积分饱和引起的超调。
 
-\textbf{实际}：限幅确实阻止了积分项无限累积，但\textbf{超调并未消失，只是从「持续增大」变成了「有上界」}。把误差、积分项、输出三条曲线叠在一起观察后发现：根本原因不是积分饱和，而是\textbf{执行器的散热能力存在物理上限}——当开度已达 100\% 时，误差仍为正，此时无论控制器输出什么都不会有效果，温度必然继续上升，形成结构性超调。
+\textbf{实际}：限幅确实把积分项从 \textbf{1052.6 压到了 100}（见表~\ref{tab:simres}），但\textbf{超调并未消失，只是从「持续增大」变成了「有上界」}——峰值仍有 $+$3.9 \textcelsius（5.7\%）。把误差、积分项、阀开度三条曲线叠在一起观察（图~\ref{fig:pidsim}）后发现：根本原因不是积分饱和，而是\textbf{执行器的散热能力存在物理上限}。仿真中有 \textbf{29.3\% 的时间阀开度已达 100\%}，此时误差仍为正，无论控制器输出什么都不会有效果，温度必然继续上升，形成结构性超调。
 
 \textbf{这个差异改变了我的下一步方向}：不是继续在 PID 参数与抗饱和上做文章，而是\textbf{必须先把执行器的实际能力边界测出来}。如果台架上泵的最大流量不足以应对峰值热流，那这是选型问题而非算法问题。这也再次指向组长要求的控制实验。
 
@@ -204,7 +241,14 @@ PID 参数 & $K_p = 8.0$，$K_i = 0.5$，$K_d = 2.0$ \\
 \begin{enumerate}
   \item \textbf{执行器的能力边界。} 泵的最大流量、最小可调流量，以及未来水阀的分辨率，都需实测才能确定。若最大流量不足以带走峰值热流，则需更换选型，这会改变整个控制方案的前提。
   \item \textbf{两个执行器的耦合程度。} 泵与阀之间是否可近似解耦，决定了后续用单变量控制还是多变量控制。缺的实验证据是：固定泵转速、改变阀开度时，观察泵的工作点是否移动。
-  \item \textbf{控制通道的时间尺度。} 从改变泵转速到芯片温度出现可测变化，这个延迟到底是零点几秒还是几十秒，直接决定控制周期与控制策略的选择。目前仿真中用的时间常数是假定值。
+  \item \textbf{控制通道的时间尺度。} 从改变泵转速到芯片温度出现可测变化，这个延迟到底是零点几秒还是几十秒，直接决定控制周期与控制策略的选择。目前仿真中用的时间常数是假定值。调节时间与阻尼比的关系见 图~\ref{fig:metrics2}。
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.98\textwidth]{figs/fig_metrics.png}
+\caption{调节时间随阻尼比的变化：理论式与仿真量取的差异}
+\label{fig:metrics2}
+\end{figure}
+
 \end{enumerate}
 
 % ==================================================================

@@ -10,7 +10,7 @@
 % ===================== 只改这里：你的信息 =====================
 \stageonesetup
   {阶段一 · 初步阅读}%              1 报告阶段
-  {王佳蔚}%                         2 姓名
+  {张昊洋}%                         2 姓名
   {流量动态调控}%                    3 方向
   {2026-10-01 至 2026-10-31}%       4 报告周期
   {控制算法；增量式 PID；一阶热平衡模型；执行器辨识}% 5 关键词
@@ -57,7 +57,14 @@
 
 \subsection{概念一：执行器到被控量的映射是控制问题的真正起点}
 
-控制算法的作用是依据误差计算控制量，但\textbf{控制量到被控量之间的物理通道必须事先知道}，否则算法再好也是盲调。以本项目为例，控制目标是芯片温度，而我们能调的是泵转速；从泵转速到芯片温度之间隔着「泵→流速」「流速→散热片换热」两段物理过程。这两段不清楚，就无法知道「改变一个单位的泵转速，温度会变多少」，也就无法确定 PID 的比例系数该取多大。这正是组长要求先做控制实验的原因。
+控制算法的作用是依据误差计算控制量，但\textbf{控制量到被控量之间的物理通道必须事先知道}，否则算法再好也是盲调。以本项目为例，控制目标是芯片温度，而我们能调的是泵转速；从泵转速到芯片温度之间隔着「泵→流速」「流速→散热片换热」两段物理过程。这两段不清楚，就无法知道「改变一个单位的泵转速，温度会变多少」，也就无法确定 PID 的比例系数该取多大。这正是组长要求先做控制实验的原因。变量结构见 图~\ref{fig:block}。
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.92\textwidth]{figs/fig_block.png}
+\caption{本项目控制系统的变量结构与两个待辨识函数}
+\label{fig:block}
+\end{figure}
+
 
 \subsection{概念二：液冷系统的大热惯性决定控制带宽上限}
 
@@ -130,7 +137,14 @@ $G(s) = \dfrac{\omega_n^2}{s^2 + 2\zeta\omega_n s + \omega_n^2}$
 
 \subsection{复现结果}
 
-理论值与仿真量取结果完全吻合（误差在数值采样精度内），见 表~\ref{tab:repro}。
+理论值与仿真量取结果完全吻合（误差在数值采样精度内），见 图~\ref{fig:step} 与 表~\ref{tab:repro}。
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.86\textwidth]{figs/fig_step_response.png}
+\caption{二阶系统单位阶跃响应：六个阻尼比下的对比（复现结果）}
+\label{fig:step}
+\end{figure}
+
 
 \begin{table}[htbp]
 \centering
@@ -149,8 +163,15 @@ $G(s) = \dfrac{\omega_n^2}{s^2 + 2\zeta\omega_n s + \omega_n^2}$
 \end{table}
 
 \begin{notebox}
-\textbf{关于调节时间的一处修正}：理论式 $t_s = 4/(\zeta\omega_n)$ 是 2\% 误差带下的\emph{近似}公式，在 $\zeta < 0.7$ 时偏保守。仿真量取发现 $\zeta = 0.3$ 的实际调节时间约 11.8 s，比公式给出的 13.33 s 短约 11\%。后续控制器评价中应以\textbf{仿真量取值}为准，不能直接套公式。
+\textbf{关于调节时间的一处修正}：理论式 $t_s = 4/(\zeta\omega_n)$ 是 2\% 误差带下的\emph{近似}公式，在 $\zeta < 0.7$ 时偏保守。仿真量取发现 $\zeta = 0.3$ 的实际调节时间约 11.8 s，比公式给出的 13.33 s 短约 11\%。后续控制器评价中应以\textbf{仿真量取值}为准，不能直接套公式（对比见 图~\ref{fig:metrics} 右）。
 \end{notebox}
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.98\textwidth]{figs/fig_metrics.png}
+\caption{超调量与调节时间随阻尼比的变化；右图给出理论式与仿真量取的差异}
+\label{fig:metrics}
+\end{figure}
+
 
 \textbf{结论}：复现成功，模型与指标计算均可信。$\zeta \approx 0.707$ 时超调仅 4.33\%，是超调与快速性的常用折中——这一结论将作为后续 PID 参数整定的定性依据。
 
