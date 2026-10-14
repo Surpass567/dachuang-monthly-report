@@ -77,6 +77,60 @@ def check_braces(path):
     return problems
 
 
+def check_refs(path):
+    """
+    检查交叉引用：
+      ① ref 指向的 label 不存在  -> PDF 里会显示两个问号
+      ② 手写的章节号（§2.2 这种）  -> 一旦增删章节就会错位
+      ③ 图片文件不存在
+    """
+    tex = open(path, encoding='utf-8').read()
+    # 去注释
+    lines = []
+    for ln in tex.split('\n'):
+        out, i = [], 0
+        while i < len(ln):
+            if ln[i] == '%' and (i == 0 or ln[i - 1] != '\\'):
+                break
+            out.append(ln[i]); i += 1
+        lines.append(''.join(out))
+    body = '\n'.join(lines)
+
+    problems = []
+    labels = set(re.findall(r'\\label\{([^}]+)\}', body))
+    refs = {}
+    for m in re.finditer(r'\\(?:ref|eqref|autoref)\{([^}]+)\}', body):
+        ln = body[:m.start()].count('\n') + 1
+        refs.setdefault(m.group(1), ln)
+
+    # ① 悬空引用
+    for name, ln in sorted(refs.items(), key=lambda x: x[1]):
+        if name not in labels:
+            problems.append(
+                f'第{ln}行 \\ref{{{name}}} 没有对应的 \\label —— '
+                f'PDF 里会显示「??」，请补 \\label{{{name}}}')
+
+    # 未被引用的标签（提醒，不算错误）
+    unused = sorted(labels - set(refs))
+
+    # ② 手写章节号
+    for m in re.finditer(r'§\s*(\d+(?:\.\d+)*)', body):
+        ln = body[:m.start()].count('\n') + 1
+        problems.append(
+            f'第{ln}行 手写章节号「§{m.group(1)}」—— '
+            f'请改用 \\ref{{标签}}，否则增删章节后会错位')
+
+    # ③ 图片文件
+    base = os.path.dirname(os.path.abspath(path))
+    for m in re.finditer(r'\\includegraphics(?:\[[^\]]*\])?\{([^}]+)\}', body):
+        img = m.group(1).strip()
+        if not os.path.exists(os.path.join(base, img)):
+            ln = body[:m.start()].count('\n') + 1
+            problems.append(f'第{ln}行 图片不存在: {img}')
+
+    return problems, unused
+
+
 def compile_and_report(xelatex, texfile):
     stem = os.path.splitext(texfile)[0]
     logf = stem + '.log'
@@ -85,11 +139,27 @@ def compile_and_report(xelatex, texfile):
         if os.path.exists(p):
             os.remove(p)
     cwd = os.path.dirname(os.path.abspath(texfile))
-    for _ in range(2):
+
+    # 确保 .cls 与被检查文件同目录（报告放在 reports/ 时也要能找到）
+    cls_src = os.path.join(TEMPLATE_DIR, 'ydzjreport.cls')
+    cls_dst = os.path.join(cwd, 'ydzjreport.cls')
+    copied = False
+    if os.path.exists(cls_src) and \
+            os.path.abspath(cls_src) != os.path.abspath(cls_dst):
+        if not os.path.exists(cls_dst):
+            import shutil
+            shutil.copy(cls_src, cls_dst)
+            copied = True
+
+    for _ in range(3):          # 跑 3 遍，保证交叉引用与浮动体收敛
         subprocess.run([xelatex, '-interaction=nonstopmode',
                         os.path.basename(texfile)],
                        cwd=cwd, stdout=subprocess.DEVNULL,
                        stderr=subprocess.DEVNULL)
+
+    if copied and os.path.exists(cls_dst):
+        os.remove(cls_dst)      # 清理临时拷贝
+
     if not os.path.exists(os.path.join(cwd, os.path.basename(logf))):
         return None
     raw = open(os.path.join(cwd, os.path.basename(logf)),
@@ -102,19 +172,30 @@ def compile_and_report(xelatex, texfile):
     if m:
         pages = m.group(1)
     errs = re.findall(r'(?m)^! .{0,90}', raw)
-    return dict(overfull=of, missing=mc, errors=er, pages=pages, errmsgs=errs[:5])
+
+    # 编译日志里的「未定义引用」警告（比源码检查更权威）
+    undef = re.findall(r'LaTeX Warning: Reference `([^\']*)\' on page (\d+) undefined', raw)
+    if not undef:
+        undef = re.findall(r'LaTeX Warning: There were undefined references', raw)
+
+    return dict(overfull=of, missing=mc, errors=er, pages=pages,
+                errmsgs=errs[:5], undef=undef)
 
 
 def main():
     if sys.argv[1:]:
         targets = sys.argv[1:]
-    elif os.path.isdir(TEMPLATE_DIR):
-        targets = sorted(f for f in os.listdir(TEMPLATE_DIR)
-                         if f.endswith('.tex'))
     else:
+        # 递归扫描 template/、reports/、examples/ 下的所有 .tex
         targets = []
+        for sub in ('template', 'reports', 'examples'):
+            d = os.path.join(HERE, sub)
+            if os.path.isdir(d):
+                for f in sorted(os.listdir(d)):
+                    if f.endswith('.tex'):
+                        targets.append(os.path.join(d, f))
     if not targets:
-        print('没有找到 .tex 文件（请放在 template/ 目录下）')
+        print('没有找到 .tex 文件（放在 template/ reports/ examples/ 下）')
         return
 
     xelatex = find_xelatex()
@@ -126,7 +207,7 @@ def main():
 
     allok = True
     for t in targets:
-        path = t if os.path.isabs(t) else os.path.join(TEMPLATE_DIR, t)
+        path = t if os.path.isabs(t) else os.path.join(HERE, t)
         if not os.path.exists(path):
             print(f'[跳过] 文件不存在: {t}')
             continue
@@ -142,6 +223,18 @@ def main():
                 print('    -', p)
         else:
             print('  括号检查: 通过')
+
+        # 交叉引用检查（防 ?? 与手写章节号）
+        rprobs, unused = check_refs(path)
+        if rprobs:
+            allok = False
+            print('  引用检查: 有问题')
+            for p in rprobs:
+                print('    -', p)
+        else:
+            print('  引用检查: 通过')
+        if unused:
+            print('    提示: 这些 \\label 没有被引用 -> %s' % ', '.join(unused))
 
         cls = os.path.join(TEMPLATE_DIR, 'ydzjreport.cls')
         if os.path.exists(cls):
@@ -159,7 +252,7 @@ def main():
                 print('  编译: 失败（无日志）')
             else:
                 ok = (r['overfull'] == 0 and r['missing'] == 0
-                      and r['errors'] == 0)
+                      and r['errors'] == 0 and not r['undef'])
                 if not ok:
                     allok = False
                 tag = 'PASS' if ok else 'FAIL'
@@ -168,6 +261,13 @@ def main():
                       f"页数={r['pages']}")
                 for e in r['errmsgs']:
                     print('    ', e)
+                if r['undef']:
+                    print('    ! 编译日志里有未定义引用（PDF 会显示 ??）:')
+                    for u in r['undef'][:5]:
+                        if isinstance(u, tuple):
+                            print('        \\ref{%s} 在第 %s 页未定义' % u)
+                        else:
+                            print('        ', u)
         print()
 
     print('=' * 66)
