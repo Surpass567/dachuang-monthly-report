@@ -29,7 +29,7 @@
 %    需要判断字体时，改用 ctex 的 fontset 机制。
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{ydzjreport}[2026/10/12 v1.1 月度阶段总结报告]
+\ProvidesClass{ydzjreport}[2026/10/12 v1.2 月度阶段总结报告]
 
 \newif\if@stageone
 \@stageonetrue
@@ -56,6 +56,16 @@
 \RequirePackage{graphicx}
 \RequirePackage{float}
 \RequirePackage{caption}
+% 浮动体管理与防孤行（needspace 可选，没有就退化）
+\RequirePackage{placeins}        % 提供 \FloatBarrier
+\makeatletter
+\IfFileExists{needspace.sty}{%
+  \RequirePackage{needspace}%
+  \newcommand{\ydzj@needspace}{\needspace{6\baselineskip}}%
+}{%
+  \newcommand{\ydzj@needspace}{}%
+}
+\makeatother
 \RequirePackage{amsmath}
 \RequirePackage{amssymb}
 \RequirePackage{ulem}
@@ -87,6 +97,31 @@
 \linespread{1.28}
 \setlength{\parindent}{2em}
 \setlength{\parskip}{2pt}
+
+% ----------------------------------------------------------------------
+%  浮动体管理
+%  不加这些参数时，图/表会被推到很后面，出现「某页只有一张图」的空页，
+%  甚至把参考文献拆到两页。这里的设置让浮动体尽量留在原文附近。
+% ----------------------------------------------------------------------
+\renewcommand{\topfraction}{0.90}      % 页顶浮动最多占 90% 版心高
+\renewcommand{\bottomfraction}{0.75}   % 页底浮动最多占 75%
+\renewcommand{\textfraction}{0.07}     % 每页至少 7% 是正文
+\renewcommand{\floatpagefraction}{0.75}% 浮动页至少 75% 满才单独成页
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{4}
+\setlength{\floatsep}{8pt plus 2pt minus 2pt}
+\setlength{\textfloatsep}{10pt plus 3pt minus 3pt}
+\setlength{\intextsep}{8pt plus 2pt minus 2pt}
+
+% 防孤行寡行
+\widowpenalty=10000
+\clubpenalty=10000
+\displaywidowpenalty=10000
+\predisplaypenalty=10000
+
+% 段落之间、章节之间不允许分页得太碎
+\raggedbottom
 
 % 中英混排换行优化：允许在英文/数字间断行，避免长 token 把行撑开
 \XeTeXlinebreaklocale "zh"
@@ -269,9 +304,35 @@
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  9b. 参考文献不跨页拆分
+%
+%  背景：不加处理时，参考文献会被图/表挤开，出现
+%        「第 1 条在第 6 页，第 2、3 条跑到第 8 页」的现象。
+%
+%  处理：在参考文献前 \FloatBarrier 把浮动体排空，
+%        并要求至少 6 行空间，不够就另起一页。
+%
+%  ⚠️ 不要在每个 \section 前加 \FloatBarrier——
+%     实测会把正文挤成只剩几行的空白页（8 页 vs 7 页，
+%     且出现一页只有 109 字符）。只在参考文献前用。
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\makeatletter
+\let\ydzj@thebib\thebibliography
+\let\ydzj@endthebib\endthebibliography
+\renewenvironment{thebibliography}[1]{%
+  \FloatBarrier
+  \ydzj@needspace
+  \ydzj@thebib{#1}%
+}{%
+  \ydzj@endthebib
+}
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  10. 收尾
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \AtEndDocument{%
+  \FloatBarrier
   \vfill
   \begin{center}\small\color{ydzjgrey}
   —— 本报告由 \ydzjname\ 撰写，格式遵循《月度总结规范 v1.0》——

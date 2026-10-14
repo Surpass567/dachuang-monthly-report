@@ -1,5 +1,44 @@
 # 更新记录
 
+## v1.2 — 2026-10-12
+
+**改了什么**：修复参考文献被拆成两页的问题；优化浮动体排版。
+
+**影响范围**：**所有人都要重新拉取 `.cls` 并重新编译**——这份改动会改变分页。
+
+**现象**：阶段二报告里参考文献第 1 条在第 6 页，第 2、3 条被挤到第 8 页，中间隔了一页。
+
+**原因**：图/表浮动体漂移，把参考文献冲开了。同时第 5 页只剩 3 行正文。
+
+**改法**：
+
+1. 参考文献前加 `\FloatBarrier` 排空浮动体，并要求至少 6 行空间（不够就另起一页）；
+2. 放宽浮动体参数（`\topfraction` / `\floatpagefraction` / `topnumber` 等），让图尽量留在原文附近；
+3. 加防孤行设置（`\widowpenalty` / `\clubpenalty` = 10000）；
+4. 阶段二图 2 宽度 0.86 → 0.70（原图接近正方形，太高）。
+
+**踩到的坑（别改回去）**：
+
+- **不要在每个 `\section` 前加 `\FloatBarrier`。** 实测会把正文挤成空白页：
+  加了是 8 页且出现一页只有 109 字符，去掉是 7 页且无空白页。
+  只在参考文献前用。
+- 不要用 `\renewcommand{\section}` 配 `\@ifstar` 的老写法，会和 titlesec 冲突，
+  报 `Missing \begin{document}` + `TeX capacity exceeded`。
+
+**验证结果**：
+
+```
+examples/阶段一_初步阅读.tex     Overfull=0 Missing=0 Error=0   4 页  无空白页
+reports/阶段一_控制算法.tex      Overfull=0 Missing=0 Error=0   6 页  无空白页
+reports/阶段二_控制算法.tex      Overfull=0 Missing=0 Error=0   7 页  无空白页
+template/阶段一_空白骨架.tex     Overfull=0 Missing=0 Error=0   3 页
+template/阶段二_空白骨架.tex     Overfull=0 Missing=0 Error=0   3 页
+```
+
+两份报告的参考文献均完整落在同一页（阶段一第 5 页、阶段二第 7 页）。
+
+---
+
 ## v1.1 — 2026-10-12
 
 **改了什么**：修复提示盒子的实现，`\note ... \noteend` 改为标准环境写法。
