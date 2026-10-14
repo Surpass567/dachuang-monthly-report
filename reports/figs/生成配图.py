@@ -1,7 +1,33 @@
 # -*- coding: utf-8 -*-
 """
 生成月度报告配图（控制算法方向）
-输出：PNG，供 LaTeX 用 \includegraphics 引入
+输出：PNG，供 LaTeX 用 \\includegraphics 引入
+
+═══════════════════════════════════════════════════════════════════════
+ ⚠️ 改这个文件前必读：数学符号的转义规则
+═══════════════════════════════════════════════════════════════════════
+
+这里踩过两次同样的坑，都是「把不该转义的符号转义了」：
+
+  错误写法                    Python 实际得到        图上显示
+  ─────────────────────────────────────────────────────────────────
+  r'\\circ\$'                字面 \circ\$           乱码（不是 °）
+  r'\$\pm\$'                 字面 \$\pm\$           字面 $\pm$（不是 ±）
+
+  正确写法
+  ─────────────────────────────────────────────────────────────────
+  '°C'                       度号，直接写 Unicode
+  '±'                        正负号，直接写 Unicode
+  r'$\pm$'                   要数学模式就这样写：**$ 前不加反斜杠**
+  '$\mu$'                    希腊字母同理
+
+  matplotlib 的 mathtext：一对**未转义**的 $ 才开启数学模式。
+  一旦写成 \$，就变成字面的美元号，数学模式失效。
+
+  简单记忆：**要显示 ° ± μ 这些单字符符号，直接敲 Unicode，
+  别用 LaTeX 命令。** 只有真正需要上下标/分式时才用 $...$。
+
+═══════════════════════════════════════════════════════════════════════
 """
 import os
 import numpy as np
@@ -9,6 +35,65 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
+
+
+def check_bad_escape():
+    """
+    自检：确认**绘图用的字符串**没有危险的转义写法。
+
+    用 ast 解析，取所有字符串字面量的「值」，检查是否残留
+    反斜杠+美元号或反斜杠+circ——那是转义写错的标志。
+
+    会跳过三类，避免误报：
+      · 文档字符串
+      · 本函数自身（里面的检查模式本身就是这种写法）
+      · 显式的 noqa 标记行
+    """
+    import ast
+
+    src = open(__file__, encoding='utf-8').read()
+    try:
+        tree = ast.parse(src)
+    except SyntaxError as e:
+        print('自检跳过（语法错误）: %s' % e)
+        return []
+
+    # ① 收集本函数与所有 docstring 的范围，跳过
+    skip = set()
+    for node in ast.walk(tree):
+        if isinstance(node, (ast.Module, ast.FunctionDef, ast.ClassDef,
+                             ast.AsyncFunctionDef)):
+            ds = ast.get_docstring(node, clean=False)
+            if ds is not None:
+                body = getattr(node, 'body', [])
+                if body and isinstance(body[0], ast.Expr) and \
+                        isinstance(body[0].value, ast.Constant):
+                    skip.add(id(body[0].value))
+        if isinstance(node, ast.FunctionDef) and node.name == 'check_bad_escape':
+            for sub in ast.walk(node):
+                skip.add(id(sub))
+
+    bad = []
+    for node in ast.walk(tree):
+        if id(node) in skip:
+            continue
+        if isinstance(node, ast.Constant) and isinstance(node.value, str):
+            if '\\$' in node.value or '\\circ' in node.value:
+                bad.append((node.lineno, node.value[:70]))
+    return bad
+
+
+_bad = check_bad_escape()
+if _bad:
+    # 注意：下面这句提示语本身不能含「反斜杠+$」字面量，
+    # 否则会被自己的自检抓到（踩过这个坑）。用 chr/拼接绕开。
+    _bs = chr(92)
+    print('⚠ 检测到危险的转义写法（转义美元号 / 字面 '
+          + _bs + 'circ）：')
+    for i, v in _bad:
+        print('   行%d: %r' % (i, v))
+else:
+    print('转义自检：通过（绘图字符串里无危险转义）')
 
 plt.rcParams['font.sans-serif'] = ['Microsoft YaHei', 'SimHei']
 plt.rcParams['axes.unicode_minus'] = False
@@ -224,7 +309,7 @@ a1.plot(t_sim, hT, color=CR, lw=2.6, label='芯片温度（被控量）')
 a1.axhline(TARGET, color=C1, lw=1.8, ls=':', label='目标温度 68 ' + '°C')
 a1.fill_between(t_sim, TARGET, hT, where=(hT > TARGET), color=CR, alpha=0.13)
 a1.set_ylabel('温度 / ' + '°C', fontsize=11)
-a1.set_title('增量式 PID 温控仿真（热源 82' + r'\$\pm\$' + '12 ' + '°' + 'C，周期 15 s）',
+a1.set_title('增量式 PID 温控仿真（热源 82' + '±' + '12 ' + '°C，周期 15 s）',
              fontsize=12.5, fontweight='bold', color='#1a1a1a')
 a1.legend(fontsize=9, loc='upper right')
 a1.grid(alpha=0.45); a1.set_axisbelow(True)
@@ -245,8 +330,8 @@ a2.set_ylabel('阀开度 / %', fontsize=11)
 a2.set_ylim(-8, 112)
 a2.grid(alpha=0.45); a2.set_axisbelow(True)
 
-a3.plot(t_sim, hE, color=CR, lw=2.0, label='温度误差 ' + r'\$')
-a3.plot(t_sim, hI/10, color=C2, lw=2.0, label='积分项 / 10（限幅 ' + r'\$\pm\$' + '100）')
+a3.plot(t_sim, hE, color=CR, lw=2.0, label='温度误差 $e$')
+a3.plot(t_sim, hI/10, color=C2, lw=2.0, label='积分项 / 10（限幅 ±100）')
 a3.axhline(0, color='#333333', lw=1.0, ls=':')
 a3.set_ylabel('误差 / 积分项', fontsize=11)
 a3.set_xlabel('时间 / s', fontsize=11)
