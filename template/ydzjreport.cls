@@ -29,7 +29,7 @@
 %    需要判断字体时，改用 ctex 的 fontset 机制。
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{ydzjreport}[2026/10/12 v1.2 月度阶段总结报告]
+\ProvidesClass{ydzjreport}[2026/10/14 v1.3 月度阶段总结报告]
 
 \newif\if@stageone
 \@stageonetrue
@@ -74,13 +74,51 @@
 \geometry{left=2.2cm,right=2.2cm,top=2.4cm,bottom=2.2cm}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%  2. 中文粗体
+%  2. 中文粗体与缺字回退
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  ctex 已提供 \heiti / \songti / \kaishu，直接用黑体做粗体
 \renewcommand{\textbf}[1]{{\heiti #1}}
 \newcommand{\hei}{\heiti}
 \newcommand{\song}{\songti}
 \newcommand{\kai}{\kaishu}
+
+% ----------------------------------------------------------------------
+%  缺字防护
+%
+%  实测缺口（用 fontTools 查字形表 + xelatex 的 Missing character 警告）：
+%
+%    · ⁴ ⁵ ⁶ ⁻ ₁ ₂ ₀  —— Unicode 上下标字符。
+%                        丢的原因是**西文主字体里没有**，报
+%                        "There is no ⁶ (U+2076) in font lmroman10-regular"
+%    · μ (U+03BC)     —— 直接写希腊字母 μ 也会丢（要写成 $\mu$）
+%    · ṁ (U+1E41)     —— 质量流量符号，中文字体全都没有（要写 $\dot{m}$）
+%    · − (U+2212)     —— 数学减号（要写成数学模式的 $-$ 或 ASCII 的 -）
+%    · ★ ⚠ ✅ ❌     —— emoji 类符号（要写成文字或 $^\ast$）
+%
+%  说明：`²` 和 `³` 在 SimSun 里有字形，加粗时 xeCJK 会路由到 SimSun，
+%        所以 `W/cm²` 加粗其实能正常显示，**不算缺字**。
+%
+%  处理：
+%    ① 中文字体挂 FreeSerif 回退（中文侧字符，零风险）；
+%    ② 提供 \spx{} / \sbx{} 安全上下标命令；
+%    ③ 其余靠写作规范规避——见 CONTRIBUTING.md「单位与符号」一节。
+%
+%  ⚠️ 试过给西文字体挂 FallbackFont 来根治，但在本机 TeX Live 下
+%     \setmainfont 用字体名重新声明会解析成 nullfont，报
+%     "Cannot use \XeTeXOTcountfeatures with nullfont"（100 个错误）。
+%     所以**不要**在类文件里动西文字体。改用写作规范 + \spx 命令。
+% ----------------------------------------------------------------------
+\makeatletter
+\IfFontExistsTF{FreeSerif}{%
+  \setCJKfallbackfamilyfont{\CJKrmdefault}{FreeSerif}%
+  \setCJKfallbackfamilyfont{\CJKsfdefault}{FreeSerif}%
+  \setCJKfallbackfamilyfont{\CJKttdefault}{FreeSerif}%
+}{}
+\makeatother
+
+% 安全上标/下标：写 \spx{2} 而不是 ²，\spx{6} 而不是 ⁶
+\newcommand{\spx}[1]{$^{#1}$}
+\newcommand{\sbx}[1]{$_{#1}$}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  3. 颜色与版式参数

@@ -221,14 +221,14 @@ fig, (a1, a2, a3) = plt.subplots(3, 1, figsize=(9.5, 8.4), sharex=True)
 
 a1.plot(t_sim, heat, color=GREY, lw=1.5, ls='--', label='热源温度（不可控扰动）')
 a1.plot(t_sim, hT, color=CR, lw=2.6, label='芯片温度（被控量）')
-a1.axhline(TARGET, color=C1, lw=1.8, ls=':', label='目标温度 68 ' + r'\\circ\$' + 'C')
+a1.axhline(TARGET, color=C1, lw=1.8, ls=':', label='目标温度 68 ' + '°C')
 a1.fill_between(t_sim, TARGET, hT, where=(hT > TARGET), color=CR, alpha=0.13)
-a1.set_ylabel('温度 / ' + r'\\circ\$' + 'C', fontsize=11)
-a1.set_title('增量式 PID 温控仿真（热源 82' + r'\$\pm\$' + '12 ' + r'\\circ\$' + 'C，周期 15 s）',
+a1.set_ylabel('温度 / ' + '°C', fontsize=11)
+a1.set_title('增量式 PID 温控仿真（热源 82' + r'\$\pm\$' + '12 ' + '°' + 'C，周期 15 s）',
              fontsize=12.5, fontweight='bold', color='#1a1a1a')
 a1.legend(fontsize=9, loc='upper right')
 a1.grid(alpha=0.45); a1.set_axisbelow(True)
-a1.annotate('峰值超调 3.89 ' + r'\\circ\$' + 'C', xy=(t_sim[np.argmax(hT)], hT.max()),
+a1.annotate('峰值超调 3.89 ' + '°C', xy=(t_sim[np.argmax(hT)], hT.max()),
             xytext=(t_sim[np.argmax(hT)]+6, hT.max()+1.6), fontsize=9.5, color=CR,
             arrowprops=dict(arrowstyle='->', color=CR, lw=1.3))
 
