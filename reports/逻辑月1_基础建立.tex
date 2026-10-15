@@ -1,0 +1,224 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  第 1 个逻辑月 · 月度报告
+%  主题：小块：从抽象到具体（复现学长 + UDF 基线 + 算法提要）
+%
+%  说明：本报告由三人的既有材料按组长提纲的逻辑月重排而成。
+%        尚无素材之处按规范留空并标注，不编造。
+%  编译：xelatex 本文件（跑两遍）
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[stage1,fontset=fandol]{ydzjreport}
+
+\stageonesetup
+  {第 1 个逻辑月 · 基础建立}%
+  {冯旭东、陈思文、张昊洋}%
+  {复合微通道分区冷却}%
+  {【待确认】逻辑月 1 对应的自然月}%
+  {小块划分；学长复现；水物性 UDF；算法提要}%
+  {确立小块的划分方式，复现学长的结构建模与物理性质（UDF）思路，
+   并完成控制方向的算法提要。}%
+
+\begin{document}
+\makestageonehead
+
+% ==================================================================
+\section{本月研究任务}
+
+\subsection{任务目标}
+
+按组长提纲，本月对应关键词为
+\textbf{「复现 2~3 学长（结构、物理性质（UDF））思路」}、
+\textbf{「1. 小块 → 具体」}、\textbf{「2. 算法 提要」}。
+据此分解为四项任务：
+
+\begin{enumerate}
+  \item 确立\textbf{小块的划分方式}，把空间不均匀热需求落实为可单独研究的流道单元；
+  \item 复现学长在\textbf{结构建模}上的思路；
+  \item 复现学长在\textbf{物理性质（UDF）}上的设置，并核查其正确性；
+  \item 控制方向完成\textbf{算法提要}，不展开实现。
+\end{enumerate}
+
+\subsection{完成情况}
+
+\begin{table}[H]
+\centering
+\caption{本月任务完成情况}
+\label{tab:tasks}
+\begin{tabularx}{\textwidth}{@{}Y c Y@{}}
+\toprule
+\rowcolor{ydzjlight} 任务 & 状态 & 说明 \\
+\midrule
+小块划分方式确立 & 部分完成 & 已形成概念表述，划分图待补 \\
+学长结构建模复现 & 部分完成 & 已复现论文中的三种流道布局 \\
+学长物性（UDF）思路复现 & 已完成 & 核查后发现原函数存在误差 \\
+控制算法提要 & 已完成 & 文献要点与二阶对象特性已整理 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+【待确认1】月份 1 所指的「2~3 学长」是哪几位，是否即已发表的 Ao、Yin、Seong 等；「结构」与「UDF」是否都需复现。
+
+% ==================================================================
+\section{核心概念梳理}
+
+\subsection{概念一：非均匀热载荷与小块划分}
+
+芯片热流密度在空间上高度不均匀：结区集中发热，背景区几乎不发热。
+若采用均匀结构，背景区会被「一视同仁」地强力冷却，形成\textbf{过度冷却}——
+既拉大温度梯度，又浪费泵功。
+
+\textbf{小块}的作用，是把连续冷板上的空间不均匀热需求，转化为
+\textbf{可单独研究、可单独供液}的流道单元。
+
+需要说明的是：各小块在连续冷板上形成不同几何区域，
+\textbf{并不必然意味着把冷板机械切开或完全隔热}。
+先研究单元、再研究组合，有利于识别各形态的作用，
+并为独立供液或流量调控预留条件。
+
+【待补：小块划分图】
+【待确认9】小块按热流密度分区、按物理位置，还是两者结合。
+
+\subsection{概念二：物理性质是计算的基线}
+
+冷却工质水的物性随温度变化。若物性函数有误，
+\textbf{所有温度与压差结果都不可信}，后续结构比较也失去意义。
+因此\textbf{物性核查必须放在结构比较之前}。
+
+% ==================================================================
+\section{阶段一：通读与摘录}
+
+\subsection{学习路径}
+
+\begin{enumerate}
+  \item 先通读学长的结构类论文，梳理几何布局、进出口组织与边界条件；
+  \item 复现其中的代表性流道，取得可对照的性能趋势；
+  \item 转向物理性质：核查计算所用的水物性函数，确认随温度变化的正确性；
+  \item 控制方向并线推进：整理控制文献要点与二阶对象的动态特性，形成算法提要。
+\end{enumerate}
+
+\subsection{关键摘录}
+
+\begin{table}[H]
+\centering
+\caption{文献要点与本阶段工作}
+\label{tab:notes}
+\begin{tabularx}{\textwidth}{@{}c Y Y@{}}
+\toprule
+\rowcolor{ydzjlight} 文献 & 论文要点 & 本阶段的应用 \\
+\midrule
+Ao 等 & 方形、圆形与六边形微通道的比较 & 复现三种流道，学习短流路与局部强化的组织方式 \\
+Yin 等 & 用平均努塞尔数、最高温度、压降与综合指标比较结构 & 借鉴其数据分析口径，为后续统一指标做准备 \\
+Seong 等 & 倾斜肋与交错排列影响流动重分配 & 拓展倾斜、交错与复合结构的候选思路 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% ==================================================================
+\section{阶段二：导出与复现}
+
+\subsection{复现目标}
+
+本月复现两项内容：
+\textbf{(1)} 学长论文中的方形、圆形与六边形三种微通道的结构与流动换热组织；
+\textbf{(2)} 计算所用的水物性函数（UDF），核查其随温度变化的正确性。
+
+\subsection{复现环境与步骤}
+
+\textbf{环境}：ANSYS Fluent，水为工质，固体域与流体域耦合求解；
+物性核查采用 Python 后处理。
+
+\textbf{步骤}：
+
+\begin{enumerate}
+  \item 按论文的方形、圆形与六边形布局分别构造流道，梳理流体域、固体域与加热区域；
+  \item 对照论文的边界条件与求解方法开展计算，检查残差与监测量；
+  \item 对三种结构做趋势对照，关注热负荷与流量变化下的温度响应；
+  \item 核查原水物性 UDF：在 298.15 K 校验点比对参考物性值；
+  \item 记录误差量级，判断是否需要重新拟合。
+\end{enumerate}
+
+\subsection{复现结果}
+
+\textbf{结构复现}：三种流道的复现已完成，计算结果与论文的趋势一致——
+流量增加时结温总体下降、压降增加；热流密度增加时结温上升。
+
+\begin{table}[H]
+\centering
+\caption{三种流道的复现情况}
+\label{tab:repro}
+\begin{tabularx}{\textwidth}{@{}Y Y Y@{}}
+\toprule
+\rowcolor{ydzjlight} 流道形态 & 复现关注内容 & 结果 \\
+\midrule
+方形微通道 & 方形流路及中心扰动结构的影响 & 已完成，趋势与论文一致 \\
+圆形微通道 & 环形流路及流体分配的影响 & 已完成，趋势与论文一致 \\
+六边形微通道 & 六边形布局及局部流动组织 & 已完成，趋势与论文一致 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+【缺数据：逐点复现误差与网格敏感性统计】
+
+\textbf{物性核查}：在 298.15 K 校验点，原水物性函数相对参考值
+\textbf{密度偏低约 60.8\%、比热偏低约 10.5\%、黏度偏低约 26.7\%}。
+
+这是一个\textbf{必须记录的重要发现}：它意味着此前所有基于该物性的
+温度与压差结果都存在系统偏差，结构之间的排序也可能受影响。
+本月据此完成了新物性 UDF 的编写与编译，挂接与复算列入后续月份。
+
+【缺数据：新 UDF 挂接后的物性自检结果】
+
+% ==================================================================
+\section{阶段性收获}
+
+\subsection{认知上的变化}
+
+\textbf{一、从「整体冷却」转向「按需分区」。}
+原来倾向于把冷板当作一个整体来强化，认为加密结构总归有利。
+现在认识到：热流密度本身不均匀，均匀强化会在低负荷区造成过度冷却，
+\textbf{冷却资源必须按区域配置}。
+
+\textbf{二、物性不是背景条件，而是结论的前提。}
+复核原物性函数之前，我们默认它是正确的。
+发现偏差后才知道：\textbf{在物性不可信的情况下比较结构，等于在错的基准上排序}。
+因此把「物理性质」放在结构比较之前的做法是必要的。
+
+\subsection{尚存的疑问}
+
+\begin{enumerate}
+  \item 【待确认9】小块究竟按什么划分？三份材料里出现过
+        「底部中央浮动热流区」「低温区／变化区／高温区」两种说法，是否为同一件事？
+  \item 【待确认1】需要复现的学长具体是谁？我们复现的是已发表论文，
+        与「学长」是否等同？
+  \item 修正物性之后，此前三种流道的趋势是否仍然成立？
+        需要复算才能判断，不能只重算后处理指标。
+\end{enumerate}
+
+% ==================================================================
+\section{下月计划}
+
+\begin{table}[H]
+\centering
+\caption{下月工作计划}
+\label{tab:plan}
+\begin{tabularx}{\textwidth}{@{}Y Y c@{}}
+\toprule
+\rowcolor{ydzjlight} 事项 & 预期产出 & 时间 \\
+\midrule
+挂接新水物性 UDF 并完成物性自检 & 物性校验记录 & 第 1 周 \\
+补齐小块划分图，明确划分依据与数量 & 小块划分方案 & 第 1--2 周 \\
+建立统一的评价指标体系 & 指标定义表 & 第 2--3 周 \\
+小块内的形态与扰流单元仿真 & 形态对比数据 & 第 3--4 周 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% ==================================================================
+\begin{thebibliography}{9}
+\bibitem{ao} Ao C, Xu B, Chen Z. Design and performance optimization of novel microchannel heat sinks for high-power electronic chips[J]. International Communications in Heat and Mass Transfer, 2026, 178: 111803.
+\bibitem{yin} Yin Y, Wang Z, Ma S, et al. A novel coaxial open annular TSV pin-fin embedded in microchannels[J]. International Communications in Heat and Mass Transfer, 2026, 172: 110619.
+\bibitem{seong} Seong H B, Gwon J G, Lee M S, et al. Numerical study and ANN analysis on heat transfer and flow characteristics of microchannel heat sink with inclined rib--pin fin[J]. International Communications in Heat and Mass Transfer, 2026, 178: 111593.
+\bibitem{yuan} 袁永帅, 等. 当前芯片散热技术方法和特点研讨[J]. 2024.
+\bibitem{xiong} 熊园园, 等. 基于内嵌式微通道芯片散热结构设计研究综述[J]. 2024.
+\end{thebibliography}
+
+\end{document}
