@@ -8,6 +8,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass[stage1,fontset=fandol]{ydzjreport}
 
+% 复现云图使用 (a)(b) 子图编号，需在 caption 之后加载 subcaption
+\usepackage{subcaption}
+
 \stageonesetup
 {第 1 个逻辑月 · 基础建立}%
 {冯旭东、陈思文}%
@@ -177,10 +180,6 @@
 	
 	\subsection{复现环境与步骤}
 	
-	
-	
-	\textcolor{red}{补充复现图片和后处理图片（冯旭东），可以导入学长攻略参考}
-	
 	\textbf{环境}：ANSYS Fluent，工质为水，固体域与流体域耦合求解；
 	物性核查采用 Python 后处理。
 	
@@ -193,6 +192,92 @@
 		\item 核查原水物性 UDF：在 298.15 K 校验点比对参考物性值；
 		\item 记录误差量级，判断是否需要重新拟合。
 	\end{enumerate}
+
+	
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}{0.235\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{figs/01_temperature_midplane.png}
+			\caption{方形微通道温度}
+			\label{fig:repro-t}
+		\end{subfigure}\hfill
+		\begin{subfigure}{0.235\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{figs/02_pressure_midplane.png}
+			\caption{方形微通道静压}
+			\label{fig:repro-p}
+		\end{subfigure}\hfill
+		\begin{subfigure}{0.235\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{figs/03_speed_midplane.png}
+			\caption{方形微通道速度大小}
+			\label{fig:repro-v}
+		\end{subfigure}\hfill
+		\begin{subfigure}{0.235\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{figs/04_copper_base_temperature.png}
+			\caption{方形微通道铜板温度}
+			\label{fig:repro-cu}
+		\end{subfigure}
+		
+		\vspace{4pt}
+		
+		\begin{subfigure}{0.235\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{figs/05_temperature_midplane.png}
+			\caption{六边形微通道温度}
+			\label{fig:h5-t}
+		\end{subfigure}\hfill
+		\begin{subfigure}{0.235\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{figs/06_pressure_midplane.png}
+			\caption{六边形微通道静压}
+			\label{fig:h5-p}
+		\end{subfigure}\hfill
+		\begin{subfigure}{0.235\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{figs/07_speed_midplane.png}
+			\caption{六边形微通道速度大小}
+			\label{fig:h5-v}
+		\end{subfigure}\hfill
+		\begin{subfigure}{0.235\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{figs/08_copper_base_temperature.png}
+			\caption{六边形微通道铜板温度}
+			\label{fig:h5-cu}
+		\end{subfigure}
+		
+		\vspace{4pt}
+		
+		\begin{subfigure}{0.235\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{figs/09_temperature_midplane.png}
+			\caption{圆形微通道温度}
+			\label{fig:circle-t}
+		\end{subfigure}\hfill
+		\begin{subfigure}{0.235\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{figs/10_pressure_midplane.png}
+			\caption{圆形微通道静压}
+			\label{fig:circle-p}
+		\end{subfigure}\hfill
+		\begin{subfigure}{0.235\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{figs/11_speed_midplane.png}
+			\caption{圆形微通道速度大小}
+			\label{fig:circle-v}
+		\end{subfigure}\hfill
+		\begin{subfigure}{0.235\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{figs/12_copper_base_temperature.png}
+			\caption{圆形微通道铜板温度}
+			\label{fig:circle-cu}
+		\end{subfigure}
+		\caption{复现算例的后处理云图： (a)--(l) 为流道的参考结果。三行均依次为水侧 $Y=0.150$ mm 中截面的温度、静压（表压）与速度大小，以及铜基板 $Y=0.025$ mm 截面的温度。灰白空区为截面外或固体遮罩}
+		\label{fig:repro}
+	\end{figure}
+	
 	
 	\subsection{复现结果}
 	
@@ -208,8 +293,9 @@
 			\rowcolor{ydzjlight} 流道形态 & 复现关注内容 & 结果 \\
 			\midrule
 			方形微通道 & 方形流路及中心扰动结构的影响 & 已完成，趋势与论文一致 \\
-			圆形微通道 & 环形流路及流体分配的影响 & 已完成，趋势与论文一致 \\
 			六边形微通道 & 六边形布局及局部流动组织 & 已完成，趋势与论文一致 \\
+			圆形微通道 & 环形流路及流体分配的影响 & 已完成，趋势与论文一致 \\
+			
 			\bottomrule
 		\end{tabularx}
 	\end{table}
@@ -295,8 +381,4 @@
 	  \bibitem{xiong} 熊园园, 等. 基于内嵌式微通道芯片散热结构设计研究综述[J]. 2024.
 	\end{thebibliography}
 	\textcolor{red}{昊洋借助AI和申报书适当补充文献，并让AI辅助导入新文献，文献总数在10篇左右}
-\end{document}
-\bibitem{xiong} 熊园园, 等. 基于内嵌式微通道芯片散热结构设计研究综述[J]. 2024.
-\end{thebibliography}
-\textcolor{red}{昊洋借助AI和申报书适当补充文献，并让AI辅助导入新文献，文献总数在10篇左右}
 \end{document}
