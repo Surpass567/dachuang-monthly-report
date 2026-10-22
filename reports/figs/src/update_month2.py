@@ -6,7 +6,7 @@ SIM=ROOT.parent
 REPORT=ROOT/'reports'
 source=REPORT/'逻辑月2_指标与形态.tex'
 s=source.read_text(encoding='utf8')
-if 'tab:other-small' in s:
+if 'tab:other-small' in s or '% month2-merged-performance' in s:
     raise SystemExit('逻辑月2已包含小模型补充内容，无需重复插入。')
 rows=list(csv.DictReader((REPORT/'figs/src/small_model_results.csv').open(encoding='utf-8-sig')))
 byid={r['编号']:r for r in rows}
