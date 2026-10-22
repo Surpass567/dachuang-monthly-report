@@ -81,8 +81,176 @@
 	\subsection{概念二：物理性质是探究的起点}
 	
 	（1）冷却工质水的物性随温度变化。因此\textbf{物性核查必须放在结构比较之前}。\textcolor{red}{补充UDF的编写学习过程，补充在后面，这里不需要（陈思文、王佳蔚）}
-	（2）控制策略的物理起源\textcolor{red}{补充控制的缘由和基础（张昊洋）、控制框图（王佳蔚）}
-	\textcolor{red}{补充初步控制框架}
+	（2）\textbf{控制策略的物理起源：为什么必须控制，以及控制的物理基础。}
+	
+	\textbf{一、缘由：静态结构回答不了「热源会移动」。}
+	
+	既有的结构优化研究，大多建立在一个前提上：芯片的热载荷是静态的、空间分布已知的。
+	但真实工况并非如此——计算任务在核心之间交替，热点强度与位置随之漂移\cite{wu,ji}。
+	这带来两个直接后果：
+	
+	\begin{enumerate}
+		\item 为某一静态热点定制的密集结构（局部加密针肋、扩缩口），
+		一旦热点转移就丧失靶向性；而其局部高流阻反而会加剧整板的流量分配不均，
+		陷入「结构越复杂、适应性越差」的困境。
+		\item 被动结构在时间维度上没有调节自由度。参数化研究已指出，
+		纯被动方案难以应对算力波动引起的随机热冲击\cite{laguna}。
+	\end{enumerate}
+	
+	因此，控制的必要性并不来自「结构做得不够好」，而来自\textbf{热载荷自带时间维度}：
+	\textbf{结构决定「能不能冷下来」，控制决定「此刻该给多少冷」}。
+	这两件事是互补的，不是替代的。
+	
+	\textbf{二、物理基础：三个可以被控制利用的对象性质。}
+	
+	\begin{enumerate}
+		\item \textbf{执行量到换热系数：单调但收益递减。}
+		冷却液流量由泵转速与水阀开度决定；流量增大时对流换热系数随之提高，
+		但提升幅度逐渐变缓，可近似写成幂律关系
+		$h = h_0 (Q/q_0)^n$，其中指数 $0<n<1$。
+		这决定了「加流量有效，但边际收益递减」，也说明一味加大流量并不划算。
+		
+		\item \textbf{热容到惯性：一阶环节。}
+		把芯片—冷板—冷却液视为一个热容节点，能量守恒给出
+		$C\,\mathrm{d}T/\mathrm{d}t = Q_{\mathrm{heat}} - hA\,(T - T_f)$，
+		其时间常数 $\tau = C/(hA)$。
+		这是被控对象的主惯性，决定了温度对流量变化的响应快慢。
+		
+		\item \textbf{输运与扩散到纯滞后。}
+		冷却液从阀门流到芯片、热量从结区传到测点，都需要时间；
+		控制输入到温度输出之间存在纯滞后。
+		于是对象近似为「一阶惯性 + 纯滞后」（FOPDT）模型。
+		滞后是控制设计中真正的约束：\textbf{滞后越大，可用的反馈增益越低，响应越慢，越容易振荡}。
+	\end{enumerate}
+	
+	\textbf{三、能量学基础：控制为什么能省功。}
+	
+	水力功耗随流量的增长远快于换热能力：泵功近似与流量的三次方成正比
+	（$P_{\mathrm{hyd}} \propto Q^3$），而换热系数只按 $Q^n$（$n<1$）增长。
+	因此「全程大流量」的代价非常高；而按需供液可以在热指标不明显劣化的前提下
+	大幅降低泵功。\textbf{这正是控制的价值来源——不是让温度更低，而是让温度「恰好够低」}。
+	
+	\textbf{四、由上述物理性质确定的学习重点。}
+	
+	\begin{table}[H]
+		\centering
+		\caption{物理性质与控制设计的对应关系}
+		\label{tab:physics-control}
+		\begin{tabularx}{\textwidth}{@{}Y Y@{}}
+			\toprule
+			\rowcolor{ydzjlight} 对象性质 & 对控制设计的含义 \\
+			\midrule
+			一阶惯性（时间常数 $\tau$） & 需要积分作用消除稳态误差；增益过高会引起振荡 \\
+			纯滞后（FOPDT） & 需要微分作用或预测补偿；滞后越大，可用增益越低 \\
+			执行器饱和（泵 $0$--$6000$ RPM、阀 $0$--$100\%$） & 必须做抗积分饱和，否则长时间饱和后积分项会积累成大幅超调 \\
+			换热系数收益递减（$n<1$） & 存在「经济流量区间」，超出后加大流量只增加泵功 \\
+			临界约束（结温上限） & 需要独立的安全约束层，优先于性能目标 \\
+			\bottomrule
+		\end{tabularx}
+	\end{table}
+	
+	上述对应关系是本阶段最重要的认识：\textbf{控制算法不是从文献里抄参数，
+	而是由对象的物理性质倒推出结构}。它同时解释了为什么后续要把预测（微分项的提前量）
+	与经典反馈（稳健性）结合起来——滞后决定了纯反馈天然「慢半拍」。
+	
+	\textcolor{red}{【待补：初步控制框架与控制框图（王佳蔚）】}
+	
+	% ==================================================================
+	\section{控制方向：自控基础学习}
+	
+	本月控制方向的任务是完成「算法提要」，其前提是把自动控制的基础补齐。
+	学习按「经典理论 $\rightarrow$ PID 调节 $\rightarrow$ 数据驱动」三步推进，
+	每一步都要求能回答「这条理论对应热控对象的哪个性质」。
+	
+	\subsection{一阶与二阶：超调从哪里来}
+	
+	\textbf{一阶系统} $G(s)=K/(\tau s+1)$：阶跃响应单调上升、\textbf{没有超调}，
+	达到终值 63.2\% 用时 $\tau$，2\% 调节时间约 $4\tau$。
+	由此得到一条判据：\textbf{若被控对象近似一阶，那么出现超调就说明还存在二阶环节或纯滞后}。
+	
+	\textbf{二阶系统}由自然频率 $\omega_n$ 与阻尼比 $\zeta$ 决定：
+	超调量 $M_p = \exp\!\left(-\pi\zeta/\sqrt{1-\zeta^2}\right)$，
+	调节时间约 $4/(\zeta\omega_n)$。
+	这条式子给出一个容易被忽略的结论：\textbf{超调的本质是阻尼不足，而不是「控制器太激进」}。
+	减少超调的正确手段是提高阻尼（引入微分作用）或降低增益，
+	而不是简单地把比例项调小——后者只会让响应变慢，超调未必改善。
+	
+	\subsection{纯滞后的代价：为什么不能高增益快响应}
+	
+	闭环稳定性取决于特征根位置；工程上常用 Routh 判据或 Bode 稳定裕度判断。
+	而热控对象有一个经典控制里最麻烦的环节——\textbf{纯滞后} $e^{-\tau_d s}$：
+	它\textbf{不改变幅值，但持续消耗相位}。滞后越大，相位裕度越小，允许的增益越低。
+	
+	这就解释了为什么热管理控制不能照搬「高增益、快响应」的整定思路：
+	流体输运与热扩散带来的滞后是可观的，增益一高就会振荡甚至失稳。
+	\textbf{滞后的存在，是「纯反馈天然慢半拍」的物理根源}。
+	
+	\subsection{PID 三个作用及其代价}
+	
+	\begin{table}[H]
+		\centering
+		\caption{PID 三个作用的物理含义与代价}
+		\label{tab:pid}
+		\begin{tabularx}{\textwidth}{@{}c Y Y Y@{}}
+			\toprule
+			\rowcolor{ydzjlight} 作用 & 物理含义 & 带来什么 & 代价 \\
+			\midrule
+			P & 与当前误差成正比 & 立即响应，提高增益可加快响应 & 留下稳态误差；增益过大会振荡 \\
+			I & 累积历史误差 & 消除稳态误差（提高无差度） & 引入约 $-90^\circ$ 相位滞后，易超调；长时间饱和会积分饱和 \\
+			D & 对误差变化率作用 & 提供超前相位，改善阻尼、抑制超调 & 放大测量噪声；对纯滞后补偿能力有限 \\
+			\bottomrule
+		\end{tabularx}
+	\end{table}
+	
+	与之配套的工程化措施也一并整理了三项：
+	\begin{enumerate}
+		\item \textbf{积分限幅（抗饱和）}：执行器到顶时冻结积分累加，
+		否则退出饱和后积分项会积累成一次大幅超调；
+		\item \textbf{微分先行}：微分只作用于测量值而不作用于设定值，
+		避免设定值阶跃时产生冲击；
+		\item \textbf{不完全微分}：微分项串入低通滤波，抑制噪声放大。
+	\end{enumerate}
+	
+	\subsection{回到对象：两条整定上的判断}
+	
+	把上述理论对应回热控对象，可以收敛为两条在整定时最容易出错的判断：
+	
+	\begin{enumerate}
+		\item \textbf{先看执行器余量，再谈参数。}
+		若泵已到上限、阀已全开，而温度仍在上升，
+		那么此时的超调与振荡\textbf{不是整定问题，而是能力问题}。
+		调参数只会把问题掩盖成「响应变慢」。
+		\item \textbf{滞后决定增益上限。}
+		热控对象的相位裕度本就被纯滞后吃掉了一部分，
+		照搬「快响应」的整定必然振荡；宁可把带宽降下来，
+		换取稳定与可预测。
+	\end{enumerate}
+	
+	对象性质与控制设计的逐条对应，已在前文表~\ref{tab:physics-control} 中给出，此处不再重复。
+	
+	\subsection{数据驱动方法的定位}
+	
+	在补齐经典部分后，进一步阅读了强化学习用于流动与传热控制的进展。
+	一方面，深度强化学习在流场控制中确实展现出处理强非线性与时变工况的能力，
+	闭环强制对流控制已有实验与数值验证\cite{wangy,wangyz}；
+	另一方面，综述也明确指出，此类方法在可靠性、可解释性与稳定性量化上仍有明显短板\cite{vignon}。
+	
+	结合申报书确定的路线，本阶段的判断是：
+	\textbf{用预测承担「提前量」，用 PID 承担「兜底」}。
+	预测模型负责给出未来短时温度趋势，用以重构微分项；
+	而经典反馈保留为约束执行层，保证即使预测失效也不会失控。
+	这与「物理信息增强的智能自适应架构」的提法一致\cite{tao,brunton}。
+	
+	\subsection{本阶段认识}
+	
+	\begin{enumerate}
+		\item \textbf{控制结构由对象性质倒推，不是从文献抄参数}。
+		惯性、滞后、饱和、收益递减这四条，决定了必须用积分、微分、抗饱和与安全层。
+		\item \textbf{超调要先分清来源}：是阻尼不足，还是执行器到顶。
+		两者的处理方式完全不同——前者调参数，后者只能改结构或换执行器。
+		\item \textbf{滞后是纯反馈的天花板}，这也是后续必须引入预测的物理动机；
+		但预测不能替代反馈，只能作为前馈式的补充。
+	\end{enumerate}
 	
 	% ==================================================================
 	\section{阶段一：通读与摘录}
@@ -343,7 +511,7 @@
 			补齐小块划分图，明确划分依据与数量 & 小块划分方案 & 第 1--2 周 \\
 			建立统一的评价指标体系 & 指标定义表 & 第 2--3 周 \\
 			小块内的形态与扰流单元仿真 & 形态对比数据 & 第 3--4 周 \\
-			\textcolor{red}{补充自控学习}\\
+			完成自控基础学习并形成控制算法提要 & 学习笔记与控制提要 & 第 2--3 周 \\
 		\end{tabularx}
 	\end{table}
 	
@@ -379,6 +547,17 @@
 	 
 	  \bibitem{yuan} 袁永帅, 等. 当前芯片散热技术方法和特点研讨[J]. 2024.
 	  \bibitem{xiong} 熊园园, 等. 基于内嵌式微通道芯片散热结构设计研究综述[J]. 2024.
+	  
+	  % ---------- 控制方向补充文献（来源：项目计划书 + AI 辅助补充）----------
+	  \bibitem{wu} 吴睿康. 电子器件主动液冷散热的建模及实验研究[D]. 杭州: 浙江大学, 2020.
+	  \bibitem{ji} 季俊杰. 微通道冷却芯片及其热点的动态特性研究[D]. 杭州: 浙江大学, 2021.
+	  \bibitem{laguna} LAGUNA G, VILARRUBI M, IBANEZ M, et al. Numerical parametric study of a hotspot-targeted microfluidic cooling array for microelectronics[J]. Applied Thermal Engineering, 2018, 144: 71-80.
+	  \bibitem{tao} TAO F, ZHANG H, ZHANG C. Advancements and challenges of digital twins in industry[J]. Nature Computational Science, 2024, 4(3): 169-177.
+	  \bibitem{brunton} BRUNTON S L, KUTZ J N. Data-Driven Science and Engineering: Machine Learning, Dynamical Systems, and Control[M]. 2nd ed. Cambridge: Cambridge University Press, 2022.
+	  \bibitem{astrom} ASTROM K J, HAGGLUND T. PID Controllers: Theory, Design, and Tuning[M]. 2nd ed. Research Triangle Park: Instrument Society of America, 1995.
+	  \bibitem{vignon} VIGNON C, RABAULT J, VINUESA R. Recent advances in applying deep reinforcement learning for flow control: Perspectives and future directions[J]. Physics of Fluids, 2023, 35(3): 031301.
+	  \bibitem{wangy} WANG Y, HE X, HUA Y, et al. Closed-loop forced heat convection control using deep reinforcement learning[J]. International Journal of Heat and Mass Transfer, 2023, 202: 123655.
+	  \bibitem{wangyz} WANG Y Z, LI Y B, AUBRY N, et al. Performance analysis of reinforcement learning algorithms on intelligent closed-loop control on fluid flow and convective heat transfer[J]. Physics of Fluids, 2023, 35(7): 077101.
+	  \bibitem{mnih} MNIH V, KAVUKCUOGLU K, SILVER D, et al. Human-level control through deep reinforcement learning[J]. Nature, 2015, 518(7540): 529-533.
 	\end{thebibliography}
-	\textcolor{red}{昊洋借助AI和申报书适当补充文献，并让AI辅助导入新文献，文献总数在10篇左右}
 \end{document}
