@@ -63,7 +63,36 @@
 
 \subsection{已完成的工作}
 
-\textbf{（一）网格无关性检验}
+\textbf{（一）水物性 UDF 的修正}
+
+上月核查发现原水物性函数存在误差。本月完成\textbf{新物性 UDF 的编写与编译}：
+采用 101325 Pa 下 REFPROP WATER.FLD v9.1 液态水数据拟合，
+提供随温度变化的密度、黏度、导热系数与比热；
+\textbf{比热与显焓采用同一多项式及其积分}，保证二者定义一致。
+源码对流体温度 280 至 360 K 进行范围检查，并提供 300 K 与 330 K 的物性自检输出。
+
+工作由「发现误差」推进到「完成新函数编译」，
+后续还需完成\textbf{挂接、物性校验与代表工况复算}。
+
+\begin{table}[H]
+\centering
+\caption{原水物性在 298.15 K 校验点的偏差}
+\label{tab:udf}
+\begin{tabularx}{\textwidth}{@{}Y c Y@{}}
+\toprule
+\rowcolor{ydzjlight} 物性 & 相对参考值偏差 & 影响 \\
+\midrule
+密度 & 偏低约 60.8\% & 直接影响流量与压降 \\
+比热 & 偏低约 10.5\% & 影响温升与热量收支 \\
+黏度 & 偏低约 26.7\% & 影响雷诺数与流动阻力 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+把物性修正放在本节最前，是因为\textbf{物性偏差会同时改变流量、压降与换热量级}，
+在其不可信的前提下讨论结构优劣没有意义。
+
+\textbf{（二）网格无关性检验}
 
 对直线、正弦、NACA2416 与 gao2.1 四种流道分别开展网格无关性检验，
 比较不同网格密度下的计算结果，发现\textbf{网格数量达到约 150 万及以上时
@@ -90,51 +119,126 @@ gao2.1 & 多组网格密度对比 & 同上 \\
 \end{tabularx}
 \end{table}
 
+\textbf{（三）机理分析：高弯度翼型 PEC 回落的原因}
 
+\textbf{1. 先明确评价口径。}
 
-\textbf{（二）水物性 UDF 的修正}\textcolor{red}{整段平移到前面}
+局部对流换热满足牛顿冷却定律：
 
-上月核查发现原水物性函数存在误差。本月完成\textbf{新物性 UDF 的编写与编译}：
-采用 101325 Pa 下 REFPROP WATER.FLD v9.1 液态水数据拟合，
-提供随温度变化的密度、黏度、导热系数与比热；
-\textbf{比热与显焓采用同一多项式及其积分}，保证二者定义一致。
-源码对流体温度 280 至 360 K 进行范围检查，并提供 300 K 与 330 K 的物性自检输出。
+\begin{equation}
+q'' = h\,(T_w - T_f),
+\label{eq:newton}
+\end{equation}
 
-工作由"发现误差"推进到"完成新函数编译"，
-后续还需完成\textbf{挂接、物性校验与代表工况复算}。
+其中 $q''$ 为壁面热流密度，$T_w$ 为壁面温度，$T_f$ 为流体温度。
+努塞尔数与水力直径定义为
 
-\begin{table}[H]
-\centering
-\caption{原水物性在 298.15 K 校验点的偏差}
-\label{tab:udf}
-\begin{tabularx}{\textwidth}{@{}Y c Y@{}}
-\toprule
-\rowcolor{ydzjlight} 物性 & 相对参考值偏差 & 影响 \\
-\midrule
-密度 & 偏低约 60.8\% & 直接影响流量与压降 \\
-比热 & 偏低约 10.5\% & 影响温升与热量收支 \\
-黏度 & 偏低约 26.7\% & 影响雷诺数与流动阻力 \\
-\bottomrule
-\end{tabularx}
-\end{table}
+\begin{equation}
+Nu = \frac{h\,D_h}{k_f},\qquad D_h = \frac{4A_c}{P_w},
+\label{eq:nu}
+\end{equation}
 
-\textbf{（三）机理分析的初步结果}
+$k_f$ 为流体导热系数，$A_c$ 为流通截面积，$P_w$ 为湿周。
+达西摩擦系数由进出口压差反算：
 
-针对上月发现的"高弯度翼型 PEC 反而回落"这一现象，
-结合流场分析定位了原因：\textbf{高弯度翼型尾缘附近形成流动死区}，
-分离使有效换热面积减小，抵消了弯度带来的增益。
-\textcolor{red}{详细展开推导，补充一些公式}
+\begin{equation}
+f = \frac{2\,\Delta p\,D_h}{\rho u_m^2 L},
+\label{eq:friction}
+\end{equation}
+
+$u_m$ 为截面平均流速，$L$ 为流道长度。
+综合性能取\textbf{等泵功基准}下的常用定义：
+
+\begin{equation}
+PEC = \frac{Nu/Nu_0}{\left(f/f_0\right)^{1/3}},
+\label{eq:pec}
+\end{equation}
+
+下标 0 表示基准构型（NACA0015）。
+式~\eqref{eq:pec} 的含义是：分子衡量换热增益，分母衡量水力代价，
+二者都相对于同一基准，因此 PEC 可以横向比较不同构型。
+
+\textbf{2. 再追机理链条。}
+
+翼型弯度增大后，前缘迎风侧流速提高，而尾缘背风侧的扩压段变长、
+逆压梯度增强：
+
+\begin{equation}
+\frac{\mathrm{d}p}{\mathrm{d}x} > 0 .
+\label{eq:adverse}
+\end{equation}
+
+当逆压梯度超过边界层动量的储备，边界层发生\textbf{分离}。
+分离后壁面附近形成回流区，壁面法向速度梯度趋于零：
+
+\begin{equation}
+\left.\frac{\partial u}{\partial y}\right|_{w} \rightarrow 0 ,
+\label{eq:shear}
+\end{equation}
+
+即壁面剪切率显著下降。
+
+对流换热系数与\textbf{壁面温度梯度}直接相关：
+
+\begin{equation}
+h = -\,\frac{k_f}{T_w - T_f}\left.\frac{\partial T}{\partial y}\right|_{w},
+\label{eq:hgrad}
+\end{equation}
+
+这可由式~\eqref{eq:newton} 与傅里叶导热定律在壁面处的匹配直接得到。
+速度梯度下降使热边界层增厚，$\left|\partial T/\partial y\right|_w$ 随之减小，
+因此 $h$ 在死区附近\textbf{显著下降}。
+
+\textbf{3. 两个后果，方向一致。}
+
+\begin{enumerate}
+  \item \textbf{有效换热面积减小。}
+  死区内 $h$ 很低，等效于这部分壁面基本不参与换热；
+  总对流热阻
+  $R_{\mathrm{conv}} = 1/(hA_{\mathrm{eff}})$ 上升。
+  \item \textbf{流阻同时上升。}
+  回流区占据流通截面，主流被挤压、局部速度提高，$f$ 上升。
+\end{enumerate}
+
+代入式~\eqref{eq:pec} 可以看到两者对 PEC 的作用方向\textbf{完全一致}：
+分子 $Nu/Nu_0$ 下降、分母 $(f/f_0)^{1/3}$ 上升，PEC 必然回落。
+这就解释了「弯度越大换热越好」的预期为何不成立——
+\textbf{弯度带来的增益被尾缘分离抵消，还额外付出了流阻}。
+
+\textbf{4. 与厚度效应的对照。}
+
+厚度增加的作用机理不同：它主要提高迎风侧扰动强度与换热面积，
+\textbf{并未引起同等规模的分离}，因此 $Nu$ 上升而 $f$ 增幅有限，
+PEC 得以提高。这正是 NACA0024、NACA4424 的 PEC 高于基准、
+而 NACA6424、NACA6624 回落的原因。
+
+\textbf{5. 本轮结论的边界。}
+
+上述分析是\textbf{定性}的。要给出定量判断，还缺三个量：
+分离点位置、回流区长度、壁面局部 $Nu$ 分布。
+这三项都需要从单柱模型或流场后处理中提取，列入下月工作。
+
 \textbf{（四）参数分组设置与变量独立检验}
 \textcolor{red}{王佳蔚陈思文补充分组变量和后续基础图片和一定数据}
 
-\textcolor{red}{内容修改较多，补充较完整后昊洋辅助重新生成后续内容}
-%% ==================================================================
-%\section{问题与对策}
+% ==================================================================
+\section{问题与对策}
 
-%\subsection{遇到的主要问题}
+\subsection{遇到的主要问题}
 
+\begin{enumerate}
+  \item \textbf{物性修正后尚未复算。}
+        新 UDF 已完成编写与编译，但还没有挂接到算例上，
+        因此无法回答「修正物性后结构排序会不会变」这个问题。
+  \item \textbf{单柱基准模型尚未建立。}
+        整体流道内多柱干扰无法解耦，厚度、弯度、攻角三个参数的独立影响仍不能分离。
+  \item \textbf{机理分析停留在定性。}
+        尾缘流动死区已定位，但分离点位置、回流区长度与局部 $Nu$ 分布都还没有定量结果。
+  \item \textbf{本月关键词的工作范围待确认。}
+        「形态」「物理」两个词具体指什么，需要组长明确后才能定稿。
+\end{enumerate}
 
-%\subsection{已尝试的方案}
+\subsection{已尝试的方案}
 
 \begin{enumerate}
   \item 针对问题 1，已完成新 UDF 的编写、编译与温度范围检查；
@@ -145,7 +249,7 @@ gao2.1 & 多组网格密度对比 & 同上 \\
         待组长确认后可调整范围。
 \end{enumerate}
 
-%\subsection{下一步对策}
+\subsection{下一步对策}
 
 \begin{enumerate}
   \item 挂接新 UDF，完成物性自检与代表工况复算，确认排序是否变化；
@@ -154,31 +258,36 @@ gao2.1 & 多组网格密度对比 & 同上 \\
 \end{enumerate}
 
 % ==================================================================
-%\section{阶段性结论}
+\section{阶段性结论}
 
-%\subsection{可以确定的}
+\subsection{可以确定的}
 
 \begin{enumerate}
   \item 四种流道均已通过网格无关性检验，形成约 150 万网格的后续划分基准。
   \item 原水物性函数存在量级误差（密度偏低约 60.8\%），已识别并完成新 UDF 编译。
-  \item 高弯度翼型 PEC 回落的原因已定位为\textbf{尾缘流动死区}导致有效换热面积减小。
+  \item 高弯度翼型 PEC 回落的原因已定位为\textbf{尾缘流动死区}导致有效换热面积减小；
+        其机理已从牛顿冷却定律与壁面温度梯度关系展开到分离判据
+        （式~\eqref{eq:newton}--\eqref{eq:hgrad}）。
   \item \textbf{物理基础必须先于结构比较完成}——
         在物性不可信的情况下比较结构，等于在错误的基准上排序。
 \end{enumerate}
 
-%\subsection{尚不能确定的}
+\subsection{尚不能确定的}
 
 \begin{enumerate}
   \item \textbf{物性修正对结论的实际影响幅度。}
         缺少的证据是：挂接新 UDF 后代表工况的复算结果。
   \item \textbf{单柱条件下三个翼型参数的独立影响权重。}
         缺少的证据是：单柱基准模型上的单参数扫掠数据。
+  \item \textbf{尾缘分离的定量特征。}
+        缺少的证据是：分离点位置、回流区长度与壁面局部 $Nu$ 分布——
+        有了这三项，式~\eqref{eq:hgrad} 的定性链条才能变成定量预测。
   \item \textbf{「形态」与「物理」的最终工作范围。}
         取决于组长对本月关键词的明确。
 \end{enumerate}
 
 % ==================================================================
-%\section{下月计划}
+\section{下月计划}
 
 \begin{table}[H]
 \centering

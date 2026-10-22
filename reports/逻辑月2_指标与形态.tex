@@ -73,7 +73,7 @@
 1 & 四种流道数据与折线图 & 确定有效工况与比较条件 \\
 2 & NACA 翼型数据 & 明确相对厚度、相对弯度、攻角对液冷性能的影响 \\
 3 & 复合叶脉蜂窝微通道等仿生拓扑研究 & 提供仿生结构的设计参照 \\
-4 & 控制理论与 PID 相关文献 & 确定控制回路结构与基础控制器形式 \\
+4 & 控制理论教材与 PID 专著\cite{hushousong,astrom,franklin,ogata} & 确定控制回路结构、基础控制器形式与整定思路 \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -93,6 +93,10 @@
 
 \textbf{关于控制}：控制效果的瓶颈往往不在算法，而在对控制通道的了解程度。
 从执行器到被控量之间的物理通道必须事先知道，否则算法再好也是盲调。
+本轮按「经典理论 $\rightarrow$ PID 整定 $\rightarrow$ 数据驱动」的顺序系统补了基础\cite{hushousong,astrom,franklin,ogata}：
+经典教材提供传递函数、一阶／二阶响应与稳定性判据的框架\cite{hushousong,franklin}，
+PID 专著侧重三个作用的物理含义与工程整定方法\cite{astrom}，
+数据驱动的部分则在后续月份展开\cite{brunton}。
 
 % ==================================================================
 \section{研究进展}
@@ -278,6 +282,13 @@ PID 参数 & $K_p=8.0$，$K_i=0.5$，$K_d=2.0$ \\
 
 \bibitem{airfoil} 微通道液冷场景下的翼型参数. 项目资料, 2026.
 \bibitem{control} 控制理论与 PID 算法相关资料. 项目资料, 2026.
+
+% ---------- 控制理论学习书籍（张昊洋补充）----------
+\bibitem{hushousong} 胡寿松. 自动控制原理[M]. 8 版. 北京: 科学出版社, 2023.
+\bibitem{astrom} {\AA}STR{\"O}M K J, H{\"A}GGLUND T. PID Controllers: Theory, Design, and Tuning[M]. 2nd ed. Research Triangle Park: Instrument Society of America, 1995.
+\bibitem{franklin} FRANKLIN G F, POWELL J D, EMAMI-NAEINI A. Feedback Control of Dynamic Systems[M]. 8th ed. London: Pearson, 2019.
+\bibitem{ogata} OGATA K. Modern Control Engineering[M]. 5th ed. London: Pearson, 2010.
+\bibitem{brunton} BRUNTON S L, KUTZ J N. Data-Driven Science and Engineering: Machine Learning, Dynamical Systems, and Control[M]. 2nd ed. Cambridge: Cambridge University Press, 2022.
 \end{thebibliography}
-\textcolor{red}{陈思文插入数据来源网址，昊洋补充控制理论学习书籍}
+\textcolor{red}{陈思文插入数据来源网址}
 \end{document}
