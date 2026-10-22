@@ -53,6 +53,7 @@ reports/figs/
 | `10_pressure_midplane.png` | 压力云图（第三工况） | 逻辑月1 |
 | `11_speed_midplane.png` | 速度云图（第三工况） | 逻辑月1 |
 | `12_copper_base_temperature.png` | 铜底板温度（第三工况） | 逻辑月1 |
+| `13_控制框架框图.png` | 动态调控初步框架框图（分层递阶 + 安全约束） | 逻辑月1 §2.3 |
 
 引用写法：
 
