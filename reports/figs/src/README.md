@@ -1,6 +1,6 @@
 # 配图目录说明
 
-本目录存放报告用到的**图片**，以及生成配图的**代码与数据**。
+`reports/figs/` 根目录只存放报告图片和 `src/` 子目录。所有代码、数据、备用图及本说明放在 `reports/figs/src/`。
 
 ---
 
@@ -8,13 +8,13 @@
 
 ```
 reports/figs/
-├── README.md                          ← 本文件
 ├── 01_temperature_midplane.png        ┐
 ├── 02_pressure_midplane.png           │
 ├── ...                                ├ 逻辑月1 在用的 12 张图
 ├── 11_speed_midplane.png              │  （报告里按 figs/01_xxx.png 引用）
 ├── 12_copper_base_temperature.png     ┘
 └── src/                               ← 代码 / 数据 / 脚本产出的图
+    ├── README.md                       （本说明）
     ├── PID仿真.py                      （生成 pid_sim.npz）
     ├── 生成配图.py                      （由 npz 画图）
     ├── pid_sim.npz                     （中间数据）
@@ -29,7 +29,7 @@ reports/figs/
 | 位置 | 放什么 | 规则 |
 |---|---|---|
 | `figs/` 根 | **报告里引用的图片** | 只有 `\includegraphics` 真会用到的才放这 |
-| `figs/src/` | 代码、中间数据、脚本产出的图 | 不需要按图号管理的东西 |
+| `figs/src/` | 代码、中间数据、备用图及复现说明 | 不需要按图号管理的东西 |
 
 这样 `figs/` 根目录一眼就能看清"报告一共用了几张图"。
 
