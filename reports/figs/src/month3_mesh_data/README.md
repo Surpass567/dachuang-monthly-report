@@ -1,11 +1,7 @@
 # 逻辑月3网格检验补充材料
 
-数据来自既有网格无关性阶段报告，未重新运行 Fluent。温度为全域单元算术平均；压降为液体入口至出口面积加权静压差。七档均取 t=0.2 s，最终步长0.001 s；最细档早期有不同步长历史。
+当前报告的所有两档相对差异统一以 N=3235081 为分母。errors_reference323.csv 由 raw_02s.csv 和 dimensionless_02s.csv 计算，包含全部七档；不删除461万档，不将参考档零差异视为通过证明。
 
-- raw_02s.csv：表格与温度、压降误差复核数据。
-- dimensionless_02s.csv：Re、Pr、Nu、h、f_D 数据。
-- comparison_notes.md / gci_notes.md：原始判据、GCI组合与局限。
-- mesh_preparation.md：其他结构仅完成网格准备的证据。
-- source_manifest.json：来源与SHA256。
+流场图取同批t=0.2 s的中高平面与出口截面，323万为上排参考、461万为下排对照。flowfield_notes.md 和 flowfield_comparison.csv 保留定量出处，flowfield_manifest.json 记录来源SHA256。原始说明可能保留早期参考口径，仅作历史证据；当前报告误差分析以 errors_reference323.csv 为准。
 
-update_month3_mesh.py 从工作区原始报告整理数据并更新月3网格段；同目录数据可用于独立复核数值。正式配图位于 reports/figs/，沿用原始分析图，以离散数据点判断。未声明已通过完整网格无关性检验。
+执行 finalize_month3_reference323.py 可从已归档CSV重新计算统一误差、作图，并导入本机既有流场图。update_month3_mesh.py 执行后也会调用该脚本生成当前版本。仅整理现有结果，未重新运行Fluent。

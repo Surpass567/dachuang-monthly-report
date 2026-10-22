@@ -160,3 +160,5 @@ p.write_text(s,encoding='utf-8')
 update_month3_mesh.py 从工作区原始报告整理数据并更新月3网格段；同目录数据可用于独立复核数值。正式配图位于 reports/figs/，沿用原始分析图，以离散数据点判断。未声明已通过完整网格无关性检验。
 ''',encoding='utf-8')
 print('Updated month 3; preserved all original red text.')
+import runpy
+runpy.run_path(str(HERE/'finalize_month3_reference323.py'), run_name='__main__')
