@@ -1,0 +1,134 @@
+[
+  {
+    "id": "M02",
+    "case": "E:\\simulation\\liubianxingv4\\v4.2\\liubianxingv4.cas.h5",
+    "data": "E:\\simulation\\liubianxingv4\\v4.2\\liubianxingv4.dat.h5",
+    "panels": [
+      {
+        "surface": "fluid-solid",
+        "z_mm": -2.5,
+        "face_count": 5564,
+        "range_C": null
+      },
+      {
+        "surface": "heat",
+        "z_mm": -2.75,
+        "face_count": 2005,
+        "range_C": [
+          61.04380178464106,
+          88.51587450182694
+        ]
+      }
+    ]
+  },
+  {
+    "id": "M09",
+    "case": "E:\\simulation\\no\\gao2.1\\gao2.2347k.cas.h5",
+    "data": "E:\\simulation\\no\\gao2.1\\gao2.2347k.dat.h5",
+    "panels": [
+      {
+        "surface": "fluid-solid",
+        "z_mm": 0.25,
+        "face_count": 5986,
+        "range_C": null
+      },
+      {
+        "surface": "heat",
+        "z_mm": 3.0,
+        "face_count": 3833,
+        "range_C": [
+          69.24898991660956,
+          88.55560181231442
+        ]
+      }
+    ]
+  },
+  {
+    "id": "M17",
+    "case": "E:\\simulation\\UDFwrite\\small_model_extract_work\\A_leaf.cas.h5",
+    "data": "E:\\simulation\\UDFwrite\\small_model_extract_work\\A_leaf.dat.h5",
+    "panels": [
+      {
+        "surface": "fluid-solid",
+        "z_mm": 2.75,
+        "face_count": 7045,
+        "range_C": null
+      },
+      {
+        "surface": "heat",
+        "z_mm": 0.0,
+        "face_count": 2328,
+        "range_C": [
+          52.80131491054806,
+          61.979070444318836
+        ]
+      }
+    ]
+  },
+  {
+    "id": "M14",
+    "case": "E:\\simulation\\UDFwrite\\small_model_extract_work\\NACA0016_v2.cas.h5",
+    "data": "E:\\simulation\\UDFwrite\\small_model_extract_work\\NACA0016_v2.dat.h5",
+    "panels": [
+      {
+        "surface": "fluid-solid",
+        "z_mm": 2.75,
+        "face_count": 5251,
+        "range_C": null
+      },
+      {
+        "surface": "heat",
+        "z_mm": 0.0,
+        "face_count": 1745,
+        "range_C": [
+          69.6147021260569,
+          85.61759778538175
+        ]
+      }
+    ]
+  },
+  {
+    "id": "M15",
+    "case": "E:\\simulation\\UDFwrite\\small_model_extract_work\\NACA1416_v2.cas.h5",
+    "data": "E:\\simulation\\UDFwrite\\small_model_extract_work\\NACA1416_v2.dat.h5",
+    "panels": [
+      {
+        "surface": "fluid-solid",
+        "z_mm": 0.25,
+        "face_count": 5259,
+        "range_C": null
+      },
+      {
+        "surface": "heat",
+        "z_mm": 0.0,
+        "face_count": 1761,
+        "range_C": [
+          69.59909692016572,
+          85.61371035443318
+        ]
+      }
+    ]
+  },
+  {
+    "id": "M16",
+    "case": "E:\\simulation\\UDFwrite\\small_model_extract_work\\NACA3416_v2.cas.h5",
+    "data": "E:\\simulation\\UDFwrite\\small_model_extract_work\\NACA3416_v2.dat.h5",
+    "panels": [
+      {
+        "surface": "fluid-solid",
+        "z_mm": 2.75,
+        "face_count": 5298,
+        "range_C": null
+      },
+      {
+        "surface": "heat",
+        "z_mm": 0.0,
+        "face_count": 1749,
+        "range_C": [
+          69.43748978374555,
+          85.36584246862975
+        ]
+      }
+    ]
+  }
+]
