@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """PID 温控仿真：确定可用参数并输出时程数据（供绘图）"""
+import os
 import numpy as np
 
 TARGET = 68.0
@@ -75,7 +76,7 @@ print('  对比（不加积分限幅）:')
 print('    积分项最大 %.1f（限幅版 %.1f）' % (hI2.max(), hI.max()))
 print('    温度范围 %.2f ~ %.2f °C' % (hT2.min(), hT2.max()))
 
-np.savez_compressed(r'D:\work\chipdisheat\dachuang-monthly-report\reports\figs\pid_sim.npz',
+np.savez_compressed(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'pid_sim.npz'),
                     t=t, heat=heat, T=hT, U=hU, E=hE, I=hI,
                     T_nc=hT2, U_nc=hU2, I_nc=hI2)
 print()

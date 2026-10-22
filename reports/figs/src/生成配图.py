@@ -104,7 +104,7 @@ plt.rcParams['axes.linewidth'] = 0.9
 plt.rcParams['grid.color'] = '#DDDDDD'
 plt.rcParams['grid.linewidth'] = 0.7
 
-OUT = r'D:\work\chipdisheat\dachuang-monthly-report\reports\figs'
+OUT = os.path.dirname(os.path.abspath(__file__))
 os.makedirs(OUT, exist_ok=True)
 
 C1 = '#1868A8'   # 主色（与文档配色一致）
@@ -298,7 +298,7 @@ save(fig, 'fig_block.png')
 # ======================================================================
 # 图 4：PID 温控仿真时程（数据来自 _sim_pid.py）
 # ======================================================================
-d = np.load(r'D:\work\chipdisheat\dachuang-monthly-report\reports\figs\pid_sim.npz')
+d = np.load(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'pid_sim.npz'))
 t_sim, heat, hT, hU, hE, hI = d['t'], d['heat'], d['T'], d['U'], d['E'], d['I']
 TARGET = 68.0
 

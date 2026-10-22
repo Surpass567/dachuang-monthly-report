@@ -58,9 +58,17 @@ Menu → Compiler 选 **XeLaTeX**。
 
 | 文件 | 用途 |
 |---|---|
-| `01_temperature_midplane.png` ~ `12_copper_base_temperature.png` | 逻辑月1 的 12 张流场/温度场图 |
-| `fig_block.png`、`fig_metrics.png`、`fig_pid_sim.png`、`fig_step_response.png` | 控制算法旧配图（备用） |
-| `PID仿真.py`、`生成配图.py`、`pid_sim.npz` | 控制配图的生成脚本与数据 |
+| `01_temperature_midplane.png` ~ `12_copper_base_temperature.png` | 逻辑月1 的 12 张流场/温度场图（报告在引用） |
+
+**代码、数据、脚本产出的备用图都在 `figs/src/`，不要和报告引用的图混放：**
+
+| `figs/src/` 下的文件 | 说明 |
+|---|---|
+| `PID仿真.py`、`生成配图.py` | 控制配图的生成脚本 |
+| `pid_sim.npz` | 中间仿真数据 |
+| `fig_block.png` 等 4 张 | 控制算法旧图（备用，当前无报告引用） |
+
+目录规则：**`figs/` 根只放报告里真正引用的图**，其余进 `src/`。
 
 **引用写法**：
 
@@ -82,6 +90,8 @@ Menu → Compiler 选 **XeLaTeX**。
 
 建议统一到 `figs/`（需把中期报告里 14 处路径改成 `figs/diagrams/...`），
 或反向统一，**二者选一，不要长期并存**。
+
+详见 [`figs/README.md`](figs/README.md)。
 
 ---
 
