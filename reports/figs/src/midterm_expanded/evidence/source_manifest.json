@@ -1,0 +1,67 @@
+[
+  {
+    "source": "E:\\simulation\\no\\NACA2416_v3\\analysis_02s_20261009\\原始数据_0.2s.csv",
+    "copy": "evidence/mesh_results_02s.csv",
+    "sha256": "23e00d59c9783f59b586b5d5f8bfc87c4c45700c27cb63d71fb2f5f6686daa38"
+  },
+  {
+    "source": "E:\\simulation\\no\\NACA2416_v3\\analysis_02s_20261009\\检验结论.md",
+    "copy": "evidence/mesh_conclusion_02s.md",
+    "sha256": "4c781cf47311b41e1d5c4612f9b170fdef99ddab0bb996b8d054452a8b1695dd"
+  },
+  {
+    "source": "E:\\simulation\\no\\NACA2416_v3\\pressure_audit_20261009\\压降原生核验与汇总.json",
+    "copy": "evidence/pressure_audit.json",
+    "sha256": "1bcde7265ec1601750a6d29870502343d3c8e702fd3ef724b2051803fda49773"
+  },
+  {
+    "source": "E:\\simulation\\miji\\property_comparison_runs_20261007\\original_settings_dt1e-3\\原始设置两版对照报告.md",
+    "copy": "evidence/water_udf_comparison.md",
+    "sha256": "a5d6c52d532fe108576718c6cb5ed49c788ab50d7679687be9731162be65b2cd"
+  },
+  {
+    "source": "E:\\simulation\\intial\\output\\verification\\water_property_values.json",
+    "copy": "evidence/water_property_values.json",
+    "sha256": "d8d265ab14ba31667fd67c639e2d6a60693d74ab02abdc7c4c65e4040bbe6ef8"
+  },
+  {
+    "source": "E:\\simulation\\intial\\output\\verification\\heat_verification.json",
+    "copy": "evidence/heat_mapping_verification.json",
+    "sha256": "132a58e0e8edd8badd487105d0dfac131f5f7caf2ca5f15ce6332b16861b6f46"
+  },
+  {
+    "source": "E:\\simulation\\intial\\output\\whole_plate\\说明.md",
+    "copy": "evidence/whole_plate_current.md",
+    "sha256": "da638be8eac3f167af174c77065ce69cc15999175f2030a6a57e8b12f4e54eee"
+  },
+  {
+    "source": "E:\\simulation\\intial\\output\\whole_plate\\verification.json",
+    "copy": "evidence/whole_plate_verification.json",
+    "sha256": "76f96a2fad8523719eee4bd3b71db53ce9c8f57fb951b653a998da224134133b"
+  },
+  {
+    "source": "E:\\simulation\\2_0\\final\\README.md",
+    "copy": "evidence/strip_assembly_current.md",
+    "sha256": "e1d3b5533a35932408c2343e932a8ab53f2899214c0602cbf6286c32b647e174"
+  },
+  {
+    "source": "E:\\simulation\\trans\\README.md",
+    "copy": "evidence/connection_inventory.md",
+    "sha256": "931ddc3eb5c93cdfa8ad716cd7e4f212fc042367bea55f9c77314a652de29a4e"
+  },
+  {
+    "source": "E:\\simulation\\UDF ku\\t.c",
+    "copy": "evidence/historical_dynamic_heat_udf.c",
+    "sha256": "491a682250b645dab01944455fe279208e4f1a67f19b7ca6665b27eeadf6a552"
+  },
+  {
+    "source": "E:\\simulation\\intial\\output\\udf\\water_properties_refprop_fit.c",
+    "copy": "evidence/water_properties_current.c",
+    "sha256": "2f1c2f8ed547c24b5769349129308105c02e396704c29865387810099b27d2c7"
+  },
+  {
+    "source": "E:\\simulation\\网格无关性检验汇总_20260920.md",
+    "copy": "evidence/mesh_preparation_history.md",
+    "sha256": "b4ee77394aaa15a3c60a2d98a80cbbe6f86e25866a492bfd9f2f63422b127f42"
+  }
+]

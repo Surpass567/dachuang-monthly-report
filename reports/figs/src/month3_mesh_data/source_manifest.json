@@ -1,0 +1,27 @@
+[
+  {
+    "source": "E:\\simulation\\UDFwrite\\网格无关性报告\\data\\analysis_02s_20261009\\原始数据_0.2s.csv",
+    "copy": "raw_02s.csv",
+    "sha256": "23e00d59c9783f59b586b5d5f8bfc87c4c45700c27cb63d71fb2f5f6686daa38"
+  },
+  {
+    "source": "E:\\simulation\\UDFwrite\\网格无关性报告\\data\\dimensionless_02s_20261009\\无量纲原始指标.csv",
+    "copy": "dimensionless_02s.csv",
+    "sha256": "280a19b4baad0ccca63944a36e784aed0821dd1b1d18d526a8f3e86e688ea63f"
+  },
+  {
+    "source": "E:\\simulation\\UDFwrite\\网格无关性报告\\data\\gci_without_4610k_20261009\\GCI判断说明_不含461万.md",
+    "copy": "gci_notes.md",
+    "sha256": "4b0d81f6076577b11cbdffa73154381c15d6254a146933392bcbe6c293955960"
+  },
+  {
+    "source": "E:\\simulation\\UDFwrite\\网格无关性报告\\data\\analysis_02s_20261009\\检验结论.md",
+    "copy": "comparison_notes.md",
+    "sha256": "4c781cf47311b41e1d5c4612f9b170fdef99ddab0bb996b8d054452a8b1695dd"
+  },
+  {
+    "source": "E:\\simulation\\UDFwrite\\网格无关性报告\\data\\mesh_preparation\\网格无关性检验汇总_20260920.md",
+    "copy": "mesh_preparation.md",
+    "sha256": "b4ee77394aaa15a3c60a2d98a80cbbe6f86e25866a492bfd9f2f63422b127f42"
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "grid": 2943269,
+    "case": "E:\\simulation\\no\\NACA2416_v3\\continue_02s_20261009\\NACA2416_v3_2934k_configured\\NACA2416_v3_2934k_configured_t0200.cas.h5",
+    "plane_z_mm": 0.25,
+    "face_count": 9972
+  },
+  {
+    "grid": 3235081,
+    "case": "E:\\simulation\\no\\NACA2416_v3\\continue_02s_20261009\\NACA2416_v3_3235k_configured\\NACA2416_v3_3235k_configured_t0200.cas.h5",
+    "plane_z_mm": 0.25,
+    "face_count": 10448
+  },
+  {
+    "grid": 4610769,
+    "case": "E:\\simulation\\no\\NACA2416_v3\\continue_02s_20261009\\NACA2416_v3_4610k_configured\\NACA2416_v3_4610k_configured_t0200.cas.h5",
+    "plane_z_mm": 0.25,
+    "face_count": 8286
+  }
+]

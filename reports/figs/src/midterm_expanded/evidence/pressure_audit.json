@@ -1,0 +1,54 @@
+{
+  "force_checks": [
+    {
+      "grid": 3235081,
+      "Fluent_pressure_force_N": 0.0062884219,
+      "Fluent_viscous_force_N": 0.0070462071,
+      "verified": true
+    },
+    {
+      "grid": 4610769,
+      "Fluent_pressure_force_N": 0.0062983206,
+      "Fluent_viscous_force_N": 0.0069546301,
+      "verified": true
+    }
+  ],
+  "metrics": [
+    {
+      "metric": "面积平均静压差",
+      "3235081_Pa": 2348.320348388083,
+      "4610769_Pa": 2448.7141038754226,
+      "change_Pa": 100.3937554873396,
+      "change_relative_323_pct": 4.275130331185495,
+      "error_reference_461_pct": 4.099856137899188,
+      "source": "Fluent native report"
+    },
+    {
+      "metric": "面积平均总压差",
+      "3235081_Pa": 1986.079924134609,
+      "4610769_Pa": 2035.4744344105848,
+      "change_Pa": 49.39451027597579,
+      "change_relative_323_pct": 2.487035374344182,
+      "error_reference_461_pct": 2.426682911902012,
+      "source": "Fluent native report"
+    },
+    {
+      "metric": "质量平均总压差",
+      "3235081_Pa": 1489.475456392449,
+      "4610769_Pa": 1431.9238998126561,
+      "change_Pa": -57.55155657979276,
+      "change_relative_323_pct": -3.863880826823707,
+      "error_reference_461_pct": 4.019177037782695,
+      "source": "Fluent native report"
+    },
+    {
+      "metric": "净机械能通量差/Qin",
+      "3235081_Pa": 1452.1495373284208,
+      "4610769_Pa": 1411.028694727986,
+      "change_Pa": -41.1208426004348,
+      "change_relative_323_pct": -2.8317223222125265,
+      "error_reference_461_pct": 2.9142456672974997,
+      "source": "signed face mass flux, p+rho|u|²/2"
+    }
+  ]
+}

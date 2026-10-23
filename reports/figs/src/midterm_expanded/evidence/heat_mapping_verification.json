@@ -1,0 +1,10 @@
+{
+  "status": "success",
+  "counts": [
+    70,
+    27,
+    3
+  ],
+  "total_heat_W": 2640.0,
+  "method": "Actual static heat mapping function compiled and executed with bundled Clang; all 100 centres, count, power, plate boundaries and outside-domain checks."
+}

@@ -2,6 +2,13 @@
 
 **核心原则：`template/ydzjreport.cls` 是唯一源，所有人引用它，不要各自改。**
 
+## 大创修改核心要求
+
+1. 月度报告统一命名为 `逻辑月N_主题.pdf`，对应源文件为同名 `.tex`。例如 `逻辑月1_基础建立.pdf` 和 `逻辑月1_基础建立.tex`。禁止添加 `_v1_1`、`_v2_0` 等版本后缀；修订更新同名文件，版本历史由 Git 管理。
+2. 所有报告配图的生成代码、分析代码和辅助脚本统一放在 `reports/figs/src/`；相关输入数据、中间数据及复现说明也放在该目录。
+3. `reports/figs/` 根目录只放报告使用的图片文件及 `src/` 子目录，不放代码、数据、说明文档或临时文件。备用图与中间图放在 `src/`，正式引用时再放入 `figs/`。
+4. 重命名或移动文件时，同步更新报告引用、文档链接和脚本路径；提交前检查文件命名与目录归属，并按现有规范完成报告编译自检。
+
 ---
 
 ## 一、三种改动，三种流程
@@ -20,27 +27,30 @@
 
 ### 方式 A：会用 Git（推荐）
 
+
+## GitHub 上传与同步
+
+`main` 是唯一正式发布分支（不是文件夹，不另建 main 目录）。所有报告、配图、代码和文档更新均须最终合并到 `main` 并推送 `origin/main`。
+
+维护者默认在 `main` 更新。上传前先 `git fetch origin`，合并远端 `main` 和本地更新，保留双方有效内容；冲突中的 PDF 根据合并后的 `.tex` 重新编译。禁止强制推送覆盖远端。临时分支须合并到 `main` 才算完成正式上传；PR 的目标分支统一为 `main`。
+
 ```bash
-# 1. 先拉最新（重要，避免基于旧版写）
-git pull
-
-# 2. 建自己的分支（分支名用 报告月份-姓名）
-git checkout -b 2026-10-zhangsan
-
-# 3. 写报告
-cp template/阶段一_空白骨架.tex reports/2026-10_阶段一_张三_导流柱结构设计.tex
-# ... 编辑 ...
-
-# 4. 本地编译自检（必须三项为 0）
-python check.py reports/2026-10_阶段一_张三_导流柱结构设计.tex
-
-# 5. 提交
-git add reports/2026-10_阶段一_张三_导流柱结构设计.tex
-git commit -m "提交 2026-10 阶段一报告（张三）"
-git push origin 2026-10-zhangsan
-
-# 6. 在 GitHub 上开 Pull Request
+git switch main
+git fetch origin
+git merge origin/main
+# 如有临时分支的更新，再 git merge 对应分支
+# 修改报告后，按原规范运行 python check.py 对应报告.tex
+# 核对并 git add 本次更新的源文件、同名 PDF、配图及数据
+git diff --cached --stat
+git commit -m "更新报告与配套资料"
+git push origin main
+git fetch origin
+git rev-list --left-right --count HEAD...origin/main
+git status --short
 ```
+
+最后两项应分别输出 `0 0` 和空。网络失败须明确说明尚未同步。GitHub 网页上传也必须选择 `main`，并遵守相同目录与命名规则。切换分支前须妥善保存未提交改动。
+
 
 ### 方式 B：不会 Git
 
@@ -288,7 +298,7 @@ Missing character: There is no ⁶ (U+2076) in font [lmroman10-regular]
 如图~\ref{fig:xxx} 所示，...
 ```
 
-**图片文件放在 `reports/figs/<你的名字>/` 下**，避免重名冲突。
+**报告图片放在 `reports/figs/` 根目录**，使用月号、图号和主题避免重名；代码统一放在 `reports/figs/src/`。
 
 ---
 
@@ -318,7 +328,7 @@ git commit -m "fix"
 | 改版式 | `改版式-简述` | `改版式-表头配色` |
 | 修 bug | `fix-简述` | `fix-checkpy-path` |
 
-**不要直接在 `main` 上改，除非你是维护者。**
+**维护者默认在 `main` 更新；协作者的临时分支统一向 `main` 提 PR，合并后才算正式同步完成。**
 
 ---
 
@@ -342,6 +352,8 @@ git commit -m "fix"
 7. 希腊字母用数学模式：$\mu$、$\rho$、$\Delta$
 8. 温度写法：329.4 K（56.3 $^\circ$C）
 9. 输出完整的 .tex 文件内容，不要输出解释、不要用代码块包裹
+10. 报告命名为 逻辑月N_主题.tex / .pdf，不加版本后缀
+11. 代码放 reports/figs/src/，reports/figs/ 根目录只放图片和 src/ 子目录
 
 阶段一额外要求：必须有「导出与复现」，含环境、步骤、结果
 阶段二额外要求：「与预期的差异」和「尚不能确定的」不能为空
