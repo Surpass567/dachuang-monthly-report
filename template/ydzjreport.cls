@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  ydzjreport.cls  ——  月度（阶段）总结报告 文档类
-%  版本 v1.0
+%  版本 v1.4：正文直接从第一节开始，不输出开篇标题及信息框。
 %
 %  设计目标
 %    1. 同一份 .tex 在 Overleaf 与本地 TeX Live / MiKTeX 都能编译
@@ -29,7 +29,7 @@
 %    需要判断字体时，改用 ctex 的 fontset 机制。
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{ydzjreport}[2026/10/14 v1.3 月度阶段总结报告]
+\ProvidesClass{ydzjreport}[2026/10/23 v1.4 月度阶段总结报告]
 
 \newif\if@stageone
 \@stageonetrue
@@ -56,6 +56,7 @@
 \RequirePackage{graphicx}
 \RequirePackage{float}
 \RequirePackage{caption}
+\RequirePackage{etoolbox}
 % 浮动体管理与防孤行（needspace 可选，没有就退化）
 \RequirePackage{placeins}        % 提供 \FloatBarrier
 \makeatletter
@@ -173,6 +174,16 @@
 \newcolumntype{Y}{>{\RaggedRight\arraybackslash}X}
 \newcolumntype{C}{>{\Centering\arraybackslash}X}
 \renewcommand{\arraystretch}{1.22}
+% 全部报告共享表格样式；列宽和数字精度由数据含义决定。
+\newcommand{\ydzjtablestyle}{%
+  \small\linespread{1.08}\selectfont
+  \renewcommand{\arraystretch}{1.15}%
+  \setlength{\tabcolsep}{4pt}%
+}
+\AtBeginEnvironment{tabularx}{\ydzjtablestyle}
+\AtBeginEnvironment{tabular}{\ydzjtablestyle}
+\AtBeginEnvironment{tabular*}{\ydzjtablestyle}
+\AtBeginEnvironment{longtable}{\ydzjtablestyle}
 
 % 章节样式
 \titleformat{\section}
@@ -184,6 +195,16 @@
 \titleformat{\subsubsection}
   {\normalsize\heiti\color{ydzjblueiii}}{\thesubsubsection}{0.6em}{}
 \titlespacing{\subsubsection}{0pt}{6pt}{3pt}
+% 四级标题按独立行排版；同一层级对应同一类内容，禁止手写编号。
+\setcounter{secnumdepth}{4}
+\titleformat{\paragraph}[block]
+  {\normalsize\heiti\color{ydzjblueiii}}{\theparagraph}{0.6em}{}
+\titlespacing{\paragraph}{0pt}{5pt}{2pt}
+% 标题至少与少量正文同页，避免仅标题落在页尾。
+\pretocmd{\section}{\Needspace{6\baselineskip}}{}{}
+\pretocmd{\subsection}{\Needspace{4\baselineskip}}{}{}
+\pretocmd{\subsubsection}{\Needspace{3\baselineskip}}{}{}
+\pretocmd{\paragraph}{\Needspace{3\baselineskip}}{}{}
 
 % 图题、表题
 \captionsetup{font={small,sf},labelfont={bf,color=ydzjblue},labelsep=quad}
@@ -237,13 +258,7 @@
 }
 
 \newcommand{\ydzjmakereporthead}[1]{%
-  \begin{center}
-    {\LARGE\heiti\color{ydzjblue} #1}\\[6pt]
-    {\small\color{ydzjgrey}\ydzjperiod}
-  \end{center}
-  \vspace{2pt}
-  \ydzjmetatable
-  \vspace{6pt}
+  % 保留旧调用接口，只初始化编号；正文直接从第一节开始。
   \setcounter{section}{0}%
   \setcounter{subsection}{0}%
 }
@@ -255,9 +270,7 @@
 %       正文首：\makestageonehead
 %     为什么分两步：
 %       \stageonesetup 只做 \gdef 赋值，可以在导言区调用；
-%       \makestageonehead 会产生输出（表格、颜色、字号），
-%       必须在 \begin{document} 之后调用，否则报
-%       "Missing \begin{document}"。
+%       \makestageonehead 仅初始化编号，不输出标题和元信息框。
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\stageonesetup}[6]{%
   \gdef\ydzjstage{#1}%
@@ -266,7 +279,7 @@
   \gdef\ydzjperiod{#4}%
   \gdef\ydzjkeywords{#5}%
   \gdef\ydzjsummary{#6}%
-  \setshorttitle{月度阅读总结 \(\cdot\) 阶段一}%
+  \setshorttitle{#1}%
   \setauthor{\ydzjname}%
 }
 \newcommand{\makestageonehead}{%
@@ -286,7 +299,7 @@
   \gdef\ydzjperiod{#4}%
   \gdef\ydzjkeywords{#5}%
   \gdef\ydzjsummary{#6}%
-  \setshorttitle{月度总结 \(\cdot\) 阶段二}%
+  \setshorttitle{#1}%
   \setauthor{\ydzjname}%
 }
 \newcommand{\makestagetwohead}{%

@@ -98,6 +98,8 @@ def check_refs(path):
 
     problems = []
     labels = set(re.findall(r'\\label\{([^}]+)\}', body))
+    # 中期报告的 reportfigure 宏以首个参数定义图标签。
+    labels.update(re.findall(r'^\\reportfigure\{([^}]+)\}', body, re.M))
     refs = {}
     for m in re.finditer(r'\\(?:ref|eqref|autoref)\{([^}]+)\}', body):
         ln = body[:m.start()].count('\n') + 1
@@ -122,8 +124,13 @@ def check_refs(path):
 
     # ③ 图片文件
     base = os.path.dirname(os.path.abspath(path))
-    for m in re.finditer(r'\\includegraphics(?:\[[^\]]*\])?\{([^}]+)\}', body):
+    image_calls = list(re.finditer(r'\\includegraphics(?:\[[^\]]*\])?\{([^}]+)\}', body))
+    # 提取 reportfigure 的真实图片参数，宏定义内的 #3 不属于文件路径。
+    macro_calls = list(re.finditer(r'^\\reportfigure\{[^}]*\}\{[^}]*\}\{([^}]+)\}', body, re.M))
+    for m in image_calls + macro_calls:
         img = m.group(1).strip()
+        if re.fullmatch(r'#[1-9]', img):
+            continue
         if not os.path.exists(os.path.join(base, img)):
             ln = body[:m.start()].count('\n') + 1
             problems.append(f'第{ln}行 图片不存在: {img}')

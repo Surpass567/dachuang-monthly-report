@@ -2,7 +2,7 @@
 %  月度总结 · 阶段二（研究推进）  ——  空白骨架
 %
 %  怎么用
-%    1. 把文件另存为  2026-10_阶段二_你的名字_方向.tex
+%    1. 把文件另存为  逻辑月N_主题.tex
 %    2. 填下面「只改这里」的六项信息
 %    3. 在每个章节的 { } 或环境里填入你的内容
 %    4. 编译：xelatex 文件名.tex   （跑两遍）
@@ -29,162 +29,62 @@
 \begin{document}
 \makestagetwohead
 
-% ==================================================================
-\section{本月研究任务}
+% 一级固定为五部分；二级分方向，三级分方法/步骤，四级仅在需要时使用。
+% 标题不手写编号；表格样式由共享 cls 控制。
+\section{本月计划}
+\subsection{任务目标与范围}
+% 写清本月要研究的问题、对象和预期产出。
+\subsection{任务安排与前置条件}
+% 只写计划与依赖条件，完成状态放第三节。
 
-\subsection{任务目标}
+\section{研究过程}
+\subsection{研究方向一：学习、复现或结构研究}
+\subsubsection{资料与方法}
+\paragraph{输入资料与适用条件}
+% 记录来源、软件、几何、边界、物性和统计定义。
+\paragraph{实施步骤}
+% 按可复现的顺序说明做法；短步骤用 enumerate。
+\subsubsection{分析过程}
+% 说明如何由资料或计算结果识别问题。
+\subsection{研究方向二：控制或其他并行任务}
+\subsubsection{方法与步骤}
+% 同一层级只放同一类主题；无此方向可删除。
 
-% 月初定的目标，2--4 条。
-\begin{enumerate}
-  \item 
-  \item 
-\end{enumerate}
-
-\subsection{完成情况}
-
-% 状态列只写三种：已完成 / 部分完成 / 未开始。
-\begin{table}[htbp]
-\centering
+\section{完成情况}
+\subsection{任务状态与产出}
+\begin{table}[H]\centering
 \caption{本月任务完成情况}
-\begin{tabularx}{\textwidth}{@{}Y c Y@{}}
+\begin{tabularx}{\textwidth}{@{}Y Y Y@{}}
 \toprule
-\rowcolor{ydzjlight} 任务 & 状态 & 说明 \\
+\rowcolor{ydzjlight} 任务 & 完成状态 & 实际产出及证据 \\
 \midrule
- & 已完成 &  \\
- & 部分完成 &  \\
- & 未开始 &  \\
+待填写 & 已完成／部分完成／未开始 & 待填写 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+\subsection{结果与适用边界}
+% 表格、图像和实际记录支持什么结论；缺失数据如实标注。
+
+\section{问题与初步对策}
+\subsection{问题一：待填写}
+\subsubsection{问题及其证据}
+% 说明发现什么、影响什么，避免泛泛列问题。
+\subsubsection{初步解决方向}
+% 区分已尝试与拟尝试，不要求提前给出最终解答。
+
+\section{下个月计划}
+\begin{table}[H]\centering
+\caption{下个月任务与预期产出}
+\begin{tabularx}{\textwidth}{@{}Y Y Y@{}}
+\toprule
+\rowcolor{ydzjlight} 任务 & 预期产出 & 前置条件或安排 \\
+\midrule
+待填写 & 待填写 & 待填写 \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
-
-% ==================================================================
-\section{进阶阅读与理论支撑}
-
-\subsection{本阶段文献清单}
-
-% 与阶段一不同：这里每篇文献必须对应「解决了我哪个问题」。
-\begin{table}[htbp]
-\centering
-\caption{本阶段文献}
-\begin{tabularx}{\textwidth}{@{}c Y Y@{}}
-\toprule
-\rowcolor{ydzjlight} 序号 & 文献 & 解决了我哪个问题 \\
-\midrule
-1 &  &  \\
-2 &  &  \\
-\bottomrule
-\end{tabularx}
-\end{table}
-
-\subsection{对本方向的启示}
-
-% 这些文献怎么改变了我的做法。150--300 字。
-% 关键：要写出「因为读了 X，所以我决定改成 Y」。
-
-
-% ==================================================================
-\section{研究进展}
-
-\subsection{已完成的工作}
-
-% 具体做了什么，写到别人可以照着做的程度。
-\begin{enumerate}
-  \item 
-  \item 
-\end{enumerate}
-
-\subsection{关键结果}
-
-% ★ 必须有量化数据：表格或图。不能只有文字描述。
-\begin{table}[htbp]
-\centering
-\caption{关键结果}
-\begin{tabularx}{\textwidth}{@{}Y c Y@{}}
-\toprule
-\rowcolor{ydzjlight} 指标 & 数值 & 说明 \\
-\midrule
- &  &  \\
- &  &  \\
-\bottomrule
-\end{tabularx}
-\end{table}
-
-\subsection{与预期的差异}
-
-% ★ 本节不可为空。即使结果符合预期，也要写清「为什么符合」。
-%   有偏差就分析原因（把相关曲线/数据叠在一起看，找主因）。
-
-
-% ==================================================================
-\section{问题与对策}
-
-\subsection{遇到的主要问题}
-
-% 至少 2 条，写清卡在哪。
-\begin{enumerate}
-  \item 
-  \item 
-\end{enumerate}
-
-\subsection{已尝试的方案}
-
-% 试过什么、为什么不行。与上面的问题一一对应。
-\begin{enumerate}
-  \item 
-  \item 
-\end{enumerate}
-
-\subsection{下一步对策}
-
-% 打算怎么办。与上面的问题一一对应。
-\begin{enumerate}
-  \item 
-  \item 
-\end{enumerate}
-
-
-% ==================================================================
-\section{阶段性结论}
-
-\subsection{可以确定的}
-
-% 有证据支撑的结论，至少 2 条。
-\begin{enumerate}
-  \item 
-  \item 
-\end{enumerate}
-
-\subsection{尚不能确定的}
-
-% ★ 本节不可为空，至少 1 条。写清「缺什么证据才能确定」。
-\begin{enumerate}
-  \item 
-\end{enumerate}
-
-
-% ==================================================================
-\section{下月计划}
-
-\begin{table}[htbp]
-\centering
-\caption{下月工作计划}
-\begin{tabularx}{\textwidth}{@{}Y Y c@{}}
-\toprule
-\rowcolor{ydzjlight} 事项 & 预期产出 & 时间 \\
-\midrule
- &  & 第 1 周 \\
- &  & 第 2--3 周 \\
- &  & 第 4 周 \\
-\bottomrule
-\end{tabularx}
-\end{table}
-
-
-% ==================================================================
 \begin{thebibliography}{9}
-\bibitem{ref1} 
-\bibitem{ref2} 
+\bibitem{ref1} 待填写实际使用的参考资料。
 \end{thebibliography}
-
 \end{document}

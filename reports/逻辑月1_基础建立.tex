@@ -1,346 +1,46 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%  第 1 个逻辑月 · 月度报告
-%  主题：小块：从抽象到具体（复现学长 + UDF 基线 + 算法提要）
-%
-%  说明：本报告由三人的既有材料按组长提纲的逻辑月重排而成。
-%        尚无素材之处按规范留空并标注，不编造。
-%  编译：xelatex 本文件（跑两遍）
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2026-10-23：按学习复现、探索尝试、优化验证、迭代调试、整板尝试重组。
 \documentclass[stage1,fontset=fandol]{ydzjreport}
-
-% 复现云图使用 (a)(b) 子图编号，需在 caption 之后加载 subcaption
-\usepackage{subcaption}
+\usepackage{subcaption,longtable}
 
 \stageonesetup
-{第 1 个逻辑月 · 基础建立}%
-{冯旭东、陈思文}%
-{复合微通道分区冷却}%
-{【待确认】逻辑月 1 对应的自然月}%
-{小块划分；学长复现；水物性 UDF；算法提要}%
-{确立小块的划分方式，复现学长的建模与物理性质（UDF）思路，
-	并完成控制方向的算法提要。
-}%
-
+{第 1 个逻辑月 · 学习与复现}
+{冯旭东、陈思文}
+{复合微通道分区冷却}
+{【待确认】逻辑月 1 对应的自然月}
+{软件学习；文献复现；初步小块理论；UDF 入门；自控基础}
+{通过软件学习与文献复现建立研究基础，从非均匀热负荷提出初步小块思路；学习变物性和自控基础，开展 UDF 初步编写尝试。}
 \begin{document}
-	\makestageonehead
-	
-	% ==================================================================
-	\section{本月研究任务}
-	
-	\subsection{任务目标}
-	
-	本月项目的核心任务关键词为
-	\textbf{「复现已有调研论文+课题组学长提供资料的结构、了解液体换热物理性质，编写对应变物性UDF，初步搭建冷板思路，初步构建控制流程」}、
-	据此分解为四项任务：
-	
-	\begin{enumerate}
-		\item 通过阅读文献确立\textbf{冷板的优化方式}，把空间不均匀热需求落实为研究的结构；
-		\item 复现已有文献、课题组学长在\textbf{结构建模}上的思路；
-		\item 复现已有文献、课题组学长在\textbf{物理性质（UDF）}上的设置，并核查其正确性；
-		\item 初步控制方向完成\textbf{流程框架构建}。
-	\end{enumerate}
-	
-	\subsection{完成情况}
-	
-	\begin{table}[H]
-		\centering
-		\caption{本月任务完成情况}
-		\label{tab:tasks}
-		\begin{tabularx}{\textwidth}{@{}Y c Y@{}}
-			\toprule
-			\rowcolor{ydzjlight} 任务 & 状态 & 说明 \\
-			\midrule
-			小块划分方式确立 & 部分完成 & 已形成概念表述，具体结构待进一步探究 \\
-			学长结构建模复现 & 已完成 & 已复现论文中的多种流道布局 \\
-			学长物性（UDF）思路复现 & 已完成 & 核查后发现原函数存在误差 \\
-			控制算法提要 & 已完成 & 文献要点与二阶对象特性已整理 \\
-			\bottomrule
-		\end{tabularx}
-	\end{table}
-	
-	
-	% ==================================================================
-	\section{核心概念梳理}
-	
-	\subsection{概念一：非均匀热载荷与“拼图式”小块划分}
-	
-	芯片热流密度在空间上高度不均匀：结区集中发热，背景区几乎不发热。
-	若采用均匀结构，背景区会被「一视同仁」地强力冷却，形成\textbf{过度冷却}——
-	既拉大温度梯度，又浪费泵功。
-	
-	\textbf{“拼图式”小块}的作用，是把连续冷板上的空间不均匀热需求，转化为
-	\textbf{可单独研究、可单独供液}的流道单元。
-	
-	需要说明的是：各小块在连续冷板上形成不同几何区域，
-	\textbf{并不必然意味着把冷板机械切开或完全隔热}。
-	先研究单元、再研究组合，有利于识别各形态的作用，
-	并为独立供液或流量调控预留条件。
-	
-	\textcolor{red}{【待补：小块划分概念图示意图（王佳蔚）】}
-	
-	\subsection{概念二：物理性质是探究的起点}
-	
-	（1）冷却工质水的物性随温度变化。因此\textbf{物性核查必须放在结构比较之前}。
-	（2）\textbf{控制策略的物理起源：为什么必须控制，以及控制的物理基础。}
-	
-	\textbf{一、缘由：静态结构回答不了「热源会移动」。}
-	
-	既有的结构优化研究，大多建立在一个前提上：芯片的热载荷是静态的、空间分布已知的。
-	但真实工况并非如此——计算任务在核心之间交替，热点强度与位置随之漂移\cite{wu,ji}。
-	这带来两个直接后果：
-	
-	\begin{enumerate}
-		\item 为某一静态热点定制的密集结构（局部加密针肋、扩缩口），
-		一旦热点转移就丧失靶向性；而其局部高流阻反而会加剧整板的流量分配不均，
-		陷入「结构越复杂、适应性越差」的困境。
-		\item 被动结构在时间维度上没有调节自由度。参数化研究已指出，
-		纯被动方案难以应对算力波动引起的随机热冲击\cite{laguna}。
-	\end{enumerate}
-	
-	因此，控制的必要性并不来自「结构做得不够好」，而来自\textbf{热载荷自带时间维度}：
-	\textbf{结构决定「能不能冷下来」，控制决定「此刻该给多少冷」}。
-	这两件事是互补的，不是替代的。
-	
-	\textbf{二、物理基础：三个可以被控制利用的对象性质。}
-	
-	\begin{enumerate}
-		\item \textbf{执行量到换热系数：单调但收益递减。}
-		冷却液流量由泵转速与水阀开度决定；流量增大时对流换热系数随之提高，
-		但提升幅度逐渐变缓，可近似写成幂律关系
-		$h = h_0 (Q/q_0)^n$，其中指数 $0<n<1$。
-		这决定了「加流量有效，但边际收益递减」，也说明一味加大流量并不划算。
-		
-		\item \textbf{热容到惯性：一阶环节。}
-		把芯片—冷板—冷却液视为一个热容节点，能量守恒给出
-		$C\,\mathrm{d}T/\mathrm{d}t = Q_{\mathrm{heat}} - hA\,(T - T_f)$，
-		其时间常数 $\tau = C/(hA)$。
-		这是被控对象的主惯性，决定了温度对流量变化的响应快慢。
-		
-		\item \textbf{输运与扩散到纯滞后。}
-		冷却液从阀门流到芯片、热量从结区传到测点，都需要时间；
-		控制输入到温度输出之间存在纯滞后。
-		于是对象近似为「一阶惯性 + 纯滞后」（FOPDT）模型。
-		滞后是控制设计中真正的约束：\textbf{滞后越大，可用的反馈增益越低，响应越慢，越容易振荡}。
-	\end{enumerate}
-	
-	\textbf{三、能量学基础：控制为什么能省功。}
-	
-	水力功耗随流量的增长远快于换热能力：泵功近似与流量的三次方成正比
-	（$P_{\mathrm{hyd}} \propto Q^3$），而换热系数只按 $Q^n$（$n<1$）增长。
-	因此「全程大流量」的代价非常高；而按需供液可以在热指标不明显劣化的前提下
-	大幅降低泵功。\textbf{这正是控制的价值来源——不是让温度更低，而是让温度「恰好够低」}。
-	
-	\textbf{四、由上述物理性质确定的学习重点。}
-	
-	\begin{table}[H]
-		\centering
-		\caption{物理性质与控制设计的对应关系}
-		\label{tab:physics-control}
-		\begin{tabularx}{\textwidth}{@{}Y Y@{}}
-			\toprule
-			\rowcolor{ydzjlight} 对象性质 & 对控制设计的含义 \\
-			\midrule
-			一阶惯性（时间常数 $\tau$） & 需要积分作用消除稳态误差；增益过高会引起振荡 \\
-			纯滞后（FOPDT） & 需要微分作用或预测补偿；滞后越大，可用增益越低 \\
-			执行器饱和（泵 $0$--$6000$ RPM、阀 $0$--$100\%$） & 必须做抗积分饱和，否则长时间饱和后积分项会积累成大幅超调 \\
-			换热系数收益递减（$n<1$） & 存在「经济流量区间」，超出后加大流量只增加泵功 \\
-			临界约束（结温上限） & 需要独立的安全约束层，优先于性能目标 \\
-			\bottomrule
-		\end{tabularx}
-	\end{table}
-	
-	上述对应关系是本阶段最重要的认识：\textbf{控制算法不是从文献里抄参数，
-	而是由对象的物理性质倒推出结构}。它同时解释了为什么后续要把预测（微分项的提前量）
-	与经典反馈（稳健性）结合起来——滞后决定了纯反馈天然「慢半拍」。
-	
-	\subsection{初步控制框架}
-	
-	由上一节的三条物理性质出发，本阶段确定的控制框架是\textbf{「分层递阶 + 安全约束」}，
-	整体结构如图~\ref{fig:ctrl-framework} 所示。
-	
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=0.97\textwidth]{figs/13_控制框架框图.png}
-		\caption{动态调控初步框架：感知—预测—决策—执行四层，外挂独立的安全约束层}
-		\label{fig:ctrl-framework}
-	\end{figure}
-	
-	\textbf{为什么分层而不是单一回路。}
-	单一 PID 回路在热控对象上有两个绕不开的矛盾：
-	滞后大，增益一提就振荡（响应慢）；
-	工况漂移时，一套固定参数不可能在所有工况下都合适。
-	把「感知—预测—决策—执行」拆开，可以让每层只解决一个问题：
-	预测层专门对付滞后，决策层专门对付工况漂移，
-	执行层回到它最擅长的快速跟踪，安全层则独立于性能目标。
-	
-	\textbf{各层职责与接口。}
-	
-	\begin{table}[H]
-		\centering
-		\caption{分层递阶控制器的职责划分与本阶段状态}
-		\label{tab:layers}
-		\begin{tabularx}{\textwidth}{@{}>{\RaggedRight\arraybackslash}p{0.13\textwidth} Y Y Y@{}}
-			\toprule
-			\rowcolor{ydzjlight} 层 & 输入 & 输出 & 本阶段状态 \\
-			\midrule
-			感知层 & 传感器测点温度、功耗 & 温度 $T$、变化率 $\mathrm{d}T/\mathrm{d}t$ & 方案已定，测点布置待定 \\
-			预测层 & 温度／功耗历史数据 & 短期温度或热流趋势 & \textbf{待建立}（需先积累数据） \\
-			决策层 & 趋势 + 当前工况 & PID 增益组合 & 框架已定，整定待做 \\
-			执行层 & 误差 $e$ + 当前增益 & PWM 占空比 & PID 结构已定 \\
-			安全约束层 & 温度、执行器状态 & 限幅、积分冻结 & 判据已定 \\
-			\bottomrule
-		\end{tabularx}
-	\end{table}
-	
-	\textbf{三点设计取舍。}
-	
-	\begin{enumerate}
-		\item \textbf{预测层放在反馈之外。}
-		它不改变闭环的稳定性判据，只负责提供「提前量」。
-		这样即使预测失效，闭环仍由 PID 兜底，不会因为预测出错而失稳。
-		\item \textbf{安全层独立于性能目标。}
-		结温上限与执行器限幅是\textbf{硬约束}，不能被「性能更优」的决策覆盖。
-		因此把它做成一条旁路，直接作用于执行层。
-		\item \textbf{短期先用固定增益跑通闭环。}
-		预测层与决策层都依赖数据积累，短期内不具备条件。
-		先以固定增益 PID 打通「感知—执行—反馈」链路，
-		确认对象模型与滞后量级无误，再逐层替换。
-	\end{enumerate}
-	
-	\textbf{尚未解决的问题。}
-	框架给的是接口约定，不是可运行的参数。以下三项仍未确定，需要在后续月份补齐：
-	
-	\begin{itemize}
-		\item 温度传感器的\textbf{数量与布点}：测点数决定能否重构温度场，也决定反馈的可观测性；
-		\item 泵与水阀的\textbf{动态特性}：动作延迟、死区、流量—压差曲线均未辨识，
-		因此 PID 增益目前只能给出量级判断，不能给具体数值；
-		\item 预测层所需的\textbf{数据集}：需要先通过仿真与实验积累「工况—温度响应」样本。
-	\end{itemize}
-	
-	\textcolor{red}{【待确认：传感器数量与布点方案】}
-	
-	% ==================================================================
-	\section{控制方向：自控基础学习}
-	
-	本月控制方向的任务是完成「算法提要」，其前提是把自动控制的基础补齐。
-	学习按「经典理论 $\rightarrow$ PID 调节 $\rightarrow$ 数据驱动」三步推进，
-	每一步都要求能回答「这条理论对应热控对象的哪个性质」。
-	
-	\subsection{一阶与二阶：超调从哪里来}
-	
-	\textbf{一阶系统} $G(s)=K/(\tau s+1)$：阶跃响应单调上升、\textbf{没有超调}，
-	达到终值 63.2\% 用时 $\tau$，2\% 调节时间约 $4\tau$。
-	由此得到一条判据：\textbf{若被控对象近似一阶，那么出现超调就说明还存在二阶环节或纯滞后}。
-	
-	\textbf{二阶系统}由自然频率 $\omega_n$ 与阻尼比 $\zeta$ 决定：
-	超调量 $M_p = \exp\!\left(-\pi\zeta/\sqrt{1-\zeta^2}\right)$，
-	调节时间约 $4/(\zeta\omega_n)$。
-	这条式子给出一个容易被忽略的结论：\textbf{超调的本质是阻尼不足，而不是「控制器太激进」}。
-	减少超调的正确手段是提高阻尼（引入微分作用）或降低增益，
-	而不是简单地把比例项调小——后者只会让响应变慢，超调未必改善。
-	
-	\subsection{纯滞后的代价：为什么不能高增益快响应}
-	
-	闭环稳定性取决于特征根位置；工程上常用 Routh 判据或 Bode 稳定裕度判断。
-	而热控对象有一个经典控制里最麻烦的环节——\textbf{纯滞后} $e^{-\tau_d s}$：
-	它\textbf{不改变幅值，但持续消耗相位}。滞后越大，相位裕度越小，允许的增益越低。
-	
-	这就解释了为什么热管理控制不能照搬「高增益、快响应」的整定思路：
-	流体输运与热扩散带来的滞后是可观的，增益一高就会振荡甚至失稳。
-	\textbf{滞后的存在，是「纯反馈天然慢半拍」的物理根源}。
-	
-	\subsection{PID 三个作用及其代价}
-	
-	\begin{table}[H]
-		\centering
-		\caption{PID 三个作用的物理含义与代价}
-		\label{tab:pid}
-		\begin{tabularx}{\textwidth}{@{}c Y Y Y@{}}
-			\toprule
-			\rowcolor{ydzjlight} 作用 & 物理含义 & 带来什么 & 代价 \\
-			\midrule
-			P & 与当前误差成正比 & 立即响应，提高增益可加快响应 & 留下稳态误差；增益过大会振荡 \\
-			I & 累积历史误差 & 消除稳态误差（提高无差度） & 引入约 $-90^\circ$ 相位滞后，易超调；长时间饱和会积分饱和 \\
-			D & 对误差变化率作用 & 提供超前相位，改善阻尼、抑制超调 & 放大测量噪声；对纯滞后补偿能力有限 \\
-			\bottomrule
-		\end{tabularx}
-	\end{table}
-	
-	与之配套的工程化措施也一并整理了三项：
-	\begin{enumerate}
-		\item \textbf{积分限幅（抗饱和）}：执行器到顶时冻结积分累加，
-		否则退出饱和后积分项会积累成一次大幅超调；
-		\item \textbf{微分先行}：微分只作用于测量值而不作用于设定值，
-		避免设定值阶跃时产生冲击；
-		\item \textbf{不完全微分}：微分项串入低通滤波，抑制噪声放大。
-	\end{enumerate}
-	
-	\subsection{回到对象：两条整定上的判断}
-	
-	把上述理论对应回热控对象，可以收敛为两条在整定时最容易出错的判断：
-	
-	\begin{enumerate}
-		\item \textbf{先看执行器余量，再谈参数。}
-		若泵已到上限、阀已全开，而温度仍在上升，
-		那么此时的超调与振荡\textbf{不是整定问题，而是能力问题}。
-		调参数只会把问题掩盖成「响应变慢」。
-		\item \textbf{滞后决定增益上限。}
-		热控对象的相位裕度本就被纯滞后吃掉了一部分，
-		照搬「快响应」的整定必然振荡；宁可把带宽降下来，
-		换取稳定与可预测。
-	\end{enumerate}
-	
-	对象性质与控制设计的逐条对应，已在前文表~\ref{tab:physics-control} 中给出，此处不再重复。
-	
-	\subsection{数据驱动方法的定位}
-	
-	在补齐经典部分后，进一步阅读了强化学习用于流动与传热控制的进展。
-	一方面，深度强化学习在流场控制中确实展现出处理强非线性与时变工况的能力，
-	闭环强制对流控制已有实验与数值验证\cite{wangy,wangyz}；
-	另一方面，综述也明确指出，此类方法在可靠性、可解释性与稳定性量化上仍有明显短板\cite{vignon}。
-	
-	结合申报书确定的路线，本阶段的判断是：
-	\textbf{用预测承担「提前量」，用 PID 承担「兜底」}。
-	预测模型负责给出未来短时温度趋势，用以重构微分项；
-	而经典反馈保留为约束执行层，保证即使预测失效也不会失控。
-	这与「物理信息增强的智能自适应架构」的提法一致\cite{tao,brunton}。
-	
-	\subsection{本阶段认识}
-	
-	\begin{enumerate}
-		\item \textbf{控制结构由对象性质倒推，不是从文献抄参数}。
-		惯性、滞后、饱和、收益递减这四条，决定了必须用积分、微分、抗饱和与安全层。
-		\item \textbf{超调要先分清来源}：是阻尼不足，还是执行器到顶。
-		两者的处理方式完全不同——前者调参数，后者只能改结构或换执行器。
-		\item \textbf{滞后是纯反馈的天花板}，这也是后续必须引入预测的物理动机；
-		但预测不能替代反馈，只能作为前馈式的补充。
-	\end{enumerate}
-	
-	% ==================================================================
-	\section{阶段一：通读与摘录}
-	
-	\subsection{学习路径}
-	
-	\begin{enumerate}
-		\item 先通读学长攻略（课题组已有经验）、结构类论文，梳理几何布局、进出口组织与边界条件；
-		\item 复现其中的代表性流道，取得可对照的性能趋势；
-		\item 转向物理性质：核查计算所用的水物性函数，确认随温度变化的正确性；
-		\item 控制方向并线推进：整理控制文献要点与二阶对象的动态特性，形成算法提要。
-	\end{enumerate}
-	
-	\subsection{关键摘录}
-	
-	
+\makestageonehead
+
+% unified-five-part-outline 2026-10-23
+\section{本月计划}
+
+\subsection{任务目标}
+
+本月以学习和复现为主。先学习几何建模、网格、边界设置与后处理，再结合文献和课题组经验理解流动传热及变物性条件。在此基础上提出初步小块理论，并学习自动控制的基本概念。正式 UDF 修改归入逻辑月三，具体 PID 学习和控制流程归入逻辑月二。
+
+\section{研究过程}
+
+\subsection{文献学习与研究启发}
+
+\subsubsection{学习路径}
+
+从结构类文献和学长资料学习流道组织，再理解水物性随温度变化的条件，同时补充自动控制基础。文献中的性能数值仅作为设计启发，不作为本项目已取得的结果。
+
+\subsubsection{关键摘录}
+文献要点见表~\ref{tab:notes}及续表~\ref{tab:notes-cont-2}、\ref{tab:notes-cont-5}。
+
+
 
 	\begin{table}[H]
 	  \centering
 	  \small
 	  \renewcommand{\arraystretch}{1.12}
-	  \caption{文献要点与本阶段工作}
+	  \caption{文献要点与研究思路}
 	  \label{tab:notes}
 	  \begin{tabularx}{\textwidth}{@{}>{\RaggedRight\arraybackslash}p{0.16\textwidth} Y Y@{}}
 	    \toprule
-	    \rowcolor{ydzjlight} 文献 & 论文要点 & 本阶段的应用 \\
+\rowcolor{ydzjlight} 文献 & 论文要点 & 对小块思路及后续工作的启示 \\
 	    \midrule
 	    Ao 等\cite{ao} & 方形、圆形与六边形微通道的比较 & 复现三种流道，学习短流路与局部强化的组织方式 \\[3pt]
 	    隋增光等\cite{ref1} & 综述数据中心吸收式器件散热、余热制冷、储能、发电与空气取水，强调低品位余热的多功能利用及系统集成。 & 补充研究背景与系统应用场景；在冷板研究之外，梳理出口水温、余热利用与节能节水之间的联系，拓展系统评价思路。 \\[3pt]
@@ -354,24 +54,24 @@
 	  \centering
 	  \small
 	  \renewcommand{\arraystretch}{1.12}
-	  \caption{文献要点与本阶段工作（续1）}
+	  \caption{文献要点与研究思路（续1）}
 	  \label{tab:notes-cont-2}
 	  \begin{tabularx}{\textwidth}{@{}>{\RaggedRight\arraybackslash}p{0.16\textwidth} Y Y@{}}
 	    \toprule
-	    \rowcolor{ydzjlight} 文献 & 论文要点 & 本阶段的应用 \\
+\rowcolor{ydzjlight} 文献 & 论文要点 & 对小块思路及后续工作的启示 \\
 	    \midrule
 	    Wang 等\cite{ref5} & 将非等高双层通道、分形分叉与冲击射流结合，并采用实验验证和 NSGA-II 优化；文中报告最优无肋方案的 PEC 较参照结构提高 24.61\%。 & 拓展“层间高度差—分叉配流—局部冲击”的组合方案；先比较不同进水组织，再开展热性能与压降的双目标参数优化。 \\[3pt]
 	    张乾坤等\cite{ref6} & 比较普通二级分支与三类叶脉仿生流道；完整五级分支相对普通结构压降降低超过 35\%，传热面温度降低超过 2 $\,{}^\circ\mathrm{C}$，综合强化因子大于 1.2。 & 将分支级数、分叉形式与网络完整性加入结构矩阵；比较流量分配、温度均匀性和压降，探索以配流优化实现强化与降阻。 \\[3pt]
 	    Yang 等\cite{ref7} & 综述增材制造微通道散热器的材料、工艺、复杂流道及优化方法，讨论分布式歧管、多层结构、仿生网络与制造约束之间的关系。 & 建立候选结构的可制造性记录，关注最小特征尺寸、内壁粗糙度、残粉清理与密封；筛选既有热水力优势又便于加工验证的方案。 \\[3pt]
 	    Hu 等\cite{ref8} & 比较三类吸液芯的异形均热板；顺序梯度网芯兼顾毛细回流与渗透性，最高测试热流密度达 200 W/cm$^2$，对应热阻为 0.047 K/W。 & 借鉴梯度分区与高低阻通路协同设计；将均热板作为复合散热的后续备选，并区分其相变传热机理与本阶段单相微通道模型。 \\[3pt]
-	   
-	    
+
+
 	    Ansari 与 Kim\cite{ref13} & 针对非均匀热流，背景区使用矩形微通道、热点区布置圆柱针肋；以热阻、泵功、温度非均匀性和热点最大温升评价分区冷却。 & 建立背景区与热点区分开的热源边界条件；将局部针肋强化与全域强化进行对照，考察热点抑制效果及其额外泵功代价。 \\[3pt]
-	    
+
 	    Ma 等\cite{ref15} & 实验与模拟比较等周期和变周期正弦微通道；变周期结构增强扰动并改善均温性，但压降增大；在相同泵功下，平均热阻降低约 13\%。 & 将周期沿程变化加入几何参数矩阵；同时开展相同流量与相同泵功比较，分析下游强化能否补偿冷却液温升带来的散热衰减。 \\[3pt]
-	    
+
 	    王雅博等\cite{ref16} & 比较两端进出水与中心垂直射流配合一、二、四出口的布局；中心射流四出口方案虽非 Nu 最高，但流阻较小、综合性能更优且可避免局部热点。 & 将进口位置与出口数量作为独立变量；固定内部结构比较不同配流方式，联合考察速度死区、温度均匀性、Nu 和压降。 \\[3pt]
-	    
+
 	    Choi 等\cite{ref17} & 通过实验与 58 组数值算例研究大面积风冷 N 型歧管微通道；分析通道宽、长、高对流量分配、热阻与压降的影响，突出短流路和一体化结构的作用。 & 借鉴 N 型歧管分流与短流路设计，补充通道尺寸对配流的敏感性分析；应用于液冷时重新计算工质相关结果，保留其拓扑设计思路。 \\[3pt]
 	    \bottomrule
 	  \end{tabularx}
@@ -383,18 +83,18 @@
 	  \centering
 	  \small
 	  \renewcommand{\arraystretch}{1.12}
-	  \caption{文献要点与本阶段工作（续2）}
+	  \caption{文献要点与研究思路（续2）}
 	  \label{tab:notes-cont-5}
 	  \begin{tabularx}{\textwidth}{@{}>{\RaggedRight\arraybackslash}p{0.16\textwidth} Y Y@{}}
 	    \toprule
-	    \rowcolor{ydzjlight} 文献 & 论文要点 & 本阶段的应用 \\
+\rowcolor{ydzjlight} 文献 & 论文要点 & 对小块思路及后续工作的启示 \\
 	    \midrule
 	    Indhe 等\cite{ref20} & 综述 CFD、分子动力学和人工智能在微电子散热中的应用，讨论微通道、纳米增强相变材料及复合冷却的多尺度分析与优化方法。 & 形成“参数化建模—CFD 数据积累—代理模型—优化验证”的后续路线；本阶段优先统一算例与数据字段，为机器学习准备可追溯样本。 \\[3pt]
 	    Nie 等\cite{ref21} & 通过针肋关联导流结构削弱尾部流动死区并促进混合，但存在明显压降代价；在 0.15—0.8 mW 相同泵功范围内，最优结构热阻较传统针肋降低 20.8\%—22.2\%。 & 在针肋后方引入导流构件，考察高度、直径及相对偏移；结合速度场辨识强化机理，并以相同泵功对照判断额外阻力是否值得。 \\[3pt]
 	    Yin 等\cite{yin} & 提出同轴开口环形 TSV 针肋，比较直列、错列与传统圆柱 TSV；综合分析 Nu、最高温度、压降、PEC、循环热应力及信号完整性。 & 借鉴开口环形针肋与错列组织方式；统一提取平均 Nu、最高温度、压降和 PEC，并将热应力作为封装可靠性的后续扩展指标。 \\[3pt]
 	    Seong 等\cite{seong} & 研究倾斜肋—针肋的直列、错列及倾角效应；Re=450、倾角 60$^\circ$、热流密度 100 W/cm$^2$ 时，PEC 为 1.52，并建立 ANN 性能预测模型。 & 建立“排列方式$\times$倾角$\times$Re”参数矩阵，分析层间混合与停滞区变化；积累 CFD 数据后训练代理模型，并用独立算例验证预测结果。 \\[3pt]
 	    Lorenzini 等\cite{ref24} & 在 200 $\mu$m 硅微间隙中按热点分布局部加密针肋；背景热流密度 250 W/cm$^2$、热点 250—750 W/cm$^2$、入口水温 21.3 $\,{}^\circ\mathrm{C}$ 时，所研究器件最高温度低于 65 $\,{}^\circ\mathrm{C}$。 & 建立均匀针肋与热点局部加密的对照模型；针对不同热点位置和强度匹配针肋密度，并核查旁路流动是否削弱热点区冷却。 \\[3pt]
-	   
+
 	    \bottomrule
 	  \end{tabularx}
 	\end{table}
@@ -402,30 +102,31 @@
 
 
 	% ==================================================================
-	\section{阶段二：导出与复现}
-	
-	\subsection{复现目标}
-	
-	本月复现两项内容：
-	\textbf{(1)} 学长论文中的方形、圆形与六边形三种微通道的结构与流动换热组织；
-	\textbf{(2)} 计算所用的水物性函数（UDF），核查其随温度变化的正确性。
-	
-	\subsection{复现环境与步骤}
-	
-	\textbf{环境}：ANSYS Fluent，工质为水，固体域与流体域耦合求解；
-	物性核查采用 Python 后处理。
-	
-	\textbf{步骤}：
-	
+
+\subsection{仿真软件学习与结构复现}
+
+\subsubsection{复现目标}
+
+通过方形、六边形和圆形微通道复现，学习流固域构建、边界条件设置、求解监测和后处理。现有材料支持流程与趋势记录，尚缺完整的文献数值误差对照。
+
+\subsubsection{复现环境与步骤}
+
+	\paragraph{软件与计算环境}
+ANSYS Fluent，工质为水，固体域与流体域耦合求解；
+	物性学习采用 Python 后处理。
+
+	\paragraph{复现步骤}
+
+
 	\begin{enumerate}
 		\item 按论文的方形、圆形与六边形布局分别构造流道，梳理流体域、固体域与加热区域；
 		\item 对照论文的边界条件与求解方法开展计算，检查残差与监测量；
 		\item 对三种结构做趋势对照，关注热负荷与流量变化下的温度响应；
-		\item 核查原水物性 UDF：在 298.15 K 校验点比对参考物性值；
-		\item 记录误差量级，判断是否需要重新拟合。
+		\item 学习已有物性函数的温度输入、量纲和参考数据来源；
+		\item 记录尚待核查的问题，为后续正式修改物性函数准备材料。
 	\end{enumerate}
 
-	
+
 	\begin{figure}[H]
 		\centering
 		\begin{subfigure}{0.235\textwidth}
@@ -452,9 +153,9 @@
 			\caption{方形微通道铜板温度}
 			\label{fig:repro-cu}
 		\end{subfigure}
-		
+
 		\vspace{4pt}
-		
+
 		\begin{subfigure}{0.235\textwidth}
 			\centering
 			\includegraphics[width=\linewidth]{figs/05_temperature_midplane.png}
@@ -479,9 +180,9 @@
 			\caption{六边形微通道铜板温度}
 			\label{fig:h5-cu}
 		\end{subfigure}
-		
+
 		\vspace{4pt}
-		
+
 		\begin{subfigure}{0.235\textwidth}
 			\centering
 			\includegraphics[width=\linewidth]{figs/09_temperature_midplane.png}
@@ -509,160 +210,176 @@
 		\caption{复现算例的后处理云图： (a)--(l) 为流道的参考结果。三行均依次为水侧 $Y=0.150$ mm 中截面的温度、静压（表压）与速度大小，以及铜基板 $Y=0.025$ mm 截面的温度。灰白空区为截面外或固体遮罩}
 		\label{fig:repro}
 	\end{figure}
-	
-	
-	\subsection{水物性 UDF 的初步学习与编写}
 
-围绕变物性计算，本月结合已有水物性源码与《UDF 初步学习月度简报》，
-学习了 Fluent 中温度的读取、物性的返回，以及比热与显焓的设置方法（项目学习资料，2026）。
-学习重点是理清\textbf{“读取温度—计算物性—编译加载—材料挂接—数值自检”}的过程，
-为后续核查原函数和编写新函数建立基础。
+\subsection{基础物理与 UDF 初步学习}
 
-\textbf{（1）理解温度输入与物性接口。}
-密度、动力黏度和导热系数通过 \texttt{DEFINE\_PROPERTY} 定义，
-在函数内用 \texttt{C\_T(c,t)} 读取当前单元温度，再返回对应物性值。
-温度采用 K，三项物性的单位分别为
-$\mathrm{kg/m^3}$、$\mathrm{Pa\cdot s}$ 和 $\mathrm{W/(m\cdot K)}$。
-拟合版以 $x=(T-320)/40$ 为自变量计算多项式，黏度采用多项式的指数形式。
-该版本依据 101325 Pa 下的液态纯水数据，材料温度适用范围为 280--360 K；
-源码在温度越界时报告错误，不能直接外推到其他温区或相态。
+\subsubsection{从常物性假设到变物性条件}
 
-\textbf{（2）保持比热与显焓一致。}
-比热接口 \texttt{DEFINE\_SPECIFIC\_HEAT} 直接接收温度 $T$ 和参考温度 $T_{\mathrm{ref}}$，
-既要返回 $c_p(T)$，还要通过指针设置相对于参考温度的显焓：
-\begin{equation}
-  h(T)-h(T_{\mathrm{ref}})
-  =\int_{T_{\mathrm{ref}}}^{T}c_p(\theta)\,\mathrm{d}\theta,
-  \qquad \frac{\mathrm{d}h}{\mathrm{d}T}=c_p(T).
-\end{equation}
-因此，修改比热公式时必须同步修改焓积分，不能只替换返回的比热值。
-源码对超出拟合范围的参考温度采用端点比热延伸参考焓；
-这一处理仅用于定义焓基准，不表示实际材料温度可以超限。
+水的密度、黏度、导热系数和比热随温度变化。学习文献与课题组学长经验公式时，需要同时记录公式来源、温度单位和适用范围，不能只因程序可编译就认为物性正确。本月主要识别这些条件并初步尝试编写 UDF；公式排查、正式修改及其数值验证统一在逻辑月三报告。
 
-\textbf{（3）学习编译、挂接与自检。}
-将源码保存为 \texttt{.c} 文件后，在 Compiled UDF 中依次执行 Build 和 Load，
-再把四个函数分别选入实际流体材料的密度、黏度、导热系数和比热属性。
-通过 \texttt{DEFINE\_ON\_DEMAND} 定义的自检函数，可输出 300 K、330 K 的四项物性及两点间焓差，
-用于与参考数据对照。图\ref{fig:udf-learning}整理了接口与操作流程。
-这里记录的是学习到的使用方法；本月成果仍为源码编写与编译，
-实际算例的挂接、自检记录与重新求解留待后续完成。
+\subsubsection{接口与初步编写}
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{figs/udf_learning_interfaces.png}
-  \caption{水物性 UDF 的接口与实现流程（据已有 UDF 初步学习素材整理）}
-  \label{fig:udf-learning}
-\end{figure}
+密度、黏度和导热系数可通过 \texttt{DEFINE\_PROPERTY} 返回，并用 \texttt{C\_T(c,t)} 读取温度；比热通过 \texttt{DEFINE\_SPECIFIC\_HEAT} 定义，还需设置与比热积分一致的显焓。本月记录学习方法和初步代码尝试，不把后续拟合、自检及共同时间段对照提前归入本月。
 
-\textbf{（4）从“编译通过”转向检查数值与趋势。}
-学习中将原公式、REFPROP 数据与排查时尝试修改的公式作对比，
-发现原公式不仅存在单点数值偏差，还存在密度变化过小、黏度下降过快、比热偏低，
-以及导热系数变化方向与参考数据相反等问题。
-排查时尝试修改的公式不等同于最终采用的拟合公式。
-由此认识到，\textbf{编译通过只能说明代码能够生成库，物性是否正确还需检查单位、适用温区、数值和变化趋势}。
-这一认识直接引出了下面的物性核查。
+【待补：本月初步 UDF 代码及学习记录的具体版本。】
 
-\subsection{复现结果}
-	
+\subsection{初步小块理论的形成}
+
+\subsubsection{从非均匀热负荷提出小块思路}
+
+	芯片热流密度在空间上高度不均匀：结区集中发热，背景区几乎不发热。
+	若采用均匀结构，背景区会被「一视同仁」地强力冷却，形成\textbf{过度冷却}——
+	既拉大温度梯度，又浪费泵功。
+
+	\textbf{“拼图式”小块}的作用，是把连续冷板上的空间不均匀热需求，转化为
+	\textbf{可单独研究、可单独供液}的流道单元。
+
+	需要说明的是：各小块在连续冷板上形成不同几何区域，
+	\textbf{并不必然意味着把冷板机械切开或完全隔热}。
+	先研究单元、再研究组合，有利于识别各形态的作用，
+	并为独立供液或流量调控预留条件。
+
+	\textcolor{red}{【待补：小块划分概念图示意图（王佳蔚）】}
+
+\subsubsection{本阶段的提出范围}
+
+由文献复现与热负荷差异得到初步设想：将冷板划分为可分别研究的局部单元，为不同需求配置不同结构。此时只提出研究对象和思路，尚未确定不同热流密度下的小块选择分界线；该问题在逻辑月四继续探究。
+
+\subsection{自动控制基础学习}
+
+\subsubsection{反馈与热控对象}
+
+本月学习设定值、被控温度、控制输入、扰动与反馈的关系，并认识到热容导致惯性、流体输运导致时延。学习目标是理解对象与反馈为何有关；PID 具体知识及控制流程图在逻辑月二展开。
+
+\subsubsection{一阶与二阶：超调从哪里来}
+
+	\paragraph{一阶模型与时间常数}
+\textbf{一阶系统} $G(s)=K/(\tau s+1)$：阶跃响应单调上升、\textbf{没有超调}，
+	达到终值 63.2\% 用时 $\tau$，2\% 调节时间约 $4\tau$。
+	该单调性针对正增益标准一阶模型；实际闭环超调需结合控制器、时延及其他动态分析。
+
+	\paragraph{二阶模型与阻尼}
+\textbf{二阶系统}由自然频率 $\omega_n$ 与阻尼比 $\zeta$ 决定：
+	超调量 $M_p = \exp\!\left(-\pi\zeta/\sqrt{1-\zeta^2}\right)$，
+	调节时间约 $4/(\zeta\omega_n)$。
+	该式说明二阶标准模型中阻尼比与超调的关系；实际热控对象还需结合时延和闭环模型分析。
+
+	\subsubsection{纯滞后的代价：为什么不能高增益快响应}
+
+	闭环稳定性取决于特征根位置；工程上常用 Routh 判据或 Bode 稳定裕度判断。
+	而热控对象有一个经典控制里最麻烦的环节——\textbf{纯滞后} $e^{-\tau_d s}$：
+	它\textbf{不改变幅值，但持续消耗相位}。滞后越大，相位裕度越小，允许的增益越低。
+
+	这就解释了为什么热管理控制不能照搬「高增益、快响应」的整定思路：
+	流体输运与热扩散带来的滞后是可观的，增益一高就会振荡甚至失稳。
+	\textbf{滞后的存在，是「纯反馈天然慢半拍」的物理根源}。
+
+\section{完成情况}
+
+\subsection{任务完成状态}
+
+\begin{table}[H]\centering
+\caption{本月工作与材料状态}\label{tab:tasks}
+\begin{tabularx}{\textwidth}{@{}Y Y Y@{}}
+\toprule
+\rowcolor{ydzjlight} 工作 & 状态 & 依据或缺口 \\
+\midrule
+仿真软件学习与复现 & 已有材料 & 方形、圆形、六边形结构及后处理图 \\
+初步小块理论 & 概念形成 & 来自文献与非均匀热负荷思考，适用分界线尚未建立 \\
+物理与 UDF 学习 & 初步尝试 & 理解变物性、经验公式及接口，正式修改后移至月三 \\
+自控基础学习 & 已有整理 & 一阶、二阶、惯性、滞后及反馈基础 \\
+\bottomrule\end{tabularx}\end{table}
+
+\subsection{三种流道的复现结果}
+
+图~\ref{fig:repro}保存复现后处理图，表~\ref{tab:repro}汇总关注内容。
+
 	\textbf{结构复现}：三种流道的复现已完成，计算结果与论文的趋势一致——
 	流量增加时结温总体下降、压降增加；热流密度增加时结温上升。
-	
+
 	\begin{table}[H]
 		\centering
 		\caption{三种流道的复现情况}
 		\label{tab:repro}
 		\begin{tabularx}{\textwidth}{@{}Y Y Y@{}}
 			\toprule
-			\rowcolor{ydzjlight} 流道形态 & 复现关注内容 & 结果 \\
+\rowcolor{ydzjlight} 流道形态 & 复现关注内容 & 结果 \\
 			\midrule
 			方形微通道 & 方形流路及中心扰动结构的影响 & 已完成，趋势与论文一致 \\
 			六边形微通道 & 六边形布局及局部流动组织 & 已完成，趋势与论文一致 \\
 			圆形微通道 & 环形流路及流体分配的影响 & 已完成，趋势与论文一致 \\
-			
+
 			\bottomrule
 		\end{tabularx}
 	\end{table}
-	
-	
-	
-	\textbf{物性核查}：在 298.15 K 校验点，原水物性函数相对参考值
-	\textbf{密度偏低约 60.8\%、比热偏低约 10.5\%、黏度偏低约 26.7\%}。
-	
-	这是一个\textbf{必须记录的重要发现}：它意味着此前所有基于该物性的
-	温度与压差结果都存在系统偏差，结构之间的排序也可能受影响。
-	本月据此完成了新物性 UDF 的编写与编译，挂接与复算列入后续月份。
-	
-	【缺数据：新 UDF 挂接后的物性自检结果】\textcolor{red}{王佳蔚补充新的的说明}
-	
-	% ==================================================================
-	\section{阶段性收获}
-	
-	\subsection{认知上的变化}
-	
-	\textbf{一、从「整体冷却」转向「按需分区」。}
-	原来倾向于把冷板当作一个整体来强化，认为加密结构总归有利。
-	现在认识到：热流密度本身不均匀，均匀强化会在低负荷区造成过度冷却，
-	\textbf{冷却资源必须按区域配置}。
-	
-	\textbf{二、物性不是背景条件，而是结论的前提。}
-	复核原物性函数之前，我们默认它是正确的。
-	发现偏差后才知道：\textbf{在物性不可信的情况下比较结构，等于在错的基准上排序}。
-	因此把「物理性质」放在结构比较之前的做法是必要的。
-	
-	
-	
-	% ==================================================================
-	\section{下月计划}
-	
-	\begin{table}[H]
-		\centering
-		\caption{下月工作计划}
-		\label{tab:plan}
-		\begin{tabularx}{\textwidth}{@{}Y Y c@{}}
-			\toprule
-			\rowcolor{ydzjlight} 事项 & 预期产出 & 时间 \\
-			\midrule
-			挂接新水物性 UDF 并完成物性自检 & 物性校验记录 & 第 1 周 \\
-			补齐小块划分图，明确划分依据与数量 & 小块划分方案 & 第 1--2 周 \\
-			建立统一的评价指标体系 & 指标定义表 & 第 2--3 周 \\
-			小块内的形态与扰流单元仿真 & 形态对比数据 & 第 3--4 周 \\
-			完成自控基础学习并形成控制算法提要 & 学习笔记与控制提要 & 第 2--3 周 \\
-		\end{tabularx}
-	\end{table}
-	
-	% ==================================================================
-	\begin{thebibliography}{99}
-	  \bibitem{ao} Ao C, Xu B, Chen Z. Design and performance optimization of novel microchannel heat sinks for high-power electronic chips[J]. International Communications in Heat and Mass Transfer, 2026, 178: 111803.
-	  \bibitem{ref1} 隋增光, 林昊晟, 隋云任, 等. 数据中心吸收式节能节水技术研究与应用进展[J]. 制冷学报, 2026, 47(1): 37-50. 
-	  \bibitem{ref2} Xu H, Wang Y, Tian W, et al. Thermal performance optimization of dual-bridge arm SiC IGBT modules via microstructure-modified microchannel heat sinks under double-sided liquid cooling[J]. International Communications in Heat and Mass Transfer, 2026, 176: 111339. 
-	  
-	  
-	  \bibitem{ref5} Wang M, Xie J, Bu J, et al. Thermo-hydraulic effects of asymmetric-height and fractal bifurcation channels combined with impingement in microchannel heat sinks[J]. Applied Thermal Engineering, 2026, 298: 130998. 
-	  \bibitem{ref6} 张乾坤, 李红艳, 吕碧纯, 等. 叶脉仿生微通道换热器流动与传热特性的数值研究[J]. 制冷学报, 2025, 46(4): 52-60. 
-	  
-	  \bibitem{ref7} Yang G, Tang Y, Sun Y, et al. Fabrication of microchannel heat sinks using additive manufacturing: A review[J]. Renewable and Sustainable Energy Reviews, 2026, 233: 116879.
-	  
-	  \bibitem{ref8} Hu Z, Yan W, Wang S. Study on the Thermal Performance of a Specially-Shaped Vapor Chamber for Cooling High Heat Flux Chips[J/OL]. Thermochimica Acta, 2026.
-	  
 
-	  \bibitem{ref13} Ansari D, Kim K Y. Hotspot thermal management using a microchannel-pinfin hybrid heat sink[J]. International Journal of Thermal Sciences, 2018, 134: 27-39. 
-	  
-	  \bibitem{ref15} Ma D, Liu Y, Zhang X, et al. Experimental and numerical investigation of the thermohydraulic performance of a variable-period sinusoidal microchannel heat sink[J]. Applied Thermal Engineering, 2025, 262: 125234. 
-	  
+
+
+\subsection{认知上的变化}
+
+本月由软件操作进入问题思考：能够复现代表结构并整理结果；认识到物性公式必须有适用条件；形成以非均匀热负荷为起点的初步小块理论；建立控制对象、惯性和滞后的基本认识。小块是否有效仍需后续结构探索与验证。
+
+\section{问题与初步对策}
+
+\subsection{复现误差尚未量化}
+
+现有图像支持流程复现和趋势记录，但缺少逐项对应的文献数值与误差表。初步对策是固定几何、流量和热流密度，补齐原文值、复现值与偏差。
+
+\subsection{物性学习与代码版本尚需归档}
+
+初步 UDF 代码的具体版本及经验公式适用范围待补。先记录公式来源、温标和接口，正式排查与修改在逻辑月三展开。
+
+\subsection{小块设想与控制模型尚待验证}
+
+本月形成研究思路，未验证小块独立性或控制效果。下阶段先比较不同小块，再进行参数分组与数学控制验证。
+
+\section{下个月计划}
+
+\begin{table}[H]\centering
+\caption{后续工作及所需产出}\label{tab:plan}
+\begin{tabularx}{\textwidth}{@{}Y Y Y@{}}
+\toprule
+\rowcolor{ydzjlight} 工作 & 状态 & 依据或缺口 \\
+\midrule
+多种小块结构尝试 & 代表性温度与水力结果 & 逻辑月二 \\
+传统 PID 专题学习 & 作用、限幅与整定的学习整理 & 逻辑月二 \\
+控制流程设计 & 输入输出接口与流程图 & 逻辑月二 \\
+\bottomrule\end{tabularx}\end{table}
+
+\FloatBarrier
+\Needspace{6\baselineskip}
+\begin{thebibliography}{99}
+	  \bibitem{ao} Ao C, Xu B, Chen Z. Design and performance optimization of novel microchannel heat sinks for high-power electronic chips[J]. International Communications in Heat and Mass Transfer, 2026, 178: 111803.
+	  \bibitem{ref1} 隋增光, 林昊晟, 隋云任, 等. 数据中心吸收式节能节水技术研究与应用进展[J]. 制冷学报, 2026, 47(1): 37-50.
+	  \bibitem{ref2} Xu H, Wang Y, Tian W, et al. Thermal performance optimization of dual-bridge arm SiC IGBT modules via microstructure-modified microchannel heat sinks under double-sided liquid cooling[J]. International Communications in Heat and Mass Transfer, 2026, 176: 111339.
+
+
+	  \bibitem{ref5} Wang M, Xie J, Bu J, et al. Thermo-hydraulic effects of asymmetric-height and fractal bifurcation channels combined with impingement in microchannel heat sinks[J]. Applied Thermal Engineering, 2026, 298: 130998.
+	  \bibitem{ref6} 张乾坤, 李红艳, 吕碧纯, 等. 叶脉仿生微通道换热器流动与传热特性的数值研究[J]. 制冷学报, 2025, 46(4): 52-60.
+
+	  \bibitem{ref7} Yang G, Tang Y, Sun Y, et al. Fabrication of microchannel heat sinks using additive manufacturing: A review[J]. Renewable and Sustainable Energy Reviews, 2026, 233: 116879.
+
+	  \bibitem{ref8} Hu Z, Yan W, Wang S. Study on the Thermal Performance of a Specially-Shaped Vapor Chamber for Cooling High Heat Flux Chips[J/OL]. Thermochimica Acta, 2026.
+
+
+	  \bibitem{ref13} Ansari D, Kim K Y. Hotspot thermal management using a microchannel-pinfin hybrid heat sink[J]. International Journal of Thermal Sciences, 2018, 134: 27-39.
+
+	  \bibitem{ref15} Ma D, Liu Y, Zhang X, et al. Experimental and numerical investigation of the thermohydraulic performance of a variable-period sinusoidal microchannel heat sink[J]. Applied Thermal Engineering, 2025, 262: 125234.
+
 	  \bibitem{ref16} 王雅博, 诸凯, 崔卓, 等. 冷却水进出方式对芯片散热器换热性能影响[J]. 机械工程学报, 2018, 54(10): 188-194.
-	  
+
 	  \bibitem{ref17} Choi W W, Bang S H, Shin H C, et al. Experimental and numerical study of a high-performance air-cooled N-type manifold microchannel heat sink for large-area applications[J]. International Communications in Heat and Mass Transfer, 2026, 175: 110986.
 
-	 
-	  \bibitem{ref20} Indhe M J, Sur A, Yadav A K, et al. Integrating CFD, molecular dynamics, and AI techniques for thermal management of heat transfer devices in microelectronic chip cooling using nano-enhanced PCMs and hybrid cooling systems[J]. International Journal of Thermofluids, 2026, 32: 101587. 
+
+	  \bibitem{ref20} Indhe M J, Sur A, Yadav A K, et al. Integrating CFD, molecular dynamics, and AI techniques for thermal management of heat transfer devices in microelectronic chip cooling using nano-enhanced PCMs and hybrid cooling systems[J]. International Journal of Thermofluids, 2026, 32: 101587.
 	  \bibitem{ref21} Nie C, Wang H, Li H, et al. Flow and heat transfer characteristics of pin-fin microchannel heat sink with associated diversion structure[J]. International Communications in Heat and Mass Transfer, 2026, 175: 111004.
-	  \bibitem{yin} Yin Y, Wang Z, Ma S, et al. A novel coaxial open annular TSV pin-fin embedded in microchannels to comprehensively improve the thermal stability, signal integrity, and heat transfer of 3D integrated circuits[J]. International Communications in Heat and Mass Transfer, 2026, 172: 110619. 
-	  \bibitem{seong} Seong H B, Gwon J G, Lee M S, et al. Numerical study and ANN analysis on heat transfer and flow characteristics of microchannel heat sink with inclined rib–pin fin in in-line and staggered arrangements[J]. International Communications in Heat and Mass Transfer, 2026, 178: 111593. 
-	  \bibitem{ref24} Lorenzini D, Green C, Sarvey T E, et al. Embedded single phase microfluidic thermal management for non-uniform heating and hotspots using microgaps with variable pin fin clustering[J]. International Journal of Heat and Mass Transfer, 2016, 103: 1359-1370. 
-	 
+	  \bibitem{yin} Yin Y, Wang Z, Ma S, et al. A novel coaxial open annular TSV pin-fin embedded in microchannels to comprehensively improve the thermal stability, signal integrity, and heat transfer of 3D integrated circuits[J]. International Communications in Heat and Mass Transfer, 2026, 172: 110619.
+	  \bibitem{seong} Seong H B, Gwon J G, Lee M S, et al. Numerical study and ANN analysis on heat transfer and flow characteristics of microchannel heat sink with inclined rib–pin fin in in-line and staggered arrangements[J]. International Communications in Heat and Mass Transfer, 2026, 178: 111593.
+	  \bibitem{ref24} Lorenzini D, Green C, Sarvey T E, et al. Embedded single phase microfluidic thermal management for non-uniform heating and hotspots using microgaps with variable pin fin clustering[J]. International Journal of Heat and Mass Transfer, 2016, 103: 1359-1370.
+
 	  \bibitem{yuan} 袁永帅, 等. 当前芯片散热技术方法和特点研讨[J]. 2024.
 	  \bibitem{xiong} 熊园园, 等. 基于内嵌式微通道芯片散热结构设计研究综述[J]. 2024.
-	  
+
 	  % ---------- 控制方向补充文献（来源：项目计划书 + AI 辅助补充）----------
 	  \bibitem{wu} 吴睿康. 电子器件主动液冷散热的建模及实验研究[D]. 杭州: 浙江大学, 2020.
 	  \bibitem{ji} 季俊杰. 微通道冷却芯片及其热点的动态特性研究[D]. 杭州: 浙江大学, 2021.
@@ -675,4 +392,5 @@ $\mathrm{kg/m^3}$、$\mathrm{Pa\cdot s}$ 和 $\mathrm{W/(m\cdot K)}$。
 	  \bibitem{wangyz} WANG Y Z, LI Y B, AUBRY N, et al. Performance analysis of reinforcement learning algorithms on intelligent closed-loop control on fluid flow and convective heat transfer[J]. Physics of Fluids, 2023, 35(7): 077101.
 	  \bibitem{mnih} MNIH V, KAVUKCUOGLU K, SILVER D, et al. Human-level control through deep reinforcement learning[J]. Nature, 2015, 518(7540): 529-533.
 	\end{thebibliography}
+
 \end{document}

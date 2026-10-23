@@ -36,6 +36,7 @@ __pycache__/
 .venv/
 venv/
 check_report.txt
+reports/figs/src/structure_qa/
 
 # Overleaf 下载的源码包（一般不用提交）
 *-overleaf.zip

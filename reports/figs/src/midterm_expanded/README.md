@@ -4,13 +4,13 @@
 
 - `reports/中期报告.tex` 与 `reports/中期报告.pdf` 是提交稿。
 - 本目录中的 `final_report.tex` 是同一份最终 LaTeX 源码；`midterm_original.tex` 是构建脚本使用的原始报告底稿。
-- `build_midterm.py` 读取五个月度报告快照与证据文件，更新报告和配图引用；`verify_midterm.py` 检查最终 PDF 页数、编译日志、引用和图片路径。
+- `build_midterm.py` 保留旧稿重建能力；默认停止，指定 `--historical-only` 时只输出本目录中的 `historical_rebuilt.tex` 和历史清单，不覆盖当前报告。`verify_midterm.py` 检查当前中期 PDF 与日志，不再固定旧页数。
 - `prepare_midterm_figures.py` 复算 PID 图并读取 Fluent HDF5 网格，生成对应图件。`figure_manifest.json` 记录报告图片的源文件、仓库文件名、SHA-256 和大小。
 - `monthly_sources/` 保存逻辑月 1 至月 5 的整理时快照；`evidence/` 保存相关数值表、校核说明与仿真代码片段。
 
 ## 来源与适用范围
 
-报告结合月报正文、表格和引用图片补充。月 1 的历史温度场图只作为流程记录，图注说明了其边界条件与当前单相水计算的差异；月 2 的 17 个代表分支、月 3 的网格与流场对比、物性 UDF 复核、PID 仿真、整板 CAD 和连接件 CAD 按各自证据范围描述。月 4、月 5 尚未完成的系统级计算作为后续验证任务呈现。
+本目录 `monthly_sources/` 为重排前的历史快照，不能用其旧月份归属替代当前正文。2026-10-23 已同步中期报告：月一学习复现；月二小块探索和控制流程；月三翼型参数、UDF 修改、网格与数学 PID；月四分界线、Bi、数量和 XGBoost 待开展；月五整板尝试。当前稿直接维护在 `reports/中期报告.tex`，`final_report.tex` 同步为其副本。
 
 几何图表示 CAD 结构。NACA 网格图来自已有 HDF5 网格文件的表面截取，未运行新的 Fluent 求解，也不是边界层剖面。物性拟合误差说明指定温压范围内的函数拟合一致性，不能替代绝对精度校核。PID 数值来自已保存数组及原仿真代码，不代表 Fluent 闭环控制。
 
@@ -18,4 +18,4 @@
 
 ## 版面检查
 
-最终 PDF 共 45 页。自动检查为 0 个 overfull、0 个缺字、0 个 LaTeX 错误、0 个未定义引用和 0 个缺失图片；页面已逐页通过联系页检查。编译日志中的字体路径提示取决于本机字体环境。
+当前页数与编译结果以 [`../structure_validation.json`](../structure_validation.json) 为准；新版模板去掉开篇标题及元信息框，中期概述移入第一节，正文直接从第一节开始。编译日志中的字体路径提示取决于本机字体环境。

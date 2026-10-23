@@ -2,7 +2,7 @@
 %  月度阅读总结 · 阶段一（初步阅读）  ——  空白骨架
 %
 %  怎么用
-%    1. 把文件另存为  2026-10_阶段一_你的名字_方向.tex
+%    1. 把文件另存为  逻辑月N_主题.tex
 %    2. 填下面「只改这里」的六项信息
 %    3. 在每个章节的 { } 或环境里填入你的内容
 %    4. 编译：xelatex 文件名.tex   （跑两遍）
@@ -30,155 +30,62 @@
 \begin{document}
 \makestageonehead
 
-% ==================================================================
-\section{阅读范围}
+% 一级固定为五部分；二级分方向，三级分方法/步骤，四级仅在需要时使用。
+% 标题不手写编号；表格样式由共享 cls 控制。
+\section{本月计划}
+\subsection{任务目标与范围}
+% 写清本月要研究的问题、对象和预期产出。
+\subsection{任务安排与前置条件}
+% 只写计划与依赖条件，完成状态放第三节。
 
-\subsection{文献清单}
+\section{研究过程}
+\subsection{研究方向一：学习、复现或结构研究}
+\subsubsection{资料与方法}
+\paragraph{输入资料与适用条件}
+% 记录来源、软件、几何、边界、物性和统计定义。
+\paragraph{实施步骤}
+% 按可复现的顺序说明做法；短步骤用 enumerate。
+\subsubsection{分析过程}
+% 说明如何由资料或计算结果识别问题。
+\subsection{研究方向二：控制或其他并行任务}
+\subsubsection{方法与步骤}
+% 同一层级只放同一类主题；无此方向可删除。
 
-% 必填，至少 3 篇。列数固定 4 列，不要加列。
-\begin{table}[htbp]
-\centering
-\caption{本月阅读文献}
-\begin{tabularx}{\textwidth}{@{}c Y c Y@{}}
-\toprule
-\rowcolor{ydzjlight} 序号 & 文献 & 类型 & 与本方向的关系 \\
-\midrule
-1 &  &  &  \\
-2 &  &  &  \\
-3 &  &  &  \\
-\bottomrule
-\end{tabularx}
-\end{table}
-
-\subsection{选读理由}
-
-% 说明为什么选这几篇，围绕本方向的什么问题。100--200 字。
-% 写清「阅读线索」：先读什么、为什么、解决什么疑问。
-
-
-% ==================================================================
-\section{核心概念梳理}
-
-% 2--4 个概念。每个概念写：定义 + 为什么重要 + 在本项目里对应什么。
-% 不要抄定义就完事，必须落到「对本项目意味着什么」。
-
-\subsection{概念一：}
-
-\subsection{概念二：}
-
-
-% ==================================================================
-\section{阶段一：通读与摘录}
-
-\subsection{学习路径}
-
-% 按时间或逻辑顺序说明「先看什么、再看什么、为什么」。3--6 条。
-\begin{enumerate}
-  \item 
-  \item 
-  \item 
-\end{enumerate}
-
-\subsection{关键摘录}
-
-% 必填，至少 3 条。第二列写原文要点，第三列写你自己的理解（不是复述）。
-\begin{table}[htbp]
-\centering
-\caption{关键摘录与理解}
+\section{完成情况}
+\subsection{任务状态与产出}
+\begin{table}[H]\centering
+\caption{本月任务完成情况}
 \begin{tabularx}{\textwidth}{@{}Y Y Y@{}}
 \toprule
-\rowcolor{ydzjlight} 文献 & 原文要点 & 我的理解 \\
+\rowcolor{ydzjlight} 任务 & 完成状态 & 实际产出及证据 \\
 \midrule
- &  &  \\
- &  &  \\
- &  &  \\
+待填写 & 已完成／部分完成／未开始 & 待填写 \\
 \bottomrule
 \end{tabularx}
 \end{table}
+\subsection{结果与适用边界}
+% 表格、图像和实际记录支持什么结论；缺失数据如实标注。
 
+\section{问题与初步对策}
+\subsection{问题一：待填写}
+\subsubsection{问题及其证据}
+% 说明发现什么、影响什么，避免泛泛列问题。
+\subsubsection{初步解决方向}
+% 区分已尝试与拟尝试，不要求提前给出最终解答。
 
-% ==================================================================
-\section{阶段二：导出与复现}
-
-% ★ 阶段一的核心：只读不做不算完成。
-%   必须给出可复现的环境、步骤、结果。
-
-\subsection{复现目标}
-
-% 明确到具体对象：哪张图、哪个公式、哪套数据。
-
-
-\subsection{复现环境与步骤}
-
-% 软件 + 版本 + 关键设置 + 步骤。要求：别人照着能重复出来。
-\begin{enumerate}
-  \item 
-  \item 
-  \item 
-\end{enumerate}
-
-
-\subsection{复现结果}
-
-% 必须给图或表。并说明与原文的差异在哪。
-\begin{table}[htbp]
-\centering
-\caption{复现结果与原文对比}
-\begin{tabularx}{0.85\textwidth}{@{}Y c c c@{}}
+\section{下个月计划}
+\begin{table}[H]\centering
+\caption{下个月任务与预期产出}
+\begin{tabularx}{\textwidth}{@{}Y Y Y@{}}
 \toprule
-\rowcolor{ydzjlight} 项目 & 原文值 & 我的复现值 & 偏差 \\
+\rowcolor{ydzjlight} 任务 & 预期产出 & 前置条件或安排 \\
 \midrule
- &  &  &  \\
- &  &  &  \\
+待填写 & 待填写 & 待填写 \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
-
-% ==================================================================
-\section{阶段性收获}
-
-\subsection{认知上的变化}
-
-% 至少 1 条，写成「我原以为 X，现在认为是 Y」。
-% 这是最能体现是否真正消化的部分，不要写空话。
-
-
-\subsection{尚存的疑问}
-
-% 至少 2 条，要具体到可以回答的问题。
-\begin{enumerate}
-  \item 
-  \item 
-\end{enumerate}
-
-
-% ==================================================================
-\section{下月计划}
-
-\begin{table}[htbp]
-\centering
-\caption{下月工作计划}
-\begin{tabularx}{\textwidth}{@{}Y Y c@{}}
-\toprule
-\rowcolor{ydzjlight} 事项 & 预期产出 & 时间 \\
-\midrule
- &  & 第 1 周 \\
- &  & 第 2--3 周 \\
- &  & 第 4 周 \\
-\bottomrule
-\end{tabularx}
-\end{table}
-
-
-% ==================================================================
-% 参考文献：按正文引用顺序排列
-% 正文引用写法：见表~\ref{tab:xxx}；文献引用用 \cite{key}
-% 若不想用 \cite，也可直接写 [1]
 \begin{thebibliography}{9}
-\bibitem{ref1} 
-\bibitem{ref2} 
-\bibitem{ref3} 
+\bibitem{ref1} 待填写实际使用的参考资料。
 \end{thebibliography}
-
 \end{document}

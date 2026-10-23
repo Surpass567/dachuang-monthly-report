@@ -1,5 +1,10 @@
 from pathlib import Path
 import re,json,csv,hashlib
+import sys
+
+# 旧快照采用重排前月份逻辑，禁止默认覆盖当前报告。
+if '--historical-only' not in sys.argv:
+    raise SystemExit('这是旧稿重建脚本。当前报告请维护 reports/中期报告.tex；如需复原历史稿，使用 --historical-only，输出仅写入本目录。')
 
 SRC=Path(__file__).resolve().parent
 REPORT=SRC.parents[2]
@@ -363,7 +368,7 @@ s=s.replace('局部验证与平台基础在同一框架下区分证据层级。'
 # Float protection at logical transitions, not every section.
 s=s.replace(r'\section{问题与对策}',r'\FloatBarrier'+'\n'+r'\section{问题与对策}')
 s=re.sub(r'(?<=[0-9])%',r'\\%',s)
-out=REPORT/'中期报告.tex';out.write_text(s,encoding='utf8')
+out=SRC/'historical_rebuilt.tex';out.write_text(s,encoding='utf8')
 
 images=json.loads((SRC/'integration_summary.json').read_text(encoding='utf8'))['referenced_images']
 for ref in images:
@@ -383,5 +388,5 @@ refs_used=re.findall(r'\\(?:ref|eqref)\{([^}]+)\}',s)
 missing=sorted(set(refs_used)-set(labels));assert not missing,missing
 graphics=[x for x in re.findall(r'\\includegraphics\[[^]]*\]\{([^}]+)\}',s)+re.findall(r'^\\reportfigure\{[^}]*\}\{[^}]*\}\{([^}]+)\}',s,re.M) if '#' not in x]
 assert all((REPORT/p).exists() for p in graphics)
-(SRC/'integration_summary.json').write_text(json.dumps({'source_months':5,'top_level_figures':len(re.findall(r'\\begin\{figure\}',s))-3+len(re.findall(r'^\\reportfigure\{',s,re.M)),'top_level_tables':len(re.findall(r'\\begin\{table\}',s))+len(re.findall(r'\\begin\{longtable\}',s)),'referenced_images':sorted(set(graphics)),'missing_references':missing,'pid_source':'pid_sim.npz','new_cfd_runs':0},ensure_ascii=False,indent=2),encoding='utf8')
+(SRC/'historical_integration_summary.json').write_text(json.dumps({'source_months':5,'top_level_figures':len(re.findall(r'\\begin\{figure\}',s))-3+len(re.findall(r'^\\reportfigure\{',s,re.M)),'top_level_tables':len(re.findall(r'\\begin\{table\}',s))+len(re.findall(r'\\begin\{longtable\}',s)),'referenced_images':sorted(set(graphics)),'missing_references':missing,'pid_source':'pid_sim.npz','new_cfd_runs':0},ensure_ascii=False,indent=2),encoding='utf8')
 print(out)

@@ -1,0 +1,105 @@
+{
+  "中期报告": {
+    "sections": [
+      "本月计划",
+      "研究过程",
+      "完成情况",
+      "问题与初步对策",
+      "下个月计划"
+    ],
+    "heading_counts": {
+      "section": 5,
+      "subsection": 21,
+      "subsubsection": 43,
+      "paragraph": 2
+    },
+    "skipped_levels": []
+  },
+  "逻辑月1_基础建立": {
+    "sections": [
+      "本月计划",
+      "研究过程",
+      "完成情况",
+      "问题与初步对策",
+      "下个月计划"
+    ],
+    "heading_counts": {
+      "section": 5,
+      "subsection": 12,
+      "subsubsection": 11,
+      "paragraph": 4
+    },
+    "skipped_levels": []
+  },
+  "逻辑月2_指标与形态": {
+    "sections": [
+      "本月计划",
+      "研究过程",
+      "完成情况",
+      "问题与初步对策",
+      "下个月计划"
+    ],
+    "heading_counts": {
+      "section": 5,
+      "subsection": 12,
+      "subsubsection": 10,
+      "paragraph": 7
+    },
+    "skipped_levels": []
+  },
+  "逻辑月3_形态与物理": {
+    "sections": [
+      "本月计划",
+      "研究过程",
+      "完成情况",
+      "问题与初步对策",
+      "下个月计划"
+    ],
+    "heading_counts": {
+      "section": 5,
+      "subsection": 13,
+      "subsubsection": 7,
+      "paragraph": 9
+    },
+    "skipped_levels": []
+  },
+  "逻辑月4_迭代与调试": {
+    "sections": [
+      "本月计划",
+      "研究过程",
+      "完成情况",
+      "问题与初步对策",
+      "下个月计划"
+    ],
+    "heading_counts": {
+      "section": 5,
+      "subsection": 11,
+      "subsubsection": 7,
+      "paragraph": 0
+    },
+    "skipped_levels": []
+  },
+  "逻辑月5_整板尝试": {
+    "sections": [
+      "本月计划",
+      "研究过程",
+      "完成情况",
+      "问题与初步对策",
+      "下个月计划"
+    ],
+    "heading_counts": {
+      "section": 5,
+      "subsection": 9,
+      "subsubsection": 8,
+      "paragraph": 2
+    },
+    "skipped_levels": []
+  },
+  "month2_data": {
+    "legacy_rows": 5,
+    "csv_rows": 17,
+    "combined_rows": 22,
+    "csv_rounded_values_match": true,
+    "six_airfoil_baselines_retained": true
+  }
+}

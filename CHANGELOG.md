@@ -1,6 +1,38 @@
 # 更新记录
 
+## 2026-10-23 — 汇总本轮全部报告修订并发布到 main
+
+按“全部更新上传”的指令，将此前本地保存的五个月报及[中期报告](reports/中期报告.tex)的源文件和同名 PDF、[共享模板](template/ydzjreport.cls)、两份空白骨架、[标题及表格规范](CONTRIBUTING.md#报告结构与标题层级)、[配套脚本及核查记录](reports/figs/src/README.md)、[报告目录](reports/README.md)和本更新记录一起提交到 `main`，同步更新文档中的发布状态。具体章节、文件位置与验证结果见下两条记录。上传前获取并合并 `origin/main`，保留远端和本地有效内容；推送后再次获取并检查分支差异和工作区状态。未新增数值仿真或补造待补数据。
+
+## 2026-10-23 — 统一五部分结构、标题层级与表格，纠正月二小块数据拆分
+
+按补充要求修改[月一](reports/逻辑月1_基础建立.tex)、[月二](reports/逻辑月2_指标与形态.tex)、[月三](reports/逻辑月3_形态与物理.tex)、[月四](reports/逻辑月4_迭代与调试.tex)、[月五](reports/逻辑月5_整板尝试.tex)和[中期报告](reports/中期报告.tex)，并重新生成同名 PDF。正文均按“本月计划、研究过程、完成情况、问题与初步对策、下个月计划”排列；完成状态从计划中移至第三部分。月一将软件、物理与 UDF、小块理论、自控基础分层，使用三级和四级标题；各报告的结构与控制方向按主题组织。
+
+月二“完成情况 → 全部小块的合并展示与分析”恢复全部17条小模型保存分支，与5条既有流道记录合为22条性能记录；六翼型基准表也纳入同一部分。增加全部分支的流量/时刻/时间步条件表及跨类型综合分析，纠正原先只保留非 NACA 的拆分方式。原始 [CSV](reports/figs/src/small_model_results.csv) 不变，同一几何的设置分支不重复计作新结构；月三保留参数分组与数值验证专题。
+
+[基础说明](CONTRIBUTING.md#报告结构与标题层级)、[根目录入口](README.md)、[报告目录](reports/README.md)和[迁移说明](reports/figs/src/结构调整说明.md)同步。共享[类文件](template/ydzjreport.cls)支持自动编号的四级独立行标题，并统一三线表、浅蓝表头、表题、字号与间距；两份空白骨架按五部分重写。[结构迁移脚本](reports/figs/src/revise_report_outline.py)及[表格统一脚本](reports/figs/src/unify_report_tables.py)归档于规定目录，旧基线脚本增加防覆盖检查；中期 `final_report.tex` 副本同步。
+
+验证：六份报告均通过离线编译、引用与日志检查，Overfull、Missing character、Error 和未定义引用均为0，见[验证记录](reports/figs/src/structure_validation.json)。[层级与数据核查](reports/figs/src/outline_data_audit.json)确认六份正文各有固定五部分、无标题跳级，月二22条记录与原始数值一致；两份空白模板编译通过。PDF 联系页已逐份检查。未运行新仿真，未提交或上传。
+
 本文件统一记录更新内容、具体位置和验证结果；每次修改与对应文件一起提交到 `main`。更早的过程文档保存在 `archive/full-20261015` 分支。
+
+## 2026-10-23 — 本地重排五个逻辑月并取消开篇信息框
+
+按确认的研究顺序调整现有内容：学习复现、探索尝试、优化验证、迭代调试、整板尝试。**本次仅保存本地修改，按要求未提交、未上传。**
+
+| 更新内容 | 文件与章节 |
+|---|---|
+| 月一保留软件与文献复现、基础物理和 UDF 入门、自控基础，突出初步小块理论形成 | [月一正文](reports/逻辑月1_基础建立.tex)「阶段一：通读与摘录」「阶段二：导出与复现」「初步小块理论的形成」及[PDF](reports/逻辑月1_基础建立.pdf) |
+| 月二保留代表结构探索，移入传统 PID 学习与控制流程图；详细翼型表和数学模拟后移 | [月二正文](reports/逻辑月2_指标与形态.tex)「研究进展 → 关键结果」及[PDF](reports/逻辑月2_指标与形态.pdf) |
+| 月三集中翼型参数分组、六翼型与十三分支、正式 UDF 修改、网格检验和 PID 数学模拟 | [月三正文](reports/逻辑月3_形态与物理.tex)「研究进展 → 翼型专题与数值验证」及[PDF](reports/逻辑月3_形态与物理.pdf)；参数组完整数据明确待补，历史分支不当作完整扫描 |
+| 月四改为小块选择分界线、复杂性与性能、Bi、扰流柱数量和 XGBoost 准备 | [月四正文](reports/逻辑月4_迭代与调试.tex)「研究进展」及[PDF](reports/逻辑月4_迭代与调试.pdf)；由原“连接成网络”同步更名，XGBoost 明确尚未开展 |
+| 月五吸收网络、连接、分流与控制接口，围绕整板尝试及验证准备组织 | [月五正文](reports/逻辑月5_整板尝试.tex)「整板布局与连接尝试」「后续验证方案」及[PDF](reports/逻辑月5_整板尝试.pdf)；由原“整板验证”同步更名 |
+| 中期报告同步月份归属、待补状态及引文，保留已有累计数值依据 | [中期正文](reports/中期报告.tex)「五个逻辑月的成果承接」「承接月4理论迭代与月5整板尝试」及[PDF](reports/中期报告.pdf) |
+| 模板 v1.4 取消开篇标题、日期与信息框；正文直接从第一节开始，主题与署名保留在页眉 | [共享模板](template/ydzjreport.cls) `ydzjmakereporthead`、`stageonesetup`、`stagetwosetup`；[阶段一骨架](template/阶段一_空白骨架.tex)、[阶段二骨架](template/阶段二_空白骨架.tex)同步说明；中期概述移入第一节 |
+| 更新目录、迁移说明与复现脚本；避免旧快照脚本覆盖当前中期稿 | [主目录](README.md)、[报告目录](reports/README.md)、[调整说明](reports/figs/src/结构调整说明.md)、[重排脚本](reports/figs/src/restructure_monthly_reports.py)、[验证脚本](reports/figs/src/validate_restructured_reports.py)、[中期复现说明](reports/figs/src/midterm_expanded/README.md) |
+| 修复中期自检中 reportfigure 宏标签和图片参数的误报，取消旧验证脚本固定45页的限制 | [自检](check.py) `check_refs`、[中期验证](reports/figs/src/midterm_expanded/verify_midterm.py) |
+
+验证：`python check.py` 对六份当前报告的括号、图片及交叉引用静态检查通过；本机无独立 `xelatex`，使用 Tectonic 的 XeTeX 引擎补充实际编译。逐份结果见[结构验证记录](reports/figs/src/structure_validation.json)，六份报告均通过：Overfull=0、Missing character=0、Error=0、未定义引用=0、缺失图片=0，页面联系页已目视检查。月一至月五分别为 8、11、16、3、4 页，中期报告 45 页；两份空白骨架也已编译通过。没有新运行 CFD 或训练 XGBoost；已有 UDF 与 PID 结果按仓库复核材料表述，未编造缺失数据。
 
 ## 2026-10-23 — 对齐 main 与 GitHub 上传规则
 
