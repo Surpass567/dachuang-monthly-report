@@ -8,6 +8,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass[stage2,fontset=fandol]{ydzjreport}
 
+% 四种流道云图使用 (a1)--(d4) 子图编号
+\usepackage{subcaption}
+
 \stagetwosetup
   {第 2 个逻辑月 · 指标与形态}%
   {冯旭东、陈思文、张昊洋}%
@@ -115,9 +118,121 @@ PID 专著侧重三个作用的物理含义与工程整定方法\cite{astrom}，
 \subsection{关键结果}
 
 \textbf{（一）四种流道在共同热流密度下的比较}
-\textcolor{red}{汇总补充模型核对应云图，大树哥哥统一后处理}
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{0.235\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{figs/14_zhixian_temperature.png}
+		\caption{直线流道温度}
+		\label{fig:zhixian-t}
+	\end{subfigure}\hfill
+	\begin{subfigure}{0.235\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{figs/15_zhixian_pressure.png}
+		\caption{直线流道静压}
+		\label{fig:zhixian-p}
+	\end{subfigure}\hfill
+	\begin{subfigure}{0.235\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{figs/16_zhixian_speed.png}
+		\caption{直线流道速度大小}
+		\label{fig:zhixian-v}
+	\end{subfigure}\hfill
+	\begin{subfigure}{0.235\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{figs/17_zhixian_base_temperature.png}
+		\caption{直线流道铜板温度}
+		\label{fig:zhixian-cu}
+	\end{subfigure}
+
+	\vspace{4pt}
+
+	\begin{subfigure}{0.235\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{figs/18_sin_temperature.png}
+		\caption{正弦流道温度}
+		\label{fig:sin-t}
+	\end{subfigure}\hfill
+	\begin{subfigure}{0.235\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{figs/19_sin_pressure.png}
+		\caption{正弦流道静压}
+		\label{fig:sin-p}
+	\end{subfigure}\hfill
+	\begin{subfigure}{0.235\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{figs/20_sin_speed.png}
+		\caption{正弦流道速度大小}
+		\label{fig:sin-v}
+	\end{subfigure}\hfill
+	\begin{subfigure}{0.235\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{figs/21_sin_base_temperature.png}
+		\caption{正弦流道铜板温度}
+		\label{fig:sin-cu}
+	\end{subfigure}
+
+	\vspace{4pt}
+
+	\begin{subfigure}{0.235\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{figs/22_naca_temperature.png}
+		\caption{NACA2416 温度}
+		\label{fig:naca-t}
+	\end{subfigure}\hfill
+	\begin{subfigure}{0.235\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{figs/23_naca_pressure.png}
+		\caption{NACA2416 静压}
+		\label{fig:naca-p}
+	\end{subfigure}\hfill
+	\begin{subfigure}{0.235\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{figs/24_naca_speed.png}
+		\caption{NACA2416 速度大小}
+		\label{fig:naca-v}
+	\end{subfigure}\hfill
+	\begin{subfigure}{0.235\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{figs/25_naca_base_temperature.png}
+		\caption{NACA2416 铜板温度}
+		\label{fig:naca-cu}
+	\end{subfigure}
+
+	\vspace{4pt}
+
+	\begin{subfigure}{0.235\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{figs/26_gao_temperature.png}
+		\caption{gao2.1 温度}
+		\label{fig:gao-t}
+	\end{subfigure}\hfill
+	\begin{subfigure}{0.235\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{figs/27_gao_pressure.png}
+		\caption{gao2.1 静压}
+		\label{fig:gao-p}
+	\end{subfigure}\hfill
+	\begin{subfigure}{0.235\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{figs/28_gao_speed.png}
+		\caption{gao2.1 速度大小}
+		\label{fig:gao-v}
+	\end{subfigure}\hfill
+	\begin{subfigure}{0.235\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{figs/29_gao_base_temperature.png}
+		\caption{gao2.1 铜板温度}
+		\label{fig:gao-cu}
+	\end{subfigure}
+\caption{四种流道在共同热流密度下的后处理云图：(a)--(p) 为各流道的后处理结果，四行依次为 (a)--(d) 直线 300 W/cm$^2$、(e)--(h) 正弦 300 W/cm$^2$、(i)--(l) NACA2416 300 W/cm$^2$、(m)--(p) gao2.1 500 W/cm$^2$；每行均依次为水侧近壁面温度、静压（表压）、速度大小与铜基板温度。灰白空区为截面外或固体遮罩}
+	\label{fig:contours}
+\end{figure}
+
 \begin{table}[H]
 \centering
+\renewcommand{\arraystretch}{1.05}
 \caption{既有工况在共同热流密度下的温度与水力性能}
 \label{tab:results}
 \begin{tabularx}{\textwidth}{@{}c Y Y Y Y Y@{}}
