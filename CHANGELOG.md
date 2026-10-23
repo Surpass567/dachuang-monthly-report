@@ -1,7 +1,21 @@
 # 更新记录
 
-> **内容更正请看 [`reports/修正记录.md`](reports/修正记录.md)**——
-> 本文件记版本变化，修正记录记"改了什么、为什么改"。
+本文件统一记录更新内容、具体位置和验证结果；每次修改与对应文件一起提交到 `main`。更早的过程文档保存在 `archive/full-20261015` 分支。
+
+## 2026-10-23 — 对齐 main 与 GitHub 上传规则
+
+已将 `report/month3-mesh` 的 6 个更新提交与原 `main` 的 2 个更新提交合并，正式内容统一发布到 `main`。对应合并提交：`df56ab3`。
+
+| 更新内容 | 具体位置 |
+|---|---|
+| GitHub 上传、拉取、合并和同步验证规则；后续更新位置记录要求 | [Agent 约定](AGENTS.md#github-上传与同步)、[修改规范](CONTRIBUTING.md#github-上传与同步)、[项目说明](README.md#github-上传与同步) |
+| 月 2 合并四种流道的 16 张云图和 17 条小模型结果，保留双方内容并重新生成 10 页 PDF | [月 2 正文](reports/逻辑月2_指标与形态.tex)「研究进展 → 关键结果 → （一）流道与小模型性能汇总」、[月 2 PDF](reports/逻辑月2_指标与形态.pdf)；云图位于 PDF 第 3 页 |
+| 月 1 物性 UDF 学习补充及统一命名 | [月 1 正文](reports/逻辑月1_基础建立.tex)、[月 1 PDF](reports/逻辑月1_基础建立.pdf) |
+| 月 3 网格检验、流场对比及 323 万网格参考口径 | [月 3 正文](reports/逻辑月3_形态与物理.tex)、[月 3 PDF](reports/逻辑月3_形态与物理.pdf)、[网格依据资料](reports/figs/src/month3_mesh_data/README.md) |
+| 中期报告补充稿、配图与证据资料 | [中期报告正文](reports/中期报告.tex)、[中期报告 PDF](reports/中期报告.pdf)、[复现与资料说明](reports/figs/src/midterm_expanded/README.md) |
+| 报告清单及月 2 页数说明 | [报告目录](reports/README.md#一当前文件) |
+
+验证：月 2 合并正文的括号、图片和交叉引用静态检查通过；使用 Tectonic 的 XeTeX 引擎重新编译，Overfull=0、Missing character=0、Error=0、未定义引用=0，共 10 页，云图页面目视检查通过。其他报告沿用原分支已提交文件。本次合并推送后本地 `main` 与 `origin/main` 一致，工作区干净。
 
 ## v1.2 — 2026-10-12
 
