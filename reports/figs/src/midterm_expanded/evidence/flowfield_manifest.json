@@ -1,0 +1,22 @@
+[
+  {
+    "source": "E:\\simulation\\no\\NACA2416_v3\\outlet_audit_20261009\\尾迹速度温度压力_z1.50mm_标注版.png",
+    "copy": "../month3_mesh_flowfield.png",
+    "sha256": "6917fe38cfed3c8f8374b6aaff4d8e3364c9fc31431a504796d1b516224d2354"
+  },
+  {
+    "source": "E:\\simulation\\no\\NACA2416_v3\\outlet_audit_20261009\\出口回流分布对比_标注版.png",
+    "copy": "../month3_mesh_outlet.png",
+    "sha256": "65665a4904570d9499655212d434b0efe6059c52a187ad16d2e2ab27bda49039"
+  },
+  {
+    "source": "E:\\simulation\\no\\NACA2416_v3\\outlet_audit_20261009\\排查结论.md",
+    "copy": "flowfield_notes.md",
+    "sha256": "1e87e27bb234abd8dfd2603ff11a6b22c0b12e856e9c1f00aca527677a073ddf"
+  },
+  {
+    "source": "E:\\simulation\\no\\NACA2416_v3\\outlet_audit_20261009\\两组定量对比.csv",
+    "copy": "flowfield_comparison.csv",
+    "sha256": "51e614caa1934333be2ce8093d4c54857a11ad7668366d75df8dd9e90e968115"
+  }
+]

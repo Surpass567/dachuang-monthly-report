@@ -1,0 +1,188 @@
+[
+  {
+    "file": "逻辑月1_基础建立.tex",
+    "sha256": "8362c7f75886ee0aa46243db21c720c1cd9832b778455e626b8b1648c518bb89",
+    "tables": [
+      {
+        "label": "tab:tasks",
+        "text": "\\begin{table}[H]\n\t\t\\centering\n\t\t\\caption{本月任务完成情况}\n\t\t\\label{tab:tasks}\n\t\t\\begin{tabularx}{\\textwidth}{@{}Y c Y@{}}\n\t\t\t\\toprule\n\t\t\t\\rowcolor{ydzjlight} 任务 & 状态 & 说明 \\\\\n\t\t\t\\midrule\n\t\t\t小块划分方式确立 & 部分完成 & 已形成概念表述，具体结构待进一步探究 \\\\\n\t\t\t学长结构建模复现 & 已完成 & 已复现论文中的多种流道布局 \\\\\n\t\t\t学长物性（UDF）思路复现 & 已完成 & 核查后发现原函数存在误差 \\\\\n\t\t\t控制算法提要 & 已完成 & 文献要点与二阶对象特性已整理 \\\\\n\t\t\t\\bottomrule\n\t\t\\end{tabularx}\n\t\\end{table}"
+      },
+      {
+        "label": "tab:physics-control",
+        "text": "\\begin{table}[H]\n\t\t\\centering\n\t\t\\caption{物理性质与控制设计的对应关系}\n\t\t\\label{tab:physics-control}\n\t\t\\begin{tabularx}{\\textwidth}{@{}Y Y@{}}\n\t\t\t\\toprule\n\t\t\t\\rowcolor{ydzjlight} 对象性质 & 对控制设计的含义 \\\\\n\t\t\t\\midrule\n\t\t\t一阶惯性（时间常数 $\\tau$） & 需要积分作用消除稳态误差；增益过高会引起振荡 \\\\\n\t\t\t纯滞后（FOPDT） & 需要微分作用或预测补偿；滞后越大，可用增益越低 \\\\\n\t\t\t执行器饱和（泵 $0$--$6000$ RPM、阀 $0$--$100\\%$） & 必须做抗积分饱和，否则长时间饱和后积分项会积累成大幅超调 \\\\\n\t\t\t换热系数收益递减（$n<1$） & 存在「经济流量区间」，超出后加大流量只增加泵功 \\\\\n\t\t\t临界约束（结温上限） & 需要独立的安全约束层，优先于性能目标 \\\\\n\t\t\t\\bottomrule\n\t\t\\end{tabularx}\n\t\\end{table}"
+      },
+      {
+        "label": "tab:layers",
+        "text": "\\begin{table}[H]\n\t\t\\centering\n\t\t\\caption{分层递阶控制器的职责划分与本阶段状态}\n\t\t\\label{tab:layers}\n\t\t\\begin{tabularx}{\\textwidth}{@{}>{\\RaggedRight\\arraybackslash}p{0.13\\textwidth} Y Y Y@{}}\n\t\t\t\\toprule\n\t\t\t\\rowcolor{ydzjlight} 层 & 输入 & 输出 & 本阶段状态 \\\\\n\t\t\t\\midrule\n\t\t\t感知层 & 传感器测点温度、功耗 & 温度 $T$、变化率 $\\mathrm{d}T/\\mathrm{d}t$ & 方案已定，测点布置待定 \\\\\n\t\t\t预测层 & 温度／功耗历史数据 & 短期温度或热流趋势 & \\textbf{待建立}（需先积累数据） \\\\\n\t\t\t决策层 & 趋势 + 当前工况 & PID 增益组合 & 框架已定，整定待做 \\\\\n\t\t\t执行层 & 误差 $e$ + 当前增益 & PWM 占空比 & PID 结构已定 \\\\\n\t\t\t安全约束层 & 温度、执行器状态 & 限幅、积分冻结 & 判据已定 \\\\\n\t\t\t\\bottomrule\n\t\t\\end{tabularx}\n\t\\end{table}"
+      },
+      {
+        "label": "tab:pid",
+        "text": "\\begin{table}[H]\n\t\t\\centering\n\t\t\\caption{PID 三个作用的物理含义与代价}\n\t\t\\label{tab:pid}\n\t\t\\begin{tabularx}{\\textwidth}{@{}c Y Y Y@{}}\n\t\t\t\\toprule\n\t\t\t\\rowcolor{ydzjlight} 作用 & 物理含义 & 带来什么 & 代价 \\\\\n\t\t\t\\midrule\n\t\t\tP & 与当前误差成正比 & 立即响应，提高增益可加快响应 & 留下稳态误差；增益过大会振荡 \\\\\n\t\t\tI & 累积历史误差 & 消除稳态误差（提高无差度） & 引入约 $-90^\\circ$ 相位滞后，易超调；长时间饱和会积分饱和 \\\\\n\t\t\tD & 对误差变化率作用 & 提供超前相位，改善阻尼、抑制超调 & 放大测量噪声；对纯滞后补偿能力有限 \\\\\n\t\t\t\\bottomrule\n\t\t\\end{tabularx}\n\t\\end{table}"
+      },
+      {
+        "label": "tab:notes",
+        "text": "\\begin{table}[H]\n\t  \\centering\n\t  \\small\n\t  \\renewcommand{\\arraystretch}{1.12}\n\t  \\caption{文献要点与本阶段工作}\n\t  \\label{tab:notes}\n\t  \\begin{tabularx}{\\textwidth}{@{}>{\\RaggedRight\\arraybackslash}p{0.16\\textwidth} Y Y@{}}\n\t    \\toprule\n\t    \\rowcolor{ydzjlight} 文献 & 论文要点 & 本阶段的应用 \\\\\n\t    \\midrule\n\t    Ao 等\\cite{ao} & 方形、圆形与六边形微通道的比较 & 复现三种流道，学习短流路与局部强化的组织方式 \\\\[3pt]\n\t    隋增光等\\cite{ref1} & 综述数据中心吸收式器件散热、余热制冷、储能、发电与空气取水，强调低品位余热的多功能利用及系统集成。 & 补充研究背景与系统应用场景；在冷板研究之外，梳理出口水温、余热利用与节能节水之间的联系，拓展系统评价思路。 \\\\[3pt]\n\t    Xu 等\\cite{ref2} & 针对双桥臂 SiC IGBT 多热源，研究双面液冷与六类导流微结构；海鸥形结构综合性能因子达 1.51，交错结构更利于芯片局部均温。 & 依据热源位置布置强化结构，将海鸥形、交错导流纳入候选矩阵；比较模块整体温度与局部热点温度，避免仅以平均温度筛选。 \\\\[3pt]\n\n\t    \\bottomrule\n\t  \\end{tabularx}\n\t\\end{table}"
+      },
+      {
+        "label": "tab:notes-cont-2",
+        "text": "\\begin{table}[H]\n\t  \\centering\n\t  \\small\n\t  \\renewcommand{\\arraystretch}{1.12}\n\t  \\caption{文献要点与本阶段工作（续1）}\n\t  \\label{tab:notes-cont-2}\n\t  \\begin{tabularx}{\\textwidth}{@{}>{\\RaggedRight\\arraybackslash}p{0.16\\textwidth} Y Y@{}}\n\t    \\toprule\n\t    \\rowcolor{ydzjlight} 文献 & 论文要点 & 本阶段的应用 \\\\\n\t    \\midrule\n\t    Wang 等\\cite{ref5} & 将非等高双层通道、分形分叉与冲击射流结合，并采用实验验证和 NSGA-II 优化；文中报告最优无肋方案的 PEC 较参照结构提高 24.61\\%。 & 拓展“层间高度差—分叉配流—局部冲击”的组合方案；先比较不同进水组织，再开展热性能与压降的双目标参数优化。 \\\\[3pt]\n\t    张乾坤等\\cite{ref6} & 比较普通二级分支与三类叶脉仿生流道；完整五级分支相对普通结构压降降低超过 35\\%，传热面温度降低超过 2 $\\,{}^\\circ\\mathrm{C}$，综合强化因子大于 1.2。 & 将分支级数、分叉形式与网络完整性加入结构矩阵；比较流量分配、温度均匀性和压降，探索以配流优化实现强化与降阻。 \\\\[3pt]\n\t    Yang 等\\cite{ref7} & 综述增材制造微通道散热器的材料、工艺、复杂流道及优化方法，讨论分布式歧管、多层结构、仿生网络与制造约束之间的关系。 & 建立候选结构的可制造性记录，关注最小特征尺寸、内壁粗糙度、残粉清理与密封；筛选既有热水力优势又便于加工验证的方案。 \\\\[3pt]\n\t    Hu 等\\cite{ref8} & 比较三类吸液芯的异形均热板；顺序梯度网芯兼顾毛细回流与渗透性，最高测试热流密度达 200 W/cm$^2$，对应热阻为 0.047 K/W。 & 借鉴梯度分区与高低阻通路协同设计；将均热板作为复合散热的后续备选，并区分其相变传热机理与本阶段单相微通道模型。 \\\\[3pt]\n\t   \n\t    \n\t    Ansari 与 Kim\\cite{ref13} & 针对非均匀热流，背景区使用矩形微通道、热点区布置圆柱针肋；以热阻、泵功、温度非均匀性和热点最大温升评价分区冷却。 & 建立背景区与热点区分开的热源边界条件；将局部针肋强化与全域强化进行对照，考察热点抑制效果及其额外泵功代价。 \\\\[3pt]\n\t    \n\t    Ma 等\\cite{ref15} & 实验与模拟比较等周期和变周期正弦微通道；变周期结构增强扰动并改善均温性，但压降增大；在相同泵功下，平均热阻降低约 13\\%。 & 将周期沿程变化加入几何参数矩阵；同时开展相同流量与相同泵功比较，分析下游强化能否补偿冷却液温升带来的散热衰减。 \\\\[3pt]\n\t    \n\t    王雅博等\\cite{ref16} & 比较两端进出水与中心垂直射流配合一、二、四出口的布局；中心射流四出口方案虽非 Nu 最高，但流阻较小、综合性能更优且可避免局部热点。 & 将进口位置与出口数量作为独立变量；固定内部结构比较不同配流方式，联合考察速度死区、温度均匀性、Nu 和压降。 \\\\[3pt]\n\t    \n\t    Choi 等\\cite{ref17} & 通过实验与 58 组数值算例研究大面积风冷 N 型歧管微通道；分析通道宽、长、高对流量分配、热阻与压降的影响，突出短流路和一体化结构的作用。 & 借鉴 N 型歧管分流与短流路设计，补充通道尺寸对配流的敏感性分析；应用于液冷时重新计算工质相关结果，保留其拓扑设计思路。 \\\\[3pt]\n\t    \\bottomrule\n\t  \\end{tabularx}\n\t\\end{table}"
+      },
+      {
+        "label": "tab:notes-cont-5",
+        "text": "\\begin{table}[H]\n\t  \\centering\n\t  \\small\n\t  \\renewcommand{\\arraystretch}{1.12}\n\t  \\caption{文献要点与本阶段工作（续2）}\n\t  \\label{tab:notes-cont-5}\n\t  \\begin{tabularx}{\\textwidth}{@{}>{\\RaggedRight\\arraybackslash}p{0.16\\textwidth} Y Y@{}}\n\t    \\toprule\n\t    \\rowcolor{ydzjlight} 文献 & 论文要点 & 本阶段的应用 \\\\\n\t    \\midrule\n\t    Indhe 等\\cite{ref20} & 综述 CFD、分子动力学和人工智能在微电子散热中的应用，讨论微通道、纳米增强相变材料及复合冷却的多尺度分析与优化方法。 & 形成“参数化建模—CFD 数据积累—代理模型—优化验证”的后续路线；本阶段优先统一算例与数据字段，为机器学习准备可追溯样本。 \\\\[3pt]\n\t    Nie 等\\cite{ref21} & 通过针肋关联导流结构削弱尾部流动死区并促进混合，但存在明显压降代价；在 0.15—0.8 mW 相同泵功范围内，最优结构热阻较传统针肋降低 20.8\\%—22.2\\%。 & 在针肋后方引入导流构件，考察高度、直径及相对偏移；结合速度场辨识强化机理，并以相同泵功对照判断额外阻力是否值得。 \\\\[3pt]\n\t    Yin 等\\cite{yin} & 提出同轴开口环形 TSV 针肋，比较直列、错列与传统圆柱 TSV；综合分析 Nu、最高温度、压降、PEC、循环热应力及信号完整性。 & 借鉴开口环形针肋与错列组织方式；统一提取平均 Nu、最高温度、压降和 PEC，并将热应力作为封装可靠性的后续扩展指标。 \\\\[3pt]\n\t    Seong 等\\cite{seong} & 研究倾斜肋—针肋的直列、错列及倾角效应；Re=450、倾角 60$^\\circ$、热流密度 100 W/cm$^2$ 时，PEC 为 1.52，并建立 ANN 性能预测模型。 & 建立“排列方式$\\times$倾角$\\times$Re”参数矩阵，分析层间混合与停滞区变化；积累 CFD 数据后训练代理模型，并用独立算例验证预测结果。 \\\\[3pt]\n\t    Lorenzini 等\\cite{ref24} & 在 200 $\\mu$m 硅微间隙中按热点分布局部加密针肋；背景热流密度 250 W/cm$^2$、热点 250—750 W/cm$^2$、入口水温 21.3 $\\,{}^\\circ\\mathrm{C}$ 时，所研究器件最高温度低于 65 $\\,{}^\\circ\\mathrm{C}$。 & 建立均匀针肋与热点局部加密的对照模型；针对不同热点位置和强度匹配针肋密度，并核查旁路流动是否削弱热点区冷却。 \\\\[3pt]\n\t   \n\t    \\bottomrule\n\t  \\end{tabularx}\n\t\\end{table}"
+      },
+      {
+        "label": "tab:repro",
+        "text": "\\begin{table}[H]\n\t\t\\centering\n\t\t\\caption{三种流道的复现情况}\n\t\t\\label{tab:repro}\n\t\t\\begin{tabularx}{\\textwidth}{@{}Y Y Y@{}}\n\t\t\t\\toprule\n\t\t\t\\rowcolor{ydzjlight} 流道形态 & 复现关注内容 & 结果 \\\\\n\t\t\t\\midrule\n\t\t\t方形微通道 & 方形流路及中心扰动结构的影响 & 已完成，趋势与论文一致 \\\\\n\t\t\t六边形微通道 & 六边形布局及局部流动组织 & 已完成，趋势与论文一致 \\\\\n\t\t\t圆形微通道 & 环形流路及流体分配的影响 & 已完成，趋势与论文一致 \\\\\n\t\t\t\n\t\t\t\\bottomrule\n\t\t\\end{tabularx}\n\t\\end{table}"
+      },
+      {
+        "label": "tab:plan",
+        "text": "\\begin{table}[H]\n\t\t\\centering\n\t\t\\caption{下月工作计划}\n\t\t\\label{tab:plan}\n\t\t\\begin{tabularx}{\\textwidth}{@{}Y Y c@{}}\n\t\t\t\\toprule\n\t\t\t\\rowcolor{ydzjlight} 事项 & 预期产出 & 时间 \\\\\n\t\t\t\\midrule\n\t\t\t挂接新水物性 UDF 并完成物性自检 & 物性校验记录 & 第 1 周 \\\\\n\t\t\t补齐小块划分图，明确划分依据与数量 & 小块划分方案 & 第 1--2 周 \\\\\n\t\t\t建立统一的评价指标体系 & 指标定义表 & 第 2--3 周 \\\\\n\t\t\t小块内的形态与扰流单元仿真 & 形态对比数据 & 第 3--4 周 \\\\\n\t\t\t完成自控基础学习并形成控制算法提要 & 学习笔记与控制提要 & 第 2--3 周 \\\\\n\t\t\\end{tabularx}\n\t\\end{table}"
+      }
+    ],
+    "images": [
+      "figs/13_控制框架框图.png",
+      "figs/01_temperature_midplane.png",
+      "figs/02_pressure_midplane.png",
+      "figs/03_speed_midplane.png",
+      "figs/04_copper_base_temperature.png",
+      "figs/05_temperature_midplane.png",
+      "figs/06_pressure_midplane.png",
+      "figs/07_speed_midplane.png",
+      "figs/08_copper_base_temperature.png",
+      "figs/09_temperature_midplane.png",
+      "figs/10_pressure_midplane.png",
+      "figs/11_speed_midplane.png",
+      "figs/12_copper_base_temperature.png",
+      "figs/udf_learning_interfaces.png"
+    ]
+  },
+  {
+    "file": "逻辑月2_指标与形态.tex",
+    "sha256": "2d17a3995b1aa2beadeb92026b0694abd8ed64ff85419ec721fb0d87fdb1d6c5",
+    "tables": [
+      {
+        "label": "tab:tasks",
+        "text": "\\begin{table}[H]\n\\centering\n\\caption{本月任务完成情况}\n\\label{tab:tasks}\n\\begin{tabularx}{\\textwidth}{@{}Y c Y@{}}\n\\toprule\n\\rowcolor{ydzjlight} 任务 & 状态 & 说明 \\\\\n\\midrule\n统一评价指标体系 & 部分完成 & 已建立指标，具体衡量坐标待统一待定 \\\\\n小块形流道形式对比 & 已完成 & 既有四种流道 39 个有效工况；补充六边形、gao2.1 与叶脉结果 \\\\\n小块仿生结构 & 部分完成 & 已保存叶脉稳态结果，并补入六边形分支；统一工况对比待完成 \\\\\n扰流单元收敛到翼型 & 已完成 & 六种翼型基准仿真；补充 13 条 NACA 小模型结果分支 \\\\\n控制回路建模与控制器 & 已完成 & 一阶热平衡模型与增量式 PID \\\\\n\\bottomrule\n\\end{tabularx}\n\\end{table}"
+      },
+      {
+        "label": "tab:lit",
+        "text": "\\begin{table}[H]\n\\centering\n\\caption{本阶段文献与资料}\n\\label{tab:lit}\n\\begin{tabularx}{\\textwidth}{@{}c Y Y@{}}\n\\toprule\n\\rowcolor{ydzjlight} 序号 & 文献与资料 & 解决了我哪个问题 \\\\\n\\midrule\n1 & 四种流道数据与折线图 & 确定有效工况与比较条件 \\\\\n2 & NACA 翼型数据 & 明确相对厚度、相对弯度、攻角对液冷性能的影响 \\\\\n3 & 复合叶脉蜂窝微通道等仿生拓扑研究 & 提供仿生结构的设计参照 \\\\\n4 & 控制理论教材与 PID 专著\\cite{hushousong,astrom,franklin,ogata} & 确定控制回路结构、基础控制器形式与整定思路 \\\\\n\\bottomrule\n\\end{tabularx}\n\\end{table}"
+      },
+      {
+        "label": "tab:results",
+        "text": "\\begin{table}[H]\n\\centering\n\\caption{既有工况在共同热流密度下的温度与水力性能}\n\\label{tab:results}\n\\begin{tabularx}{\\textwidth}{@{}c Y Y Y Y Y@{}}\n\\toprule\n\\rowcolor{ydzjlight} 热流密度 & 流道 & 最高温度 & 平均温度 & 压差 & 水力功率 \\\\\n & & / $^\\circ$C & / $^\\circ$C & / kPa & / W \\\\\n\\midrule\n300 & 直线 & 52.50 & 38.43 & 3.074 & 0.04919 \\\\\n300 & 正弦 & 62.27 & 44.84 & 4.914 & 0.05897 \\\\\n300 & NACA2416 & 72.48 & 45.99 & 0.979 & 0.01566 \\\\\n500 & gao2.1 & 68.50 & 42.55 & 12.457 & 0.11211 \\\\\n500 & NACA2416 & 99.60 & 56.82 & 0.926 & 0.01482 \\\\\n\\bottomrule\n\\end{tabularx}\n\\end{table}"
+      },
+      {
+        "label": "tab:other-small",
+        "text": "\\begin{table}[H]\n\\centering\n\\small\n\\caption{非 NACA 小模型在各自保存工况下的性能}\n\\label{tab:other-small}\n\\begin{tabularx}{\\textwidth}{@{}Y r r r r r@{}}\n\\toprule\n\\rowcolor{ydzjlight} 模型或分支 & 热流密度 & 最高温度 & 平均温度 & 压差 & 水力功率 \\\\\n & / (W/cm$^2$) & / $^\\circ$C & / $^\\circ$C & / kPa & / W \\\\\n\\midrule\n六边形 v4 & 350.00 & 45.75 & 30.77 & 512.097 & 39.45329 \\\\\n六边形 v4.2 & 650.00 & 88.26 & 49.50 & 78.587 & 1.17881 \\\\\ngao2.1 & 600.00 & 88.41 & 53.57 & 13.969 & 0.12572 \\\\\n叶脉 A\\_leaf & 600.00 & 61.81 & 37.92 & 47.668 & 0.76269 \\\\\n\\bottomrule\n\\end{tabularx}\n\\end{table}"
+      },
+      {
+        "label": "tab:other-conditions",
+        "text": "\\begin{table}[H]\n\\centering\n\\small\n\\caption{非 NACA 小模型的网格与计算条件}\n\\label{tab:other-conditions}\n\\begin{tabularx}{\\textwidth}{@{}Y r r r r@{}}\n\\toprule\n\\rowcolor{ydzjlight} 模型 & 网格单元数 & 保存时刻 / s & 时间步 / s & 流量 / (mL/s) \\\\\n\\midrule\n六边形 v4 & 1,443,844 & 15.00 & 0.5 & 77.043 \\\\\n六边形 v4.2 & 1,320,229 & 6.05 & 0.01 & 15.000 \\\\\ngao2.1 & 2,347,198 & 0.20 & 0.01 & 9.000 \\\\\n叶脉 A\\_leaf & 5,031,324 & 稳态 & --- & 16.000 \\\\\n\\bottomrule\n\\end{tabularx}\n\\end{table}"
+      },
+      {
+        "label": "tab:airfoil",
+        "text": "\\begin{table}[H]\n\\centering\n\\caption{不同翼型构型流热耦合仿真关键结果（基准工况）}\n\\label{tab:airfoil}\n\\begin{tabularx}{\\textwidth}{@{}l c c c c@{}}\n\\toprule\n\\rowcolor{ydzjlight} 构型 & 最高温度 / K & 底板平均温度 / K & $h$ / (W/(m$^2$·K)) & PEC \\\\\n\\midrule\nNACA0015 & 357.9 & 356.1 & 756.6 & 1.00 \\\\\nNACA0021 & 355.7 & 354.0 & 765.3 & 1.10 \\\\\nNACA0024 & 354.9 & 353.2 & 798.5 & 1.19 \\\\\nNACA4424 & 354.4 & 352.7 & 789.8 & 1.21 \\\\\nNACA6424 & 358.1 & 356.3 & 750.5 & 1.00 \\\\\nNACA6624 & 357.9 & 356.1 & 750.2 & 1.01 \\\\\n\\bottomrule\n\\end{tabularx}\n\\end{table}"
+      },
+      {
+        "label": "tab:naca350",
+        "text": "\\begin{table}[H]\n\\centering\n\\small\n\\caption{350 W/cm$^2$ 下 NACA 小模型的保存结果}\n\\label{tab:naca350}\n\\begin{tabularx}{\\textwidth}{@{}Y r r r r r@{}}\n\\toprule\n\\rowcolor{ydzjlight} 模型或分支 & 热流密度 & 最高温度 & 平均温度 & 压差 & 水力功率 \\\\\n & / (W/cm$^2$) & / $^\\circ$C & / $^\\circ$C & / kPa & / W \\\\\n\\midrule\n0016 A06 基础 & 350.00 & 58.20 & 34.18 & 3.393 & 0.05428 \\\\\n2416 A00 core & 350.00 & 71.03 & 40.07 & 2.456 & 0.03929 \\\\\n2416 A00 尾部 BOI & 350.00 & 71.01 & 39.25 & 2.512 & 0.04019 \\\\\n0016 A06 拟合物性 & 350.00 & 59.61 & 34.62 & 4.290 & 0.06864 \\\\\n0016 A06 REFPROP & 350.00 & 59.54 & 34.59 & 4.290 & 0.06864 \\\\\n2416 v3 & 350.00 & 72.83 & 38.74 & 2.348 & 0.03757 \\\\\n\\bottomrule\n\\end{tabularx}\n\\end{table}"
+      },
+      {
+        "label": "tab:nacav2",
+        "text": "\\begin{table}[H]\n\\centering\n\\small\n\\caption{同热负荷、同流量与同保存时刻的 v2 翼型结果}\n\\label{tab:nacav2}\n\\begin{tabularx}{\\textwidth}{@{}Y r r r r r@{}}\n\\toprule\n\\rowcolor{ydzjlight} 模型或分支 & 热流密度 & 最高温度 & 平均温度 & 压差 & 水力功率 \\\\\n & / (W/cm$^2$) & / $^\\circ$C & / $^\\circ$C & / kPa & / W \\\\\n\\midrule\nNACA0016 v2 & 450.00 & 85.34 & 43.21 & 2.248 & 0.03596 \\\\\nNACA1416 v2 & 450.00 & 85.31 & 43.46 & 2.255 & 0.03609 \\\\\nNACA3416 v2 & 450.00 & 85.11 & 43.12 & 2.366 & 0.03785 \\\\\n\\bottomrule\n\\end{tabularx}\n\\end{table}"
+      },
+      {
+        "label": "tab:naca2420",
+        "text": "\\begin{table}[H]\n\\centering\n\\small\n\\caption{NACA2420 在 1 s 时刻的设置与时间步验证结果}\n\\label{tab:naca2420}\n\\begin{tabularx}{\\textwidth}{@{}Y r r r r r@{}}\n\\toprule\n\\rowcolor{ydzjlight} 模型或分支 & 热流密度 & 最高温度 & 平均温度 & 压差 & 水力功率 \\\\\n & / (W/cm$^2$) & / $^\\circ$C & / $^\\circ$C & / kPa & / W \\\\\n\\midrule\n2420 v4 原始 & 126.82 & 43.08 & 31.40 & 1.377 & 0.01653 \\\\\n2420 回流 300 K & 126.82 & 44.23 & 31.83 & 1.651 & 0.01988 \\\\\n2420 IAPWS $\\Delta t=0.01$ s & 126.82 & 44.32 & 31.87 & 1.652 & 0.01989 \\\\\n2420 IAPWS $\\Delta t=0.005$ s & 126.82 & 44.32 & 31.87 & 1.652 & 0.01989 \\\\\n\\bottomrule\n\\end{tabularx}\n\\end{table}"
+      },
+      {
+        "label": "tab:control",
+        "text": "\\begin{table}[H]\n\\centering\n\\caption{控制仿真工况与结果}\n\\label{tab:control}\n\\begin{tabularx}{\\textwidth}{@{}Y Y@{}}\n\\toprule\n\\rowcolor{ydzjlight} 项目 & 取值 \\\\\n\\midrule\n目标温度 & 68 $^\\circ$C \\\\\n热源基础温度 / 波动幅度 & 82 $^\\circ$C / $\\pm$12 $^\\circ$C，周期 15 s \\\\\nPID 参数 & $K_p=8.0$，$K_i=0.5$，$K_d=2.0$ \\\\\n控制周期 & 50 ms \\\\\n\\multicolumn{2}{@{}l@{}}{\\textit{仿真结果}} \\\\\n芯片温度范围 & 50.7 至 72.1 $^\\circ$C \\\\\n峰值超调 & 正 3.9 $^\\circ$C（5.7\\%） \\\\\n阀开度范围 & 0 至 100\\%，均值 54.4\\% \\\\\n上行程饱和时间占比 & 29.3\\% \\\\\n\\bottomrule\n\\end{tabularx}\n\\end{table}"
+      },
+      {
+        "label": "tab:plan",
+        "text": "\\begin{table}[H]\n\\centering\n\\caption{下月工作计划}\n\\label{tab:plan}\n\\begin{tabularx}{\\textwidth}{@{}Y Y c@{}}\n\\toprule\n\\rowcolor{ydzjlight} 事项 & 预期产出 & 时间 \\\\\n\\midrule\n形成三人共用的指标定义表 & 指标定义表 & 第 1 周 \\\\\n建立单柱基准，探究代理模型模型，剥离参数影响 & 单柱基准数据与参数影响曲线 & 第 1--3 周 \\\\\n执行器特性辨识实验方案细化 & 辨识实验细则 & 第 3--4 周 \\\\\n复核已有叶脉模型并开展叶脉／沙丘同工况对比 & 仿生方案性能数据 & 第 3--4 周 \\\\\n\\bottomrule\n\\end{tabularx}\n\\end{table}"
+      }
+    ],
+    "images": [
+      "figs/month2_other_models.png",
+      "figs/month2_naca_models.png"
+    ]
+  },
+  {
+    "file": "逻辑月3_形态与物理.tex",
+    "sha256": "59c5f31637455b83323ea6fd9433676726b15c07170405e57aac7347cc6c23ab",
+    "tables": [
+      {
+        "label": "tab:tasks",
+        "text": "\\begin{table}[H]\n\\centering\n\\caption{本月任务完成情况}\n\\label{tab:tasks}\n\\begin{tabularx}{\\textwidth}{@{}Y c Y@{}}\n\\toprule\n\\rowcolor{ydzjlight} 任务 & 状态 & 说明 \\\\\n\\midrule\n网格无关性检验 & 阶段完成 & 完成七档对比；约 300 万局部接近，联合判据待复核 \\\\\n单柱基准模型 & 部分完成 & 建立分组参数，采用单根独立仿真 \\\\\n流场与温度场机理分析 & 部分完成 & 已定位高弯度翼型的尾缘流动死区 \\\\\n\\bottomrule\n\\end{tabularx}\n\\end{table}"
+      },
+      {
+        "label": "tab:udf",
+        "text": "\\begin{table}[H]\n\\centering\n\\caption{原水物性在 298.15 K 校验点的偏差}\n\\label{tab:udf}\n\\begin{tabularx}{\\textwidth}{@{}Y c Y@{}}\n\\toprule\n\\rowcolor{ydzjlight} 物性 & 相对参考值偏差 & 影响 \\\\\n\\midrule\n密度 & 偏低约 60.8\\% & 直接影响流量与压降 \\\\\n比热 & 偏低约 10.5\\% & 影响温升与热量收支 \\\\\n黏度 & 偏低约 26.7\\% & 影响雷诺数与流动阻力 \\\\\n\\bottomrule\n\\end{tabularx}\n\\end{table}"
+      },
+      {
+        "label": "tab:mesh",
+        "text": "\\begin{table}[H]\\centering\n\\caption{NACA2416 在 $0.2\\,\\mathrm{s}$ 的七档网格结果}\n\\label{tab:mesh}\n\\begin{tabular}{rrrr}\\toprule\n单元数 / 万 & $\\overline T$ / K & $T_{\\max}$ / K & $\\Delta p$ / Pa \\\\\n\\midrule\n26.02 & 304.6684 & 344.6755 & 2505.204 \\\\\n57.51 & 304.4113 & 345.2657 & 2389.274 \\\\\n107.36 & 303.9449 & 345.1536 & 2440.766 \\\\\n152.49 & 305.0933 & 346.0488 & 2389.938 \\\\\n294.33 & 304.3736 & 345.9640 & 2355.838 \\\\\n323.51 & 304.3009 & 345.9838 & 2348.320 \\\\\n461.08 & 305.9860 & 346.6188 & 2448.714 \\\\\n\\bottomrule\\end{tabular}\\end{table}"
+      },
+      {
+        "label": "tab:mesh_ref323",
+        "text": "\\begin{table}[H]\\centering\n\\caption{以323万档为参考的温度与压降相对差异（\\%）}\n\\label{tab:mesh_ref323}\n\\begin{tabular}{rrrr}\\toprule\n单元数 / 万 & 平均温度差异 & 最高温度差异 & 压降差异 \\\\\n\\midrule\n26.02 & 0.1208 & 0.3782 & 6.6807 \\\\\n57.51 & 0.0363 & 0.2076 & 1.7440 \\\\\n107.36 & 0.1170 & 0.2400 & 3.9367 \\\\\n152.49 & 0.2604 & 0.0188 & 1.7722 \\\\\n294.33 & 0.0239 & 0.0057 & 0.3201 \\\\\n323.51 & 0.0000 & 0.0000 & 0.0000 \\\\\n461.08 & 0.5537 & 0.1835 & 4.2751 \\\\\n\\bottomrule\\end{tabular}\\end{table}"
+      },
+      {
+        "label": "tab:plan",
+        "text": "\\begin{table}[H]\n\\centering\n\\caption{下月工作计划}\n\\label{tab:plan}\n\\begin{tabularx}{\\textwidth}{@{}Y Y c@{}}\n\\toprule\n\\rowcolor{ydzjlight} 事项 & 预期产出 & 时间 \\\\\n\\midrule\n挂接新 UDF，完成物性自检与代表工况复算 & 复算结果与排序对比 & 第 1 周 \\\\\n建立单柱基准模型 & 单柱模型与基准数据 & 第 1--2 周 \\\\\n单参数扫掠（厚度、弯度、攻角） & 参数影响特性曲线 & 第 2--4 周 \\\\\n小块连接段设计（为下一逻辑月铺垫） & 连接段形态方案 & 第 3--4 周 \\\\\n\\bottomrule\n\\end{tabularx}\n\\end{table}"
+      }
+    ],
+    "images": [
+      "figs/month3_mesh_temperature_pressure.png",
+      "figs/month3_mesh_errors_ref323.png",
+      "figs/month3_mesh_flowfield.png",
+      "figs/month3_mesh_outlet.png"
+    ]
+  },
+  {
+    "file": "逻辑月4_连接成网络.tex",
+    "sha256": "9dbed9add3b3fabde1a13c8dc853d3f00ba08d855652ba42978e2c0c9694aa5c",
+    "tables": [
+      {
+        "label": "tab:tasks",
+        "text": "\\begin{table}[H]\n\\centering\n\\caption{本月任务完成情况}\n\\label{tab:tasks}\n\\begin{tabularx}{\\textwidth}{@{}Y c Y@{}}\n\\toprule\n\\rowcolor{ydzjlight} 任务 & 状态 & 说明 \\\\\n\\midrule\n流路网络拓扑 & 未开始 & 【待补：网络拓扑方案】 \\\\\n小块连接段设计 & 部分完成 & 已明确设计方向与评价方法，方案待出 \\\\\n支路流量分配优化 & 未开始 & 【待补：分流方案与流量数据】 \\\\\nUDF 修正收尾 & 部分完成 & 编译已完成，挂接与复算待推进 \\\\\n\\bottomrule\n\\end{tabularx}\n\\end{table}"
+      },
+      {
+        "label": "tab:lit",
+        "text": "\\begin{table}[H]\n\\centering\n\\caption{本阶段文献与资料}\n\\label{tab:lit}\n\\begin{tabularx}{\\textwidth}{@{}c Y Y@{}}\n\\toprule\n\\rowcolor{ydzjlight} 序号 & 文献与资料 & 解决了我哪个问题 \\\\\n\\midrule\n1 & 申报书中复合冷板的分区方案 & 确定网络拓扑的总体约束 \\\\\n2 & 新水物性 UDF 源码 & 明确挂接与校验所需的条件 \\\\\n3 & 流动分配不均匀性的相关研究 & 理解并联支路供液不足的机理 \\\\\n\\bottomrule\n\\end{tabularx}\n\\end{table}"
+      },
+      {
+        "label": "tab:ready",
+        "text": "\\begin{table}[H]\n\\centering\n\\caption{本月工作的前置条件}\n\\label{tab:ready}\n\\begin{tabularx}{\\textwidth}{@{}Y Y Y@{}}\n\\toprule\n\\rowcolor{ydzjlight} 前置条件 & 状态 & 来源 \\\\\n\\midrule\n单元级网格基准 & 已有 & 上逻辑月网格无关性检验，约 150 万 \\\\\n单元级性能数据 & 已有 & 四种流道 39 个工况 \\\\\n新物性 UDF & 已编译 & 上逻辑月完成 \\\\\n连接段设计方向 & 已明确 & 本月 \\\\\n整板分区方案 & 【待确认】 & 取决于小块划分定义 \\\\\n\\bottomrule\n\\end{tabularx}\n\\end{table}"
+      },
+      {
+        "label": "tab:plan",
+        "text": "\\begin{table}[H]\n\\centering\n\\caption{下月工作计划}\n\\label{tab:plan}\n\\begin{tabularx}{\\textwidth}{@{}Y Y c@{}}\n\\toprule\n\\rowcolor{ydzjlight} 事项 & 预期产出 & 时间 \\\\\n\\midrule\n确定小块划分定义，据此设计网络拓扑 & 网络拓扑方案 & 第 1 周 \\\\\n连接段过渡与分流通道建模 & 连接段形态方案与入口流场对比 & 第 2--3 周 \\\\\n支路流量分配与连接段压降校核 & 分流方案与压降数据 & 第 3 周 \\\\\n整板组合模型与初步分流核对 & 分区布局与调控基础数据 & 第 4 周 \\\\\n\\bottomrule\n\\end{tabularx}\n\\end{table}"
+      }
+    ],
+    "images": []
+  },
+  {
+    "file": "逻辑月5_整板验证.tex",
+    "sha256": "3cda6eea7fb144f6a2d43b39e4ef17e2b38b65d83d8c8ccea183fbc4e41d695a",
+    "tables": [
+      {
+        "label": "tab:tasks",
+        "text": "\\begin{table}[H]\n\\centering\n\\caption{本月任务完成情况}\n\\label{tab:tasks}\n\\begin{tabularx}{\\textwidth}{@{}Y c Y@{}}\n\\toprule\n\\rowcolor{ydzjlight} 验证内容 & 状态 & 说明 \\\\\n\\midrule\n分区方案有效性 & 未开始 & 依赖网络与连接段方案 \\\\\n流动分配合理性 & 未开始 & 依赖支路流量数据 \\\\\n整板能效 & 未开始 & 依赖整板组合模型 \\\\\n与单流道对比 & 未开始 & 单元基准已有，整板数据待出 \\\\\n控制可行性 & 未开始 & 依赖执行器特性辨识实验 \\\\\n\\bottomrule\n\\end{tabularx}\n\\end{table}"
+      },
+      {
+        "label": "tab:pre",
+        "text": "\\begin{table}[H]\n\\centering\n\\caption{整板验证的前置条件}\n\\label{tab:pre}\n\\begin{tabularx}{\\textwidth}{@{}Y c Y@{}}\n\\toprule\n\\rowcolor{ydzjlight} 前置条件 & 状态 & 说明 \\\\\n\\midrule\n小块划分定义 & 【待确认9】 & 决定整板分区与网络形式 \\\\\n单元级性能基准 & 已有 & 四种流道 39 工况、六种翼型 \\\\\n网格基准 & 已有 & 约 150 万网格 \\\\\n可信物性 UDF & 已编译，待挂接 & 需完成复算 \\\\\n网络拓扑与连接段 & 【待补】 & 上逻辑月未完成 \\\\\n支路流量数据 & 【待补】 & 依赖连接段建模 \\\\\n执行器特性 & 【缺数据】 & 需实测辨识 \\\\\n\\bottomrule\n\\end{tabularx}\n\\end{table}"
+      },
+      {
+        "label": "tab:plan",
+        "text": "\\begin{table}[H]\n\\centering\n\\caption{下月工作计划}\n\\label{tab:plan}\n\\begin{tabularx}{\\textwidth}{@{}Y Y c@{}}\n\\toprule\n\\rowcolor{ydzjlight} 事项 & 预期产出 & 时间 \\\\\n\\midrule\n确定小块划分定义与网络拓扑 & 划分定义与拓扑方案 & 第 1 周 \\\\\n组装整板组合模型并挂接新物性 UDF & 整板模型 & 第 1--2 周 \\\\\n整板分流校核与温度均匀性计算 & 分流与温度数据 & 第 2--3 周 \\\\\n与单流道方案的对比分析 & 对比结论 & 第 3--4 周 \\\\\n控制实验条件确认与辨识方案 & 辨识实验方案 & 第 4 周 \\\\\n\\bottomrule\n\\end{tabularx}\n\\end{table}"
+      }
+    ],
+    "images": []
+  }
+]

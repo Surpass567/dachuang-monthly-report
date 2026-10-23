@@ -1,0 +1,248 @@
+[
+  {
+    "source": "figs/01_temperature_midplane.png",
+    "uploaded": "figs/midterm_monthly1_01_temperature_midplane.png",
+    "sha256": "4d6581f0ee9e7083e2c8d0a6ef4c774f3abc0bb967f46ab99abf16c5e804a5d9",
+    "bytes": 317673
+  },
+  {
+    "source": "figs/02_pressure_midplane.png",
+    "uploaded": "figs/midterm_monthly1_02_pressure_midplane.png",
+    "sha256": "eb1806f48e2c2fb1973af6270c7fe6356b1306c23311c76e2682149c7f6639af",
+    "bytes": 130793
+  },
+  {
+    "source": "figs/03_speed_midplane.png",
+    "uploaded": "figs/midterm_monthly1_03_speed_midplane.png",
+    "sha256": "a66bfc45fe33a0f6751df997f74f6a54b4a54f9560c87756b43f126ad7edd119",
+    "bytes": 217291
+  },
+  {
+    "source": "figs/04_copper_base_temperature.png",
+    "uploaded": "figs/midterm_monthly1_04_copper_base_temperature.png",
+    "sha256": "c7eb4a26e7be69d7384f9acd4a0df10fd0d804c37310d5ed3a2817e7c0f9c62b",
+    "bytes": 250040
+  },
+  {
+    "source": "figs/05_temperature_midplane.png",
+    "uploaded": "figs/midterm_monthly1_05_temperature_midplane.png",
+    "sha256": "fd4a95df8da676d217a37037730e580fe000682a04f6f9fe78f7f19675880d5f",
+    "bytes": 218640
+  },
+  {
+    "source": "figs/06_pressure_midplane.png",
+    "uploaded": "figs/midterm_monthly1_06_pressure_midplane.png",
+    "sha256": "8539d579be00c1d46d2d8787e1d38640b00b6b87a5d77f4a19e399423432ba07",
+    "bytes": 133336
+  },
+  {
+    "source": "figs/07_speed_midplane.png",
+    "uploaded": "figs/midterm_monthly1_07_speed_midplane.png",
+    "sha256": "b44708cddc65f753551da64a71aa484a5a851218753247540f07ede32cab12f2",
+    "bytes": 209747
+  },
+  {
+    "source": "figs/08_copper_base_temperature.png",
+    "uploaded": "figs/midterm_monthly1_08_copper_base_temperature.png",
+    "sha256": "6b8065af9eed95131bd838394e6dec6d3c74aab399e139a9a87d5e5b459f4294",
+    "bytes": 243157
+  },
+  {
+    "source": "figs/09_temperature_midplane.png",
+    "uploaded": "figs/midterm_monthly1_09_temperature_midplane.png",
+    "sha256": "a8e26db2e55d8d8c941f0eaa7e1df68620e85279359345a7bb712df66b13d028",
+    "bytes": 236809
+  },
+  {
+    "source": "figs/10_pressure_midplane.png",
+    "uploaded": "figs/midterm_monthly1_10_pressure_midplane.png",
+    "sha256": "7921038d963e8ca078055cfd86272dd048198d2651ef69e2d3740e89f9d8ea0f",
+    "bytes": 130793
+  },
+  {
+    "source": "figs/11_speed_midplane.png",
+    "uploaded": "figs/midterm_monthly1_11_speed_midplane.png",
+    "sha256": "d7936c21604cbe6693292ee090717dbd16d01395f191e1e838d4bb3b710af68b",
+    "bytes": 221119
+  },
+  {
+    "source": "figs/12_copper_base_temperature.png",
+    "uploaded": "figs/midterm_monthly1_12_copper_base_temperature.png",
+    "sha256": "538b3a4b8ef43eda9277167cc5b5cabc42725f43e107a9a800e9404724553238",
+    "bytes": 247606
+  },
+  {
+    "source": "figs/13_控制框架框图.png",
+    "uploaded": "figs/midterm_monthly1_13_控制框架框图.png",
+    "sha256": "45355578bda364fa43632bbf4bcf78236609b66083a85d931667dc1a4f492301",
+    "bytes": 176282
+  },
+  {
+    "source": "figs/midterm_diagram_fig_01.pdf",
+    "uploaded": "figs/midterm_concept_fig_01.pdf",
+    "sha256": "1afde90bd14fe08754fd08c7233488c2cd8278a29627a647c541b6f1b9f67687",
+    "bytes": 94265
+  },
+  {
+    "source": "figs/midterm_diagram_fig_02.pdf",
+    "uploaded": "figs/midterm_concept_fig_02.pdf",
+    "sha256": "43e0fc340e9ce7a15a849c22f54dcd8c90d6dfcc526bf3278b148dc7004c49a6",
+    "bytes": 76496
+  },
+  {
+    "source": "figs/midterm_diagram_fig_03.pdf",
+    "uploaded": "figs/midterm_concept_fig_03.pdf",
+    "sha256": "060100a4dbdcd5a01b0b3df8c8f8b1fa5c157d8c3c04ba9cbc7c551739e1811d",
+    "bytes": 88027
+  },
+  {
+    "source": "figs/midterm_diagram_fig_11.pdf",
+    "uploaded": "figs/midterm_concept_fig_11.pdf",
+    "sha256": "d12bf6339bfc5160d564641f56a05fd2e9866bd142867d7d74bdcb12ee2fdd8b",
+    "bytes": 90990
+  },
+  {
+    "source": "figs/midterm_diagram_fig_12.pdf",
+    "uploaded": "figs/midterm_concept_fig_12.pdf",
+    "sha256": "54dd1d1e82a44f4b2cf74fc5f40c579c6dae9576066a5c5533316d7a05ea5e6a",
+    "bytes": 69395
+  },
+  {
+    "source": "figs/midterm_diagram_fig_18.pdf",
+    "uploaded": "figs/midterm_concept_fig_18.pdf",
+    "sha256": "91d244d209ea00f6f142c378ac789e5c6fd0b0896733806fa973642b7b46d407",
+    "bytes": 92321
+  },
+  {
+    "source": "figs/midterm_diagram_fig_21.pdf",
+    "uploaded": "figs/midterm_concept_fig_21.pdf",
+    "sha256": "9a9704c5d67aa42da37b5caf557d6d08d94f4e8aa0ac814c1bb51649bdb71598",
+    "bytes": 94087
+  },
+  {
+    "source": "figs/midterm_diagram_fig_24.pdf",
+    "uploaded": "figs/midterm_concept_fig_24.pdf",
+    "sha256": "54607331168a34c41e21788f6adcf2330b018e0fbd5f4a020507bf5e0736ca01",
+    "bytes": 87598
+  },
+  {
+    "source": "figs/midterm_diagram_fig_25.pdf",
+    "uploaded": "figs/midterm_concept_fig_25.pdf",
+    "sha256": "2ddd2ce3ed79ac0fab64008dd541bf7ba66aa1baa62adaf1432e0e75bc58086e",
+    "bytes": 83281
+  },
+  {
+    "source": "figs/midterm_diagram_fig_26.pdf",
+    "uploaded": "figs/midterm_concept_fig_26.pdf",
+    "sha256": "5b0681b6fa5e0528373f2addb238487b6bac1cbb7f3b46f0b067333ab93523f3",
+    "bytes": 96737
+  },
+  {
+    "source": "figs/midterm_diagram_fig_30.pdf",
+    "uploaded": "figs/midterm_concept_fig_30.pdf",
+    "sha256": "1f3bc1ff8d079993fa05edf352bf1a2abdbab97859c16226d7aa28f562381f29",
+    "bytes": 91327
+  },
+  {
+    "source": "figs/midterm_joint_detail.png",
+    "uploaded": "figs/midterm_asset_joint_detail.png",
+    "sha256": "61ccf582b897719cc0b9c84769edf2ce56380305d85af5d6767a1036915cd7f1",
+    "bytes": 241614
+  },
+  {
+    "source": "figs/midterm_naca_mesh_actual.png",
+    "uploaded": "figs/midterm_asset_naca_mesh_actual.png",
+    "sha256": "24021368e15b97d59cfcf1f468b8675b6c2d600b45272390e805bd3c6f95739c",
+    "bytes": 2459145
+  },
+  {
+    "source": "figs/midterm_pid_verified.png",
+    "uploaded": "figs/midterm_asset_pid_verified.png",
+    "sha256": "608b07aaca1c5b9a6400b8142c9dc5bc7d01b95580fd3d8458f2cd33f21fa527",
+    "bytes": 338716
+  },
+  {
+    "source": "figs/midterm_strip_overview.png",
+    "uploaded": "figs/midterm_asset_strip_overview.png",
+    "sha256": "6e971d0b06aea7069428210552d3c179d863930e59f4ae8e29d04ee8f372b1ea",
+    "bytes": 144830
+  },
+  {
+    "source": "figs/midterm_udf_01_四项物性温度曲线.png",
+    "uploaded": "figs/midterm_asset_udf_01_四项物性温度曲线.png",
+    "sha256": "993f64715ffdb110f543cf0f0f351abb6d37b7601e3b3c6c4d53f4afae63bdb5",
+    "bytes": 330873
+  },
+  {
+    "source": "figs/midterm_udf_03_1601点拟合误差.png",
+    "uploaded": "figs/midterm_asset_udf_03_1601点拟合误差.png",
+    "sha256": "2d7cfadc6ddb1303c52e0cf5b06278c19fd66b4fd0e7b0d2c5485efeef1ce661",
+    "bytes": 71791
+  },
+  {
+    "source": "figs/midterm_udf_04_同一时段求解结果.png",
+    "uploaded": "figs/midterm_asset_udf_04_同一时段求解结果.png",
+    "sha256": "eb1b8ecac2c23de49e94f818eadb272b0f7b053ca0e51705ada1270ff037ca9c",
+    "bytes": 154762
+  },
+  {
+    "source": "figs/midterm_udf_05_共同37步计算耗时.png",
+    "uploaded": "figs/midterm_asset_udf_05_共同37步计算耗时.png",
+    "sha256": "25bd11f199ae9ea72ec73643a77ece156ca1b9eeddb4aa4cf1db622a0649d73d",
+    "bytes": 66222
+  },
+  {
+    "source": "figs/midterm_whole_plate.png",
+    "uploaded": "figs/midterm_asset_whole_plate.png",
+    "sha256": "c0d46f4002d1af5979cf4d1b46b446c7aa788778207eda0755868d428c536cb2",
+    "bytes": 2328050
+  },
+  {
+    "source": "figs/month2_naca_models.png",
+    "uploaded": "figs/midterm_month2_naca_models.png",
+    "sha256": "39cb970cf3abf6897d29ae32d9a38245ff7a0337ad786c12b63772b4226c0f91",
+    "bytes": 1791689
+  },
+  {
+    "source": "figs/month2_other_models.png",
+    "uploaded": "figs/midterm_month2_other_models.png",
+    "sha256": "0ab481dbb452bf7362d3a5a29ceb224a41014d4a199c2fbdb4a3dd357080c5f9",
+    "bytes": 1832835
+  },
+  {
+    "source": "figs/month3_mesh_dimensionless.png",
+    "uploaded": "figs/midterm_month3_mesh_dimensionless.png",
+    "sha256": "2f73a362300bf82eac8171fc436eb25c096d5e23e4b7d982ea8935491c2d61c7",
+    "bytes": 499840
+  },
+  {
+    "source": "figs/month3_mesh_errors_ref323.png",
+    "uploaded": "figs/midterm_month3_mesh_errors_ref323.png",
+    "sha256": "3cfa854d28023c3cbf178625e1124f34b634d94ddd140ff108c6eaa1b29ce4cc",
+    "bytes": 264429
+  },
+  {
+    "source": "figs/month3_mesh_flowfield.png",
+    "uploaded": "figs/midterm_month3_mesh_flowfield.png",
+    "sha256": "6917fe38cfed3c8f8374b6aaff4d8e3364c9fc31431a504796d1b516224d2354",
+    "bytes": 1836613
+  },
+  {
+    "source": "figs/month3_mesh_outlet.png",
+    "uploaded": "figs/midterm_month3_mesh_outlet.png",
+    "sha256": "65665a4904570d9499655212d434b0efe6059c52a187ad16d2e2ab27bda49039",
+    "bytes": 913558
+  },
+  {
+    "source": "figs/month3_mesh_temperature_pressure.png",
+    "uploaded": "figs/midterm_month3_mesh_temperature_pressure.png",
+    "sha256": "43fb43c8f7e4576adf2f7dfe39bf2640adee0fa4011c1f66169d11d6691300e7",
+    "bytes": 281308
+  },
+  {
+    "source": "figs/udf_learning_interfaces.png",
+    "uploaded": "figs/midterm_udf_learning_interfaces.png",
+    "sha256": "8a4c9d86e55eaf646bdb6f978a8717890dc06a5fc2a90881f3fcab88326546a7",
+    "bytes": 356956
+  }
+]

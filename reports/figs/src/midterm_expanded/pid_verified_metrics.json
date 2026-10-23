@@ -1,0 +1,17 @@
+{
+  "samples": 1800,
+  "dt_s": 0.05,
+  "time_start_s": 0.0,
+  "time_end_s": 89.95,
+  "Tmin_C": 50.67625,
+  "Tmax_C": 72.06569636581274,
+  "full_peak_above_target_K": 4.065696365812741,
+  "latter_half_peak_above_target_K": 3.8864868016653844,
+  "mean_opening_pct": 54.37045490096202,
+  "upper_opening_samples_pct": 28.944444444444446,
+  "clamp_switch_max_T_difference_K": 0.0,
+  "clamp_switch_max_U_difference_pct": 0.0,
+  "Imax_clamped": 100.0,
+  "Imax_unclamped": 1052.6016221132425,
+  "upper_clip_events_pct": 28.944444444444446
+}

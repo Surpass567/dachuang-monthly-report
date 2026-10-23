@@ -1,0 +1,25 @@
+{
+  "status": "passed",
+  "core_counts": {
+    "low": 70,
+    "zhong": 27,
+    "gao": 3
+  },
+  "component_count": 221,
+  "bounds_mm": [
+    [
+      0,
+      0,
+      0
+    ],
+    [
+      40.0,
+      40.0,
+      3
+    ]
+  ],
+  "all_100_cores_match_actual_udf": true,
+  "row_gaps_filled": true,
+  "solid_fill_count": 11,
+  "method": "Actual assembly transforms and native CAD body bounds; actual C heat-class array compared against all 100 core placements."
+}

@@ -1,0 +1,473 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  第 2 个逻辑月 · 月度报告
+%  主题：指标 · 小块（形态／仿生／扰流→翼型）· 控制
+%
+%  说明：本报告由三人的既有材料按组长提纲的逻辑月重排而成。
+%        尚无素材之处按规范留空并标注，不编造。
+%  编译：xelatex 本文件（跑两遍）
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[stage2,fontset=fandol]{ydzjreport}
+
+\stagetwosetup
+  {第 2 个逻辑月 · 指标与形态}%
+  {冯旭东、陈思文、张昊洋}%
+  {复合微通道分区冷却}%
+  {【待确认】逻辑月 2 对应的自然月}%
+  {评价指标；流道形态；翼型扰流；控制回路}%
+  {建立评价口径的讨论基础，保留四种流道与六种翼型的既有对比，补充 17 条小模型结果及网格、温度配图，
+   控制方向完成一阶热平衡建模与增量式 PID 仿真。}%
+
+\begin{document}
+\makestagetwohead
+
+% ==================================================================
+\section{本月研究任务}
+
+\subsection{任务目标}
+
+本月工作三组关键词：
+\textbf{「1. 评价指标初步确立」}、\textbf{「2. 小块结构探究」}
+\textbf{「3. 控制理论学习」}。据此分解为：
+
+\begin{enumerate}
+  \item 建立\textbf{统一的评价指标体系}，为后续所有结构比较提供同一把尺子；
+  \item 小块内的\textbf{常规形态探究}：比较不同流道形式的温度与流动代价；
+  \item 小块内的\textbf{仿生结构}：从自然结构中提取微通道扰流单元的设计灵感；
+  \item 小块内的\textbf{扰流柱肋片}：把扰流单元收敛到\textbf{翼型}；
+  \item \textbf{控制理论初探}：完成控制回路建模与基础控制器仿真。
+\end{enumerate}
+
+\subsection{完成情况}
+
+\begin{table}[H]
+\centering
+\caption{本月任务完成情况}
+\label{tab:tasks}
+\begin{tabularx}{\textwidth}{@{}Y c Y@{}}
+\toprule
+\rowcolor{ydzjlight} 任务 & 状态 & 说明 \\
+\midrule
+统一评价指标体系 & 部分完成 & 已建立指标，具体衡量坐标待统一待定 \\
+小块形流道形式对比 & 已完成 & 既有四种流道 39 个有效工况；补充六边形、gao2.1 与叶脉结果 \\
+小块仿生结构 & 部分完成 & 已保存叶脉稳态结果，并补入六边形分支；统一工况对比待完成 \\
+扰流单元收敛到翼型 & 已完成 & 六种翼型基准仿真；补充 13 条 NACA 小模型结果分支 \\
+控制回路建模与控制器 & 已完成 & 一阶热平衡模型与增量式 PID \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+
+% ==================================================================
+\par\needspace{10\baselineskip}
+\section{进阶阅读与理论支撑}
+
+\subsection{本阶段文献与资料}
+
+\begin{table}[H]
+\centering
+\caption{本阶段文献与资料}
+\label{tab:lit}
+\begin{tabularx}{\textwidth}{@{}c Y Y@{}}
+\toprule
+\rowcolor{ydzjlight} 序号 & 文献与资料 & 解决了我哪个问题 \\
+\midrule
+1 & 四种流道数据与折线图 & 确定有效工况与比较条件 \\
+2 & NACA 翼型数据 & 明确相对厚度、相对弯度、攻角对液冷性能的影响 \\
+3 & 复合叶脉蜂窝微通道等仿生拓扑研究 & 提供仿生结构的设计参照 \\
+4 & 控制理论教材与 PID 专著\cite{hushousong,astrom,franklin,ogata} & 确定控制回路结构、基础控制器形式与整定思路 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{对本方向的启示}
+
+\textbf{关于指标}：不能只用某一个温度值或出口温升判断流道优劣。
+固体最高温度反映热点约束，指定表面的平均温度与温差反映均匀性，
+平均努塞尔数反映对流换热，进出口压差反映水力代价。
+综合指标必须建立在\textbf{同一基准}之上，否则数值不可比。
+
+\textbf{关于仿生}：自然演化出的结构往往同时兼顾流动分配均匀与阻力代价低两个目标——叶脉型分形的分支方式可用较少的通道断面实现均匀供液，月牙型沙丘的曲面形态则提供了低阻扰流的思路。这为小块内的流道组织提供了源自自然的参照。具体落到哪一种仿生形态，需与翼型扰流方案在同工况下比较后确定。
+
+\textbf{关于翼型}：相对厚度、相对弯度与攻角是决定扰流柱换热与流阻特性的
+三个基础参数。据此把二维翼型剖面拓展为直棱柱形、锥形、凹坑形三类三维结构，
+扰动强度与流阻代价各不相同，正对应不同热流密度区域的需求。
+
+\textbf{关于控制}：控制效果的瓶颈往往不在算法，而在对控制通道的了解程度。
+从执行器到被控量之间的物理通道必须事先知道，否则算法再好也是盲调。
+本轮按「经典理论 $\rightarrow$ PID 整定 $\rightarrow$ 数据驱动」的顺序系统补了基础\cite{hushousong,astrom,franklin,ogata}：
+经典教材提供传递函数、一阶／二阶响应与稳定性判据的框架\cite{hushousong,franklin}，
+PID 专著侧重三个作用的物理含义与工程整定方法\cite{astrom}，
+数据驱动的部分则在后续月份展开\cite{brunton}。
+
+% ==================================================================
+\section{研究进展}
+
+\subsection{已完成的工作}
+
+\begin{enumerate}
+  \item 汇总四种流道（直线、正弦、NACA2416、gao2.1）的 39 个有效工况，
+        记录固体最高温度、体积平均温度、进出口压差与水力功率；
+  \item 完成六种 NACA 翼型（0015／0021／0024／4424／6424／6624）
+        在基准工况下的流热耦合仿真，输出温度场、压力场与评价指标；
+  \item 补充整理六边形、gao2.1、叶脉及 NACA 小模型的 17 条代表性结果分支，核对热负荷、网格、流量与保存时刻，提取界面网格和加热面温度配图；
+  \item 建立控制回路的一阶热平衡模型，含执行器到散热能力的非线性映射；
+  \item 实现增量式 PID 控制器，含积分限幅与输出限幅两重工程约束。
+\end{enumerate}
+
+\subsection{关键结果}
+
+\textbf{（一）四种流道在共同热流密度下的比较}
+
+\begin{table}[H]
+\centering
+\caption{既有工况在共同热流密度下的温度与水力性能}
+\label{tab:results}
+\begin{tabularx}{\textwidth}{@{}c Y Y Y Y Y@{}}
+\toprule
+\rowcolor{ydzjlight} 热流密度 & 流道 & 最高温度 & 平均温度 & 压差 & 水力功率 \\
+ & & / $^\circ$C & / $^\circ$C & / kPa & / W \\
+\midrule
+300 & 直线 & 52.50 & 38.43 & 3.074 & 0.04919 \\
+300 & 正弦 & 62.27 & 44.84 & 4.914 & 0.05897 \\
+300 & NACA2416 & 72.48 & 45.99 & 0.979 & 0.01566 \\
+500 & gao2.1 & 68.50 & 42.55 & 12.457 & 0.11211 \\
+500 & NACA2416 & 99.60 & 56.82 & 0.926 & 0.01482 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+在 150 至 300 W/cm$^2$ 的共同工况下，最高温度与平均温度均为
+直线低于正弦、正弦低于 NACA2416；
+压差与水力功率则为 NACA2416 低于直线、直线低于正弦。
+
+300 W/cm$^2$ 时，直线最高温度比正弦低 9.77 $^\circ$C，比 NACA2416 低 19.98 $^\circ$C；
+相对正弦，其压差低约 37.4\%，水力功率低约 16.6\%。
+NACA2416 的压差与水力功率均比直线低约 68.2\%，但最高温度较高。
+
+
+\textbf{流道形态与网格的补充整理。}
+在既有四种流道数据之外，我补充整理了六边形 v4、六边形 v4.2、
+gao2.1 和叶脉 A\_leaf 的保存结果。表~\ref{tab:other-small} 记录了各自工况下的
+温度和水力指标，表~\ref{tab:other-conditions} 列出网格与计算条件。
+其中叶脉模型已经完成建模并保存了稳态结果，可作为后续仿生结构筛选的基础。
+
+本次新增表格的平均温度统一采用\textbf{固体单元温度算术平均}，
+与前表既有数据中的体积平均温度、后续翼型表中的底板平均温度分别保留；
+最高温度取固体单元最大值，压差取入口与出口的面积加权平均静压之差，
+水力功率按 $P_{\mathrm{hyd}}=\Delta p\,\dot V$ 计算。
+对于 gao2.1 的多个入口和出口，分别按总面积加权，入口体积流量取各入口之和。
+\begin{table}[H]
+\centering
+\small
+\caption{非 NACA 小模型在各自保存工况下的性能}
+\label{tab:other-small}
+\begin{tabularx}{\textwidth}{@{}Y r r r r r@{}}
+\toprule
+\rowcolor{ydzjlight} 模型或分支 & 热流密度 & 最高温度 & 平均温度 & 压差 & 水力功率 \\
+ & / (W/cm$^2$) & / $^\circ$C & / $^\circ$C & / kPa & / W \\
+\midrule
+六边形 v4 & 350.00 & 45.75 & 30.77 & 512.097 & 39.45329 \\
+六边形 v4.2 & 650.00 & 88.26 & 49.50 & 78.587 & 1.17881 \\
+gao2.1 & 600.00 & 88.41 & 53.57 & 13.969 & 0.12572 \\
+叶脉 A\_leaf & 600.00 & 61.81 & 37.92 & 47.668 & 0.76269 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+\centering
+\small
+\caption{非 NACA 小模型的网格与计算条件}
+\label{tab:other-conditions}
+\begin{tabularx}{\textwidth}{@{}Y r r r r@{}}
+\toprule
+\rowcolor{ydzjlight} 模型 & 网格单元数 & 保存时刻 / s & 时间步 / s & 流量 / (mL/s) \\
+\midrule
+六边形 v4 & 1,443,844 & 15.00 & 0.5 & 77.043 \\
+六边形 v4.2 & 1,320,229 & 6.05 & 0.01 & 15.000 \\
+gao2.1 & 2,347,198 & 0.20 & 0.01 & 9.000 \\
+叶脉 A\_leaf & 5,031,324 & 稳态 & --- & 16.000 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+六边形 v4 与 v4.2 的热负荷和流量同时发生变化，因此不能把两者的温度差
+解释为结构优化的净收益。gao2.1 与叶脉模型虽然都采用 600 W/cm$^2$，
+但流量分别为 9 和 16 mL/s，且一个是瞬态保存结果、一个是稳态结果；
+当前只能记录各自的散热表现与水力代价，尚不能据此给出结构优劣排序。
+
+图~\ref{fig:other-small} 对照展示了三种代表模型的流固界面网格和加热面温度。
+图中网格来自实际 Case 文件的平面界面面元，温度直接读取配套 Data 文件的加热面数据，
+没有额外推进求解。各温度子图采用独立色标，颜色仅反映各自工况的温度分布。
+现有单元数可说明离散规模，\textbf{不能仅据此认定网格无关性已经通过}；
+仍需对同一几何在统一工况和收敛标准下比较不同网格的结果。
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figs/month2_other_models.png}
+\caption{六边形 v4.2、gao2.1 与叶脉模型的实际界面网格及加热面温度。上排为平面流固界面网格，下排为各自保存工况的加热面温度；各列工况不同，色标独立。}
+\label{fig:other-small}
+\end{figure}
+
+\par\needspace{17\baselineskip}
+\textbf{（二）六种翼型在基准工况下的比较}
+
+\begin{table}[H]
+\centering
+\caption{不同翼型构型流热耦合仿真关键结果（基准工况）}
+\label{tab:airfoil}
+\begin{tabularx}{\textwidth}{@{}l c c c c@{}}
+\toprule
+\rowcolor{ydzjlight} 构型 & 最高温度 / K & 底板平均温度 / K & $h$ / (W/(m$^2$·K)) & PEC \\
+\midrule
+NACA0015 & 357.9 & 356.1 & 756.6 & 1.00 \\
+NACA0021 & 355.7 & 354.0 & 765.3 & 1.10 \\
+NACA0024 & 354.9 & 353.2 & 798.5 & 1.19 \\
+NACA4424 & 354.4 & 352.7 & 789.8 & 1.21 \\
+NACA6424 & 358.1 & 356.3 & 750.5 & 1.00 \\
+NACA6624 & 357.9 & 356.1 & 750.2 & 1.01 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+PEC 以 NACA0015 为基准归一化。厚度增益符合预期：
+NACA0015 增至 NACA0024 后最高温度由 357.9 K 降至 354.9 K，
+努塞尔数提高约 5.7\%。弯度效应与预期存在偏差：
+NACA64 系列 PEC 反而回落至 1.00 附近。
+
+
+\textbf{NACA 小模型的补充结果。}
+在上述六种翼型基准对比之外，我进一步整理了 NACA0016、1416、2416、3416
+及 2420 的已有小模型结果，共 13 条代表性分支。
+这些分支包含几何变化、网格组织、物性验证及时间步验证，不能全部视为独立翼型。
+新增表格沿用前述固体单元算术平均温度和水力功率口径，不将其平均温度
+直接并入表~\ref{tab:airfoil} 的底板平均温度，也不据此补算缺少统一基准的 PEC。
+
+\textbf{350 W/cm$^2$ 下的几何、网格与物性分支。}
+表~\ref{tab:naca350} 中各分支的入口体积流量均约为 16 mL/s。
+L450 表示弦长 450 $\mu$m，A06 与 A00 分别对应 $6^\circ$ 和 $0^\circ$ 攻角，
+原模型目录中的 98989 阵列标识保留在数据来源中。
+NACA0016 A06 基础分支为 3,048,985 单元，保存时刻 0.10 s；
+其拟合物性和 REFPROP 物性分支采用相同网格，时间步均为 0.001 s，
+但分别保存于 0.200 s 和 0.137 s。
+NACA2416 A00 core 与尾部 BOI 分支分别为 4,371,445 和 3,079,413 单元，
+保存时刻分别为 0.15 s 和 0.20 s，时间步均为 0.01 s；
+NACA2416 v3 列出 3,235,081 单元、时间步 0.001 s、0.20 s 时刻的结果。
+基础 NACA0016 A06 的时间步为 0.01 s。
+\begin{table}[H]
+\centering
+\small
+\caption{350 W/cm$^2$ 下 NACA 小模型的保存结果}
+\label{tab:naca350}
+\begin{tabularx}{\textwidth}{@{}Y r r r r r@{}}
+\toprule
+\rowcolor{ydzjlight} 模型或分支 & 热流密度 & 最高温度 & 平均温度 & 压差 & 水力功率 \\
+ & / (W/cm$^2$) & / $^\circ$C & / $^\circ$C & / kPa & / W \\
+\midrule
+0016 A06 基础 & 350.00 & 58.20 & 34.18 & 3.393 & 0.05428 \\
+2416 A00 core & 350.00 & 71.03 & 40.07 & 2.456 & 0.03929 \\
+2416 A00 尾部 BOI & 350.00 & 71.01 & 39.25 & 2.512 & 0.04019 \\
+0016 A06 拟合物性 & 350.00 & 59.61 & 34.62 & 4.290 & 0.06864 \\
+0016 A06 REFPROP & 350.00 & 59.54 & 34.59 & 4.290 & 0.06864 \\
+2416 v3 & 350.00 & 72.83 & 38.74 & 2.348 & 0.03757 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+这些记录说明了不同分支的温度与水力量级，但保存时刻、攻角及网格并未全部一致。
+尤其是物性分支的最终保存时刻不同，不能用本表的末态温差代替同一时刻的物性误差；
+core 与 BOI 分支也不能仅凭本表认定网格无关。
+
+\textbf{450 W/cm$^2$ 下三种 v2 翼型的初步比较。}
+三组结果的热流密度均为 450 W/cm$^2$，入口流量约为 16 mL/s，
+时间步均为 0.0002 s，保存时刻均为 0.10 s。
+NACA0016、1416、3416 的网格分别为 821,987、792,259、783,184 单元。
+表~\ref{tab:nacav2} 显示，三者最高温度相差不足 0.23 $^\circ$C；
+与 NACA0016 相比，NACA3416 最高温度降低约 0.230 $^\circ$C，
+压差和水力功率均提高约 5.25\%。
+这提示弯度变化带来的温度收益需要与流动代价一起衡量，
+但当前数据只支持该保存时刻的初步比较，仍需检查收敛状态和网格敏感性。
+\begin{table}[H]
+\centering
+\small
+\caption{同热负荷、同流量与同保存时刻的 v2 翼型结果}
+\label{tab:nacav2}
+\begin{tabularx}{\textwidth}{@{}Y r r r r r@{}}
+\toprule
+\rowcolor{ydzjlight} 模型或分支 & 热流密度 & 最高温度 & 平均温度 & 压差 & 水力功率 \\
+ & / (W/cm$^2$) & / $^\circ$C & / $^\circ$C & / kPa & / W \\
+\midrule
+NACA0016 v2 & 450.00 & 85.34 & 43.21 & 2.248 & 0.03596 \\
+NACA1416 v2 & 450.00 & 85.31 & 43.46 & 2.255 & 0.03609 \\
+NACA3416 v2 & 450.00 & 85.11 & 43.12 & 2.366 & 0.03785 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+图~\ref{fig:naca-small} 给出了三种 v2 翼型的实际界面网格和加热面温度。
+各子图分别标注色标；加热面温度是表面局部值，
+与表中固体全域最高温度和固体单元算术平均温度含义不同。
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figs/month2_naca_models.png}
+\caption{NACA0016、1416、3416 v2 小模型的界面网格与 0.10 s 加热面温度。上排为实际平面流固界面网格，下排温度来自各自配套 Data 文件，色标独立。}
+\label{fig:naca-small}
+\end{figure}
+
+\textbf{NACA2420 的回流设置、物性与时间步检查。}
+表~\ref{tab:naca2420} 的四个分支均为 771,225 单元，保存时刻均为 1 s。
+加热边界采用随时间变化的热流，表中 126.82 W/cm$^2$ 为 1 s 的瞬时值，
+不是整个计算过程的恒定热负荷。原始分支流量约为 12.000 mL/s，
+其余三个分支约为 12.041 mL/s；原始与回流温度 300 K 分支的时间步均为 0.01 s。
+\begin{table}[H]
+\centering
+\small
+\caption{NACA2420 在 1 s 时刻的设置与时间步验证结果}
+\label{tab:naca2420}
+\begin{tabularx}{\textwidth}{@{}Y r r r r r@{}}
+\toprule
+\rowcolor{ydzjlight} 模型或分支 & 热流密度 & 最高温度 & 平均温度 & 压差 & 水力功率 \\
+ & / (W/cm$^2$) & / $^\circ$C & / $^\circ$C & / kPa & / W \\
+\midrule
+2420 v4 原始 & 126.82 & 43.08 & 31.40 & 1.377 & 0.01653 \\
+2420 回流 300 K & 126.82 & 44.23 & 31.83 & 1.651 & 0.01988 \\
+2420 IAPWS $\Delta t=0.01$ s & 126.82 & 44.32 & 31.87 & 1.652 & 0.01989 \\
+2420 IAPWS $\Delta t=0.005$ s & 126.82 & 44.32 & 31.87 & 1.652 & 0.01989 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+采用 IAPWS 物性后，将时间步从 0.01 s 减小到 0.005 s，
+1 s 时刻的最高温度差约为 $3.68\times10^{-6}$ K，压差相对差约为
+$2.75\times10^{-5}\%$，各项指标在表中精度下相同。
+因此，这组结果在该时刻对本次时间步减半不敏感；
+这一检查不等同于验证整个瞬态过程，也不能替代网格无关性检验。
+本次新增的 17 条代表结果与源文件对应关系已整理到小模型汇总数据中\cite{smallmodels}。
+
+\textbf{（三）控制回路仿真}
+
+\begin{table}[H]
+\centering
+\caption{控制仿真工况与结果}
+\label{tab:control}
+\begin{tabularx}{\textwidth}{@{}Y Y@{}}
+\toprule
+\rowcolor{ydzjlight} 项目 & 取值 \\
+\midrule
+目标温度 & 68 $^\circ$C \\
+热源基础温度 / 波动幅度 & 82 $^\circ$C / $\pm$12 $^\circ$C，周期 15 s \\
+PID 参数 & $K_p=8.0$，$K_i=0.5$，$K_d=2.0$ \\
+控制周期 & 50 ms \\
+\multicolumn{2}{@{}l@{}}{\textit{仿真结果}} \\
+芯片温度范围 & 50.7 至 72.1 $^\circ$C \\
+峰值超调 & 正 3.9 $^\circ$C（5.7\%） \\
+阀开度范围 & 0 至 100\%，均值 54.4\% \\
+上行程饱和时间占比 & 29.3\% \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{与预期的差异}
+
+\textbf{一、弯度效应与预期的偏差。}
+预想弯度越大换热越好，但 NACA64 系列 PEC 反而回落。
+结合流场分析，高弯度翼型尾缘附近形成\textbf{流动死区}，
+分离使有效换热面积减小，抵消了弯度带来的增益。
+
+\textbf{二、超调并非源于积分饱和。}
+原预期加入积分限幅即可消除超调，实际积分项峰值虽由 1052.6 压到 100，
+\textbf{超调并未消失}，峰值仍有正 3.9 $^\circ$C。
+根本原因是\textbf{执行器的散热能力存在物理上限}——
+仿真中有 29.3\% 的时间开度已达 100\%，此时误差仍为正，
+无论控制器输出什么都不会有效果，形成\textbf{结构性超调}。
+
+\textbf{三、复杂形态不等于更好。}
+正弦在当前配置下同时表现出较高温度与较高水力代价，
+说明曲线形态的潜在强化作用尚未转化为可确认的优势。
+\textbf{分区设计不应把「复杂流道」简单对应到「散热更强」。}
+
+% ==================================================================
+\section{问题与对策}
+
+\subsection{遇到的主要问题}
+
+\begin{enumerate}
+  \item \textbf{指标口径不统一。} 三份工作分别使用不同的指标组合，
+        且两个综合指标的\textbf{基准不同}，数值不可直接比较。
+  \item \textbf{单变量影响无法剥离。} 整体流道内扰流柱数量较多，
+        各翼型参数与流动干扰相互耦合，无法从整体仿真中分离单一变量。
+  \item \textbf{执行器特性未知。} 控制模型中的散热系数为经验设定，
+        无实测依据，参数不可信使仿真结论只能定性。
+\end{enumerate}
+
+\subsection{已尝试的方案}
+
+\begin{enumerate}
+  \item 针对问题 1，已统一单位与指标定义，并把比较限制到共同热流密度，
+        同时计算峰值热阻与水力功率；但基准差异仍未消除。
+  \item 针对问题 2，尝试在整体流道层面对比不同构型，
+        因多柱干扰无法解耦，该路线受限。
+  \item 针对问题 3，尝试用已有 CFD 稳态结果反推散热能力，
+        但缺少动态响应信息，只能得到稳态趋势。
+\end{enumerate}
+
+\subsection{下一步对策}
+
+\begin{enumerate}
+  \item 明确指标基准，形成三人共用的指标定义表；
+  \item 缩小研究范围，聚焦\textbf{单个扰流柱}，建立单柱局部模型，
+        逐一控制变量考察厚度、弯度、攻角的独立影响；
+  \item 设计并执行执行器特性辨识实验，用增量叠加形式降低实验量。
+\end{enumerate}
+
+% ==================================================================
+\section{阶段性结论}
+
+
+\begin{enumerate}
+  \item 四种流道与六种翼型的仿真数据已形成，
+        新增 17 条小模型分支及其来源记录，结构工作由多方案探索推进到重点形态筛选；新增分支尚需统一工况复核。
+  \item 现有共同工况显示：直线温度较低，NACA2416 水力代价较低，
+        正弦暂缺优先配置依据；gao2.1 提供高负荷热点控制的验证方向。
+  \item 对热流密度进行分区并采用差异化结构，
+        可改善局部过热与背景区过度冷却并存的问题。
+  \item 控制回路的基本逻辑正确，增量式 PID 的两重限幅按预期动作；
+        但超调来自执行器能力上限，而非算法本身。
+\end{enumerate}
+
+% ==================================================================
+\section{下月计划}
+
+\begin{table}[H]
+\centering
+\caption{下月工作计划}
+\label{tab:plan}
+\begin{tabularx}{\textwidth}{@{}Y Y c@{}}
+\toprule
+\rowcolor{ydzjlight} 事项 & 预期产出 & 时间 \\
+\midrule
+形成三人共用的指标定义表 & 指标定义表 & 第 1 周 \\
+建立单柱基准，探究代理模型模型，剥离参数影响 & 单柱基准数据与参数影响曲线 & 第 1--3 周 \\
+执行器特性辨识实验方案细化 & 辨识实验细则 & 第 3--4 周 \\
+复核已有叶脉模型并开展叶脉／沙丘同工况对比 & 仿生方案性能数据 & 第 3--4 周 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% ==================================================================
+\begin{thebibliography}{9}
+
+\bibitem{smallmodels} 小模型保存结果与性能汇总. 项目仿真资料, 2026. 见配套数据文件 small\_model\_results.csv 及 model\_sources.json；数值由 Case／Data 提取，图像由实际面元及表面温度生成。
+\bibitem{airfoil} 微通道液冷场景下的翼型参数. 项目资料, 2026.
+\bibitem{control} 控制理论与 PID 算法相关资料. 项目资料, 2026.
+
+% ---------- 控制理论学习书籍（张昊洋补充）----------
+\bibitem{hushousong} 胡寿松. 自动控制原理[M]. 8 版. 北京: 科学出版社, 2023.
+\bibitem{astrom} {\AA}STR{\"O}M K J, H{\"A}GGLUND T. PID Controllers: Theory, Design, and Tuning[M]. 2nd ed. Research Triangle Park: Instrument Society of America, 1995.
+\bibitem{franklin} FRANKLIN G F, POWELL J D, EMAMI-NAEINI A. Feedback Control of Dynamic Systems[M]. 8th ed. London: Pearson, 2019.
+\bibitem{ogata} OGATA K. Modern Control Engineering[M]. 5th ed. London: Pearson, 2010.
+\bibitem{brunton} BRUNTON S L, KUTZ J N. Data-Driven Science and Engineering: Machine Learning, Dynamical Systems, and Control[M]. 2nd ed. Cambridge: Cambridge University Press, 2022.
+\end{thebibliography}
+\textcolor{red}{陈思文插入数据来源网址}
+\end{document}
