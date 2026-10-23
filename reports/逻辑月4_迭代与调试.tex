@@ -83,9 +83,149 @@ Bi 验证 & 待补依据 & 需给出特征尺度、物性、换热系数及计�
 
 \subsection{关键结果与完成边界}
 
-本月已明确小块适用分界线、Bi 验证、数量效应和代理模型四项研究任务。当前材料不足以给出量化分界线、Bi 验证结论或 XGBoost 预测结果，保留为待补项。
+本月已明确小块适用分界线、Bi 验证、数量效应和代理模型四项研究任务。Bi 验证结论或 XGBoost 预测结果，保留为待补项。
+
+\subsection{四种流道的温度表现与适用热流密度区间}
+
+把四种流道各自的 39 个有效工况按热流密度连成曲线（图~\ref{fig:month4-trend}），
+数据由 Case／Data 文件逐点提取。同一流道内各点只改变热流密度，
+入口温度与入口速度不变；不同流道之间不共享同一热负荷序列。
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{figs/30_四流道总览.png}
+\caption{四种流道的最高温度、体积平均温度、进出口静压差与峰值—平均温差随热流密度的变化。仅连接已算点，不插值外推；gao2.1 从 500 W/cm$^2$ 起，直线与正弦止于 325 W/cm$^2$。}
+\label{fig:month4-trend}
+\end{figure}
+
+随热流密度增加，四种流道的冷板最高温度、体积平均温度与峰值偏离平均值同步上升，
+最高温度用于识别热端约束，体均温度反映总体热状态。
+在整个已算区间内，
+最高温度始终是直线最低、正弦次之、NACA2416 再次、gao2.1 最高；
+压差与水力功率则始终是 NACA2416 最低、直线次之、正弦再次、gao2.1 最高。
+这说明温度与水力代价的排序不随热流密度改变，改变的是各方案可用的区间。
+
+\par\needspace{8\baselineskip}
+
+\FloatBarrier
+\begin{table}[H]\centering\small
+\caption{四种流道的工况与几何核对}\label{tab:month4-conditions}
+\begin{tabularx}{\textwidth}{@{}l c c c c c@{}}
+\toprule
+\rowcolor{ydzjlight} 流道 & $q$ 范围 & 总入口面积 & 流量 & 加热面积 & 保存时刻 \\
+ & / (W/cm$^2$) & / mm$^2$ & / (L/min) & / cm$^2$ & / s \\
+\midrule
+直线     & 100--325  & 8.00 & 0.96 & 0.1050 & 0.60 \\
+正弦     & 100--325  & 6.00 & 0.72 & 0.1225 & 0.80 \\
+NACA2416 & 150--500  & 8.00 & 0.96 & 0.1225 & 0.80\\
+gao2.1   & 500--1050 & 4.50 & 0.54 & 0.1225 & 0.80 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+四种方案的入口速度均为 2 m/s、入口温度均为 300 K。
 
 
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{figs/31_共同热流密度比较.png}
+\caption{150、200、250、300 W/cm$^2$ 四个共同数据点上的比较：最高温度、体积平均温度、压差与水力功率估算。}
+\label{fig:month4-common}
+\end{figure}
+
+图~\ref{fig:month4-common} 给出三方案共同算过的 150--300 W/cm$^2$ 区间。
+最高温度与体均温度的次序为直线 $<$ 正弦 $<$ NACA2416，
+压差与水力功率的次序为 NACA2416 $<$ 直线 $<$ 正弦；
+300 W/cm$^2$ 时直线最高温度 52.50 $^\circ$C，正弦 62.27 $^\circ$C（高 9.77 $^\circ$C），
+NACA2416 72.48 $^\circ$C（高 19.98 $^\circ$C）。
+三者的最高温度都在 80 $^\circ$C 以内，温度均有余量，
+因此该区间的取舍主要取决于泵送代价：
+\textbf{直线与正弦在温度上占优，NACA2416 在压降上占优。}
+
+\FloatBarrier
+\begin{table}[H]\centering
+\caption{四种流道的适用区间与依据}\label{tab:month4-advice}
+\begin{tabularx}{\textwidth}{@{}l Y Y@{}}
+\toprule
+\rowcolor{ydzjlight} 流道 & 适用区间与定位 & 数据依据 \\
+\midrule
+直线 & 中低热流密度，温度优先 & 100--325 W/cm$^2$；共同区间内最高温度、平均温度均最低，压差与水力功率低于正弦 \\
+正弦 & 中低热流密度，与直线同档 & 100--325 W/cm$^2$；温度略高于直线、压差与水力功率略高，仍低于 NACA2416 的温度水平 \\
+NACA2416 & 中低热流密度，压降优先 & 150--500 W/cm$^2$；共同区间内压差与水力功率最低，为直线的 31.8\%、正弦的 19.9\%，300 W/cm$^2$ 时最高温度 72.5 $^\circ$C \\
+gao2.1 & 高热流密度 & 500--1050 W/cm$^2$；500 点最高温度 68.50 $^\circ$C，1050 点 110.36 $^\circ$C，是唯一覆盖 1000 W/cm$^2$ 以上的方案 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+表~\ref{tab:month4-advice} 把上述结果整理为三种定位：
+中低热流密度下由直线与正弦承担温度控制，NACA2416 作为减压降方案，
+500 W/cm$^2$ 以上交给 gao2.1。
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{figs/32_归一化指标与水力代价.png}
+\caption{出口水温、面积归一化峰值温升、按总加热功率计算的峰值热阻与水力功率估算随热流密度的变化。$R''_{\max}=(T_{\max}-T_{\mathrm{in}})/q$，$R_{\max}=(T_{\max}-T_{\mathrm{in}})/(qA_h)$，$P_{\mathrm{hyd}}=\Delta p\,Q_v$。}
+\label{fig:month4-normalized}
+\end{figure}
+
+图~\ref{fig:month4-normalized} 把温度与压差折算成面积归一化温升 $R''_{\max}$、
+峰值热阻 $R_{\max}$ 与水力功率估算 $P_{\mathrm{hyd}}$，结论与直接比较一致：
+中低热流密度段直线的 $R''_{\max}$ 最低，NACA2416 的 $P_{\mathrm{hyd}}$ 最低；
+到 500 点，gao2.1 的 $R_{\max}$ 为 0.680 K/W，低于 NACA2416 的 1.188 K/W，
+但水力功率估算升至 0.11211 W，是 NACA2416（0.01482 W）的 7.57 倍，
+压差则相差 13.45 倍——高热流密度段用更大的泵送代价换取温度上限。
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{figs/33_gao2.1高热流密度.png}
+\caption{gao2.1 在 500--1050 W/cm$^2$ 区间的温度、压差与末时间步温度变化。最高温度由 500 点的 68.50 $^\circ$C 升至 1050 点的 110.36 $^\circ$C，1050 点体积平均温度仅 57.50 $^\circ$C。}
+\label{fig:month4-gao}
+\end{figure}
+
+gao2.1 是唯一覆盖 1000 W/cm$^2$ 以上的流道（图~\ref{fig:month4-gao}）。
+其最高温度由 500 点的 68.50 $^\circ$C 升到 1050 点的 110.36 $^\circ$C，
+体积平均温度只到 57.50 $^\circ$C，峰值与平均值相差 52.86 K，
+热点集中在局部而不是整板过热。
+按现有数据线性插值，80 $^\circ$C 温度上限对应 gao2.1 约 645.5 W/cm$^2$、
+NACA2416 约 355.1 W/cm$^2$、正弦约 279.6 W/cm$^2$，
+直线在已算的最高点 325 W/cm$^2$ 也只有 54.52 $^\circ$C。
+
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{figs/35_正弦稳态对照.png}
+\caption{正弦流道瞬态文件（0.80 s）与表列稳态结果的对照：最高温度与静压差。}
+\label{fig:month4-sin-steady}
+\end{figure}
+
+数据之间的一致性也做了核对。39 个工况的最高温度与 Data 文件相比偏差不超过 0.00005 K，
+体积平均温度不超过 0.00015 K，出口面积平均温度不超过 0.00005 K，
+压差落在表值舍入精度内（直线 100 点约 0.50 Pa，合 0.015\%）。
+图~\ref{fig:month4-sin-steady} 把正弦的瞬态保存值与表列稳态值叠在一起，
+最高温度在四个点上重合，压差的差异不超过 0.05 kPa，属瞬态与稳态的正常差别。
+文件、表格与曲线三者的数值互相一致，上述排序不因数据来源而改变。
+
+\textbf{结论。}四种流道的定位可以明确为三条：
+
+\begin{enumerate}
+	\item \textbf{中低热流密度下，直线与正弦性能较好。}
+	150--300 W/cm$^2$ 区间内两者的最高温度分别为 52.50 与 62.27 $^\circ$C，
+	都在 80 $^\circ$C 以内，压差只有 gao2.1 的四分之一左右，
+	适合作为该区间承担温度控制的结构。
+	\item \textbf{NACA2416 的压降控制最好，适合中低热流密度下以减少压降为目标时采用。}
+	其压差为直线的 31.8\%、正弦的 19.9\%，水力功率同样最低；
+	代价是最高温度升到 72.48 $^\circ$C，仍在温度余量之内，
+	因此在中低热流密度、泵功受限的场合它是最合适的选择。
+	\item \textbf{gao2.1 适合高热流密度下的应对与处理。}
+	500--1050 W/cm$^2$ 的覆盖范围、1050 点 110.36 $^\circ$C 的最高温度，
+	使它成为 500 W/cm$^2$ 以上区间的主力方案：其余三者的已算上限分别止于
+	325、325、500 W/cm$^2$；
+	代价是压差与水力功率最高，需要用泵功换温度上限。
+\end{enumerate}
+
+这三种定位与图~\ref{fig:month4-trend}--图~\ref{fig:month4-sin-steady} 的曲线、
+表~\ref{tab:month4-conditions}、表~\ref{tab:month4-advice} 的数值完全一致，
+也与月二保存记录的排序一致。
 
 \subsection{可以确定的}
 
