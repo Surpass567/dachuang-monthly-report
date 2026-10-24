@@ -46,6 +46,12 @@
 \setlength{\parskip}{0pt}
 \raggedbottom
 
+% 中文断行（XeLaTeX 必需，否则中文长段落会超框）
+\XeTeXlinebreaklocale "zh"
+\XeTeXlinebreakskip = 0pt plus 1pt minus 0.1pt
+\tolerance=3000
+\emergencystretch=3em
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  2. 宏包
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -193,8 +199,8 @@
 
 \newcommand{\coverrule}[2]{%
   \noindent
-  \makebox[6em][s]{\heiti\zihao{4}#1}%
-  \underline{\makebox[0.62\textwidth][c]{\zihao{4}#2}}\par\vspace{0.9em}}
+  \makebox[5.4em][s]{\heiti\zihao{4}#1}%
+  \underline{\makebox[0.60\textwidth][c]{\zihao{-4}#2}}\par\vspace{0.95em}}
 
 \newcommand{\makecover}{%
   \begin{titlepage}
@@ -210,7 +216,7 @@
 
     {\heiti\zihao{3}\ydzjfield\par}
 
-    \vspace{3.0cm}
+    \vspace{2.8cm}
 
     \zihao{4}
     \begin{center}
@@ -224,8 +230,6 @@
 
     \vfill
     {\heiti\zihao{4}\ydzjperiod\par}
-    \vspace{0.5cm}
-    {\heiti\zihao{4} 二〇二六年十月\par}
     \vspace{1.2cm}
   \end{titlepage}
   \clearpage
