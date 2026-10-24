@@ -68,6 +68,17 @@ python check.py
 会检查括号平衡、交叉引用、图片文件，并编译验证。
 **`Overfull` / `Missing character` / `Error` 三项必须都是 0。**
 
+## 新人上手（不熟悉 Git / GitHub）
+
+完整操作说明见 [docs/GitHub使用说明.md](docs/GitHub使用说明.md)，也可直接看 [PDF](docs/GitHub使用说明.pdf)。内容包括：
+
+- Git 安装、身份与换行符配置（Windows 三条必配）
+- 首次登录与访问令牌（PAT）生成
+- 把仓库拿到本地、确认协作者权限
+- **让 AI 代你执行 git 操作**的前置条件、话术表与一次说清的模板
+- 推送被拒、合并冲突、中文乱码、大文件等常见报错的处理
+- 危险操作黑名单（`git push --force` 等）
+
 ## 目录结构
 
 ```
@@ -76,6 +87,8 @@ python check.py
 ├── CONTRIBUTING.md          格式规范（单位、符号、表格）
 ├── CHANGELOG.md             版本记录
 ├── check.py                 编译自检
+├── docs/
+│   └── GitHub使用说明.md / .pdf   新人上手说明
 ├── reports/
 │   ├── 逻辑月1_基础建立.tex / .pdf
 │   ├── ...

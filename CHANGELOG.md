@@ -1,5 +1,18 @@
 # 更新记录
 
+## 2026-10-25 — 新增 docs/GitHub使用说明（面向不熟悉 Git 的队友）
+
+仓库新增面向新队员的上手文档：[Markdown 版](docs/GitHub使用说明.md) 与 [PDF 版](docs/GitHub使用说明.pdf)（11 页）。内容覆盖：
+
+- Git 安装、身份配置与 Windows 三条必配（`core.quotepath`／`core.autocrlf`／`credential.helper`）
+- 首次登录、Personal Access Token（PAT）生成、协作者权限确认
+- **让 AI 代执行 git 操作**的前置条件清单、话术表与「一次说清」的模板
+- 推送被拒、合并冲突、CRLF 警告、中文文件名、大文件、误删恢复的处理方法
+- 六条危险操作黑名单（`git push --force`、`git reset --hard` 等）
+- 本仓库的具体规矩（编译两遍、`check.py` 三项为 0、图片放 `figs/`、提交信息用中文）
+
+同步在 [README](README.md) 增加「新人上手」章节并更新目录结构，指向该文档。本次仅新增文档与 README 说明，未改动任何报告内容。
+
 ## 2026-10-25 — 中期报告：删除待补充列与表 2-12，参考文献扩充到 20 条
 
 按「表格中【待补充】所在列直接删除、表格居中、参考文献不要列太少、表 2-12 直接删除」处理[中期报告](reports/中期报告.tex)，正文论述与数据未改动：
