@@ -9,8 +9,9 @@
 - **表格居中**：上述 7 张 `tabularx` 表列类型由 `lY` 改为 `CC`，longtable 的 `p{}` 列改为 `\centering`，避免删列后内容左对齐、右侧留白。
 - **删除表 2-12**：整表删除「CFD 与代理模型计算开销记录模板」，并改写正文中对它的引用（改为说明实测计时尚未开展）。
 - **参考文献扩充**：由 4 条增至 **20 条**，新增条目全部取自仓库内已核实文献（[逻辑月1](reports/逻辑月1_基础建立.tex)、[逻辑月2](reports/逻辑月2_指标与形态.tex)、[逻辑月3](reports/逻辑月3_形态与物理.tex) 的文献表）与项目计划书，未引入未经核实条目；[文献表](reports/中期报告.tex)由 3 行扩至 13 行，并在区域化冷板、最小闭环 PID、物理灰箱模型三处补充正文引用，20 条文献全部被正文引用。
+- **修掉参考文献前的整页空白**：`\begin{thebibliography}` 前原有 `\FloatBarrier` + `\Needspace{27\baselineskip}`，要求预留约 16 cm，导致第 35 页正文结束后空 13.8 cm 才另起一页。改为 `\Needspace{8\baselineskip}` 并去掉该 `\FloatBarrier`，参考文献紧接正文排版，全篇由 39 页降至 **38 页**。
 
-验证：xelatex 干净重建三遍，Overfull=0、Missing character=0、Error=0、未定义引用 0；`python check.py reports/中期报告.tex` 全部通过；[PDF](reports/中期报告.pdf) 39 页，表号连续（第二章止于表 2-11）、参考文献编号至 [20]、全文「待补充」0 处。
+验证：xelatex 干净重建三遍，Overfull=0、Missing character=0、Error=0、未定义引用 0；`python check.py` 对全部 6 份报告与 2 份骨架均通过；[PDF](reports/中期报告.pdf) 38 页，表号连续（第二章止于表 2-11）、参考文献编号至 [20]、全文「待补充」0 处；逐页扫描空白带，除封面、目录、末页外仅第 7、12 页存在 3.0 cm 与 4.1 cm 的浮动体空隙。
 
 ## 2026-10-24 — 中期报告云图改为单张组图，42 页降至 39 页
 
