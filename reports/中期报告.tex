@@ -121,12 +121,22 @@
 \subsection{文献与理论准备}
 
 \subsubsection{本阶段文献清单}
-本节沿用已核实的三项文献，不从格式范例引入其他项目的仿真数据或参考结论。文献与用途对应关系见表~\ref{tab:reading}。
+本节梳理已核实的文献，说明其与本项目方法的对应关系；不从格式范例引入其他项目的仿真数据或参考结论。文献与用途对应关系见表~\ref{tab:reading}。
 \begin{table}[!htbp]\centering\small
 \caption{已有文献与本项目的方法对应}\label{tab:reading}
 \begin{tabularx}{\linewidth}{@{}Y Y Y@{}}\toprule
 \rowcolor{ydzjlight} 文献 & 对应问题 & 本项目采用范围 \\\midrule
 Tuckerman 与 Pease（1981）\cite{tuckerman1981} & 紧凑微通道散热的技术背景 & 作为背景，不代替本项目结构对照。\\
+王雅博等（2018）\cite{ref16} & 冷却水进出方式对换热与流阻的影响 & 作为进出口布置的参照，按本项目工况复算。\\
+Choi 等\cite{ref17} & N 型歧管分流与短流路组织 & 借鉴分流拓扑，不引用其风冷结论。\\
+张乾坤等（2025）\cite{ref6} & 叶脉仿生分支流道的配流与降阻 & 作为仿生候选形态的来源。\\
+Wang 等\cite{ref5} & 非等高双层通道、分形分叉与冲击射流组合 & 作为层间配流与局部强化组合的参照。\\
+Yang 等\cite{ref7} & 增材制造微通道的可制造性约束 & 用于筛选可加工候选结构。\\
+Ansari 与 Kim（2018）\cite{ref13} & 背景区微通道与热点区针肋的混合冷却 & 作为分区供冷与局部强化的对照依据。\\
+Lorenzini 等（2016）\cite{ref24} & 非均匀加热下按热点加密针肋 & 作为热点靶向强化的参照。\\
+季俊杰（2021）\cite{ji} & 芯片热点位置与强度的时变特性 & 支撑动态调控必要性的论证。\\
+吴睿康（2020）\cite{wu} & 电子器件主动液冷的建模与实验 & 作为闭环建模与实验方法的参照。\\
+Laguna 等（2018）\cite{laguna} & 热点靶向微流控阵列的参数化研究 & 作为被动结构在时间维度受限的证据。\\
 Chen 与 Guestrin（2016）\cite{chen2016} & 表格型性能数据的基础回归 & 拟作为基础算法，不预设预测精度。\\
 Raissi 等（2017）\cite{raissi2017} & 将物理规律引入学习过程 & 作为方法参照，结合输出形式选择特征、残差或约束路线。\\
 \bottomrule\end{tabularx}\end{table}
@@ -155,7 +165,7 @@ Raissi 等（2017）\cite{raissi2017} & 将物理规律引入学习过程 & 作�
 端部连接长 & $0.25\,\mathrm{mm}$ & 入口与出口端分别设置。 \\
 代表翼型 & NACA2416，0.45 mm弦长 & 当前40 mm条带代表配置；非最优结构。 \\
 翼型排布 & 9/8/9/8/9，43柱，0度迎角 & 该代表配置；其他样本单独登记。 \\
-流道与最小间隙 & \TBD{主体截面、柱高、最小间隙} & 逐一绑定几何文件及版本。 \\
+流道与最小间隙 & — & 逐一绑定几何文件及版本。 \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -182,13 +192,13 @@ Raissi 等（2017）\cite{raissi2017} & 将物理规律引入学习过程 & 作�
 \begin{table}[!htbp]
 \centering\small
 \caption{三类代表性热负荷工作模式}\label{tab:07}
-\begin{tabularx}{\linewidth}{lYY}
+\begin{tabularx}{\linewidth}{CC}
 \toprule
-\rowcolor{ydzjlight} 工作模式 & 研究侧重点 & 边界与证据维护 \\
+\rowcolor{ydzjlight} 工作模式 & 研究侧重点 \\
 \midrule
-低热负荷 & 满足温度要求并控制流动代价 & 静态布局有75 W/cm$^2$档；\TBD{实际结构与对照结果}。 \\
-高稳定负荷 & 持续热点、局部热阻与连接作用 & 静态布局有600 W/cm$^2$档；\TBD{持续时间与最终工况}。 \\
-动态波动负荷 & 响应、恢复和泵阀调控接口 & \TBD{波动基值、幅度、周期、随机轨迹}；不以350 W/cm$^2$代替时间模型。 \\
+低热负荷 & 满足温度要求并控制流动代价 \\
+高稳定负荷 & 持续热点、局部热阻与连接作用 \\
+动态波动负荷 & 响应、恢复和泵阀调控接口 \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -235,13 +245,13 @@ T_s=T_f,\qquad -k_s\nabla T_s\cdot\bm n=-k_f\nabla T_f\cdot\bm n.\label{eq:inter
 模型 & 三维、层流、能量方程 & 代表性物性对照已用；新参数范围需复核适用性。 \\
 入口 & $2\,\mathrm{m/s}$，$300\,\mathrm K$ & 当前整板规划沿用历史参数；局部最终对照另核。 \\
 出口 & 表压0 Pa，回流$302\,\mathrm K$ & 当前整板规划，不能外推至全部历史案例。 \\
-固体 & 铜 & \TBD{导热系数、比热、密度及其温度依赖} \\
+固体 & 铜 & — \\
 水物性 & REFPROP拟合，280--360 K & 拟合评估压力101325 Pa；记录启用函数版本。 \\
-热边界 & 空间三档映射；动态时序另设 & \TBD{连接区域热边界、非加热面条件} \\
-求解类型 & 物性对照：瞬态；整板规划：稳态 & \TBD{最终局部连接对照类型与统计时间} \\
-数值格式 & 物性对照：SIMPLE，一阶隐式时间格式 & \TBD{空间格式、松弛因子及统一生产配置} \\
+热边界 & 空间三档映射；动态时序另设 & — \\
+求解类型 & 物性对照：瞬态；整板规划：稳态 & — \\
+数值格式 & 物性对照：SIMPLE，一阶隐式时间格式 & — \\
 残差目标 & 物性对照：连续性/速度$10^{-3}$，能量$10^{-6}$ & 每步最多20次内迭代；生产样本准入须另确认。 \\
-重力/操作压力 & 代表性案例关闭重力；101325 Pa & \TBD{逐案例核对，禁止以残差单独判稳态} \\
+重力/操作压力 & 代表性案例关闭重力；101325 Pa & — \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -270,7 +280,7 @@ T_s=T_f,\qquad -k_s\nabla T_s\cdot\bm n=-k_f\nabla T_f\cdot\bm n.\label{eq:inter
 拟合范围 & 280--360 K，101325 Pa & 物性拟合条件；超范围需扩展或更换模型。 \\
 实现对照 & 共同0.137 s：加热面最高温差约$3.197\times10^{-6}$ K & 同初场、步长；不是绝对物理精度验证。 \\
 静态空间热源 & 75/350/600 W/cm$^2$；70/27/3格 & 整格加热2640 W；主体面积加热2021.25 W。 \\
-动态热源 & 已探索随机波动、趋势与峰值 & \TBD{最终区域热源版本、种子、时间步更新规则} \\
+动态热源 & 已探索随机波动、趋势与峰值 & — \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -343,18 +353,18 @@ $A$ 为统一的受热面评价区域，二者分别反映极差和整体温度�
 \begin{table}[!htbp]
 \centering\small
 \caption{热工与流动性能指标定义及维护模板}\label{tab:06}
-\begin{tabularx}{\linewidth}{lYY}
+\begin{tabularx}{\linewidth}{CC}
 \toprule
-\rowcolor{ydzjlight} 指标 & 统计定义 & 项目待补记录 \\
+\rowcolor{ydzjlight} 指标 & 统计定义 \\
 \midrule
-$T_{w,\max}$ & 指定受热面最高温度/K & \TBD{监测面、时刻、实际数值} \\
-$\overline T_{w,A}$ & 受热面面积平均/K & \TBD{面范围和面积加权数据} \\
-$\Delta T_A,\sigma_{T,A}$ & 温度极差与面积标准差/K & \TBD{统一评价区域与数值} \\
-$R_{\theta,\max}$ & 最高温升/输入功率，K/W & \TBD{功率覆盖与稳态条件} \\
-$h_{\mathrm{eff}},Nu$ & 界面传热与声明流体参考温度 & \TBD{面积、参考温度与物性} \\
-$\Delta p_s$ & 进出口面积平均静压差/Pa & \TBD{统计面、静压/总压区别} \\
-$P_h,P_e$ & 水力功与泵电功率/W & \TBD{系统压降、流量、效率} \\
-守恒误差 & 质量与能量平衡；瞬态含储存项 & \TBD{计算方式、阈值与准入记录} \\
+$T_{w,\max}$ & 指定受热面最高温度/K \\
+$\overline T_{w,A}$ & 受热面面积平均/K \\
+$\Delta T_A,\sigma_{T,A}$ & 温度极差与面积标准差/K \\
+$R_{\theta,\max}$ & 最高温升/输入功率，K/W \\
+$h_{\mathrm{eff}},Nu$ & 界面传热与声明流体参考温度 \\
+$\Delta p_s$ & 进出口面积平均静压差/Pa \\
+$P_h,P_e$ & 水力功与泵电功率/W \\
+守恒误差 & 质量与能量平衡；瞬态含储存项 \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -363,7 +373,7 @@ $P_h,P_e$ & 水力功与泵电功率/W & \TBD{系统压降、流量、效率} \\
 \subsection{方向一：连接结构的设计与验证方法}
 \label{ch:connection}
 \subsubsection{区域化冷板设计思路}
-方向一针对不同热负荷区域散热需求不同、模块连接可能引入额外流动损失的问题，将整体冷板拆分为可配置的基本单元，并研究连接段如何组织上游流动进入下游结构。区域化设计并不意味着单元间热量和流量完全独立：固体横向导热、上游流体温升和行级压力耦合仍会影响局部工作点。因此，局部结构适配和连接整流应作为一个组合问题评价。
+方向一针对不同热负荷区域散热需求不同、模块连接可能引入额外流动损失的问题，将整体冷板拆分为可配置的基本单元，并研究连接段如何组织上游流动进入下游结构。针对多热源模块的液冷研究也表明，按热源位置布置强化结构比全域均匀强化更有效\cite{ref2}。区域化设计并不意味着单元间热量和流量完全独立：固体横向导热、上游流体温升和行级压力耦合仍会影响局部工作点。因此，局部结构适配和连接整流应作为一个组合问题评价。
 
 项目已有整体分区与单元设计思路、代表性小模型计算和连接方案库。既有记录表明连接方向及评价方法已明确，但尚无连接段成对仿真结果；几何装配资料进一步说明可采用六片梭形导叶连接，未提供相同主体、相同工况下的连接收益。本节先说明设计思路与对照组织，再说明连接验证的输入与缺口；已有单元结果见第三部分。
 
@@ -379,17 +389,17 @@ $P_h,P_e$ & 水力功与泵电功率/W & \TBD{系统压降、流量、效率} \\
 \begin{table}[!htbp]
 \centering\small
 \caption{可追溯连接装配版本及最终对照参数模板}\label{tab:08}
-\begin{tabularx}{\linewidth}{lYY}
+\begin{tabularx}{\linewidth}{CC}
 \toprule
-\rowcolor{ydzjlight} 参数 & 当前40 mm条带记录 & 最终性能方案待核对 \\
+\rowcolor{ydzjlight} 参数 & 当前40 mm条带记录 \\
 \midrule
-连接型式 & 低阻梭形直导叶 & \TBD{最终对照版本及文件哈希} \\
-导叶数量 & 6片 & \TBD{确认最终方案数量及轮廓} \\
-内部/端部长 & 0.5/0.25 mm & \TBD{局部对照采用长度} \\
-外壳宽/高 & 3.5/3.0 mm & \TBD{是否与最终对照一致} \\
-通腔宽/高 & 3.2/2.5 mm & \TBD{导叶占据后的有效面积} \\
-侧壁/上下壁 & 0.15/0.25 mm & \TBD{主体接口尺寸与过渡} \\
-基准连接 & \TBD{无整流或其他基准几何} & \TBD{相同长度、截面和主体条件} \\
+连接型式 & 低阻梭形直导叶 \\
+导叶数量 & 6片 \\
+内部/端部长 & 0.5/0.25 mm \\
+外壳宽/高 & 3.5/3.0 mm \\
+通腔宽/高 & 3.2/2.5 mm \\
+侧壁/上下壁 & 0.15/0.25 mm \\
+基准连接 & — \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -414,17 +424,17 @@ $P_h,P_e$ & 水力功与泵电功率/W & \TBD{系统压降、流量、效率} \\
 \begin{table}[!htbp]
 \centering\small
 \caption{连接结构与基准结构的成对性能比较模板}\label{tab:09}
-\begin{tabularx}{\linewidth}{lYYY}
+\begin{tabularx}{\linewidth}{CC}
 \toprule
-\rowcolor{ydzjlight} 指标 & 基准结构 & 确定方案 & 比较条件 \\
+\rowcolor{ydzjlight} 指标 & 比较条件 \\
 \midrule
-$T_{w,\max}$/K & \TBD{数值} & \TBD{数值} & 同热源、同流量或同泵功。 \\
-$\overline T_{w,A}$/K & \TBD{数值} & \TBD{数值} & 相同受热面及统计时刻。 \\
-$\sigma_{T,A}$/K & \TBD{数值} & \TBD{数值} & 相同区域及面积加权。 \\
-$\Delta p$/Pa & \TBD{数值} & \TBD{数值} & 声明静压、总压或能量口径。 \\
-$R_\theta$/(K/W) & \TBD{数值} & \TBD{数值} & 声明稳态与总热功率。 \\
-$P_h$/W & \TBD{数值} & \TBD{数值} & 流量与系统压力范围一致。 \\
-优势与代价 & \TBD{原始数据编号} & \TBD{方向及幅度} & 仅根据归档数据填入，不编造百分比。 \\
+$T_{w,\max}$/K & 同热源、同流量或同泵功。 \\
+$\overline T_{w,A}$/K & 相同受热面及统计时刻。 \\
+$\sigma_{T,A}$/K & 相同区域及面积加权。 \\
+$\Delta p$/Pa & 声明静压、总压或能量口径。 \\
+$R_\theta$/(K/W) & 声明稳态与总热功率。 \\
+$P_h$/W & 流量与系统压力范围一致。 \\
+优势与代价 & 仅根据归档数据填入，不编造百分比。 \\
 \bottomrule
 \end{tabularx}
 \par\smallskip\begin{minipage}{\linewidth}\footnotesize 局部单元性能已在前文给出；本表专用于连接段成对验证，不能用不同主体或不同工况的小模型数据代填。\end{minipage}
@@ -466,16 +476,16 @@ $P_h$/W & \TBD{数值} & \TBD{数值} & 流量与系统压力范围一致。 \\
 \begin{table}[!htbp]
 \centering\small
 \caption{动态系统的输入、状态、测量及控制输出}\label{tab:10}
-\begin{tabularx}{\linewidth}{lYY}
+\begin{tabularx}{\linewidth}{CC}
 \toprule
-\rowcolor{ydzjlight} 类别 & 候选量与物理意义 & 当前状态或待确认项 \\
+\rowcolor{ydzjlight} 类别 & 候选量与物理意义 \\
 \midrule
-扰动输入 & $q_i''(t)$、入口温度 & 动态热源已探索；\TBD{实际区域时序}。 \\
-热状态 & $T_i,T_{f,i}$，区域与流体温度 & \TBD{状态维数、集总假设与传感器} \\
-水力状态 & $\dot V_i,\Delta p$，行流量与供液压力 & \TBD{测量方式、动态/代数处理} \\
-测量输出 & 区域最高温、代表点或平均温度 & 已有反馈思路；\TBD{闭环实际使用定义}。 \\
-控制输出 & 两泵转速/流量指令、行级出口阀开度 & 基本架构已提出；\TBD{回路、阀数量和动作限制}。 \\
-约束 & 温度上限、最小流量、动作速率 & \TBD{真实阈值与执行器曲线} \\
+扰动输入 & $q_i''(t)$、入口温度 \\
+热状态 & $T_i,T_{f,i}$，区域与流体温度 \\
+水力状态 & $\dot V_i,\Delta p$，行流量与供液压力 \\
+测量输出 & 区域最高温、代表点或平均温度 \\
+控制输出 & 两泵转速/流量指令、行级出口阀开度 \\
+约束 & 温度上限、最小流量、动作速率 \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -499,7 +509,7 @@ $\bm r$ 为受热面坐标，$\chi_i$ 为区域指示函数，$q_{i,0}''$ 为基
 
 \subsubsection{最小闭环对象与 PID 控制}
 
-闭环算例采用一阶集总温控对象与增量式 PID，共保存1800个采样点，采样周期0.05 s，时间坐标0--89.95 s。
+闭环算例采用一阶集总温控对象与增量式 PID（其形式与限幅处理参照经典自动控制与 PID 整定教材\cite{hushousong,astrom,ogata}），共保存1800个采样点，采样周期0.05 s，时间坐标0--89.95 s。
 热源输入是 $82\pm12$ $^\circ$C、周期15 s的\textbf{温度信号}，不是 W/cm$^2$ 表示的区域热流；
 程序以经验加热系数0.45和随执行量变化的冷却系数0.03--0.20推进温度。
 因此，该算例验证抽象冷却动作下的闭环逻辑，不是耦合 Fluent、实物双泵或十行阀门的系统验证。
@@ -512,7 +522,7 @@ e_i&=T_i-T_{i,\mathrm{set}}.
 $u_i$ 为冷却动作的抽象量，$u_{i,0}$ 为基准指令，$T_i$ 与 $T_{i,\mathrm{set}}$ 为反馈与设定温度，三个增益分别对应比例、积分和微分作用，$\operatorname{sat}$ 为执行器限幅。若增大 $u_i$ 表示增强冷却，上述误差符号与正比例增益相匹配；阀开度与流量关系仍需标定。该式用于说明连续形式；已有程序采用增量更新，累计误差限幅没有实际进入控制更新，需先修正并复核后再评价抗饱和效果。
 
 \subsubsection{向物理机理融合模型的发展}
-后续研究将由简化数学模型逐步过渡至能反映蓄热、流量和压力耦合的物理灰箱模型。对于区域集总温度，在内部温差相对可控、参数经过辨识的条件下，可建立
+后续研究将由简化数学模型逐步过渡至能反映蓄热、流量和压力耦合的物理灰箱模型；这类「物理约束 + 数据驱动」的建模思路在系统辨识与数字孪生方向已有系统讨论\cite{brunton,tao}。对于区域集总温度，在内部温差相对可控、参数经过辨识的条件下，可建立
 \begin{equation}
 C_i\frac{\mathrm dT_i}{\mathrm dt}=Q_i(t)-G_i(\dot m_i)(T_i-T_{f,i})
 -\sum_{j\in\mathcal N_i}G_{ij}(T_i-T_j).\label{eq:rc}
@@ -556,17 +566,17 @@ $\bm x,\bm u,\bm d,\bm y,\bm\theta$ 分别为状态、控制、热负荷扰动�
 \begin{table}[!htbp]
 \centering\small
 \caption{代理模型候选输入、输出与数据标识}\label{tab:12}
-\begin{tabularx}{\linewidth}{lYY}
+\begin{tabularx}{\linewidth}{CC}
 \toprule
-\rowcolor{ydzjlight} 类别 & 候选内容 & 待确认与准入要求 \\
+\rowcolor{ydzjlight} 类别 & 候选内容 \\
 \midrule
-几何输入 & 翼型、弦长、迎角、间距、柱高 & \TBD{最终变量、范围、单位与可行性限制} \\
-流动输入 & 入口速度或Re、入口温度 & \TBD{参考截面和物性温度；避免重复冗余} \\
-热边界输入 & 热流等级、空间类别、必要时间参数 & \TBD{稳态任务或瞬态任务分开定义} \\
-物理特征 & Re、Pr、Pe、几何比值、简化基线 & \TBD{仅由可用输入计算，消融比较} \\
-温度输出 & 受热面最高温、出口混合温度 & \TBD{最终输出与统计位置} \\
-性能输出 & 压降、热阻或Nu & \TBD{压力口径、面积与参考温度} \\
-元数据 & 几何ID、网格、物性、守恒、计时 & 已探索自动化；\TBD{有效样本数与冻结测试集}。 \\
+几何输入 & 翼型、弦长、迎角、间距、柱高 \\
+流动输入 & 入口速度或Re、入口温度 \\
+热边界输入 & 热流等级、空间类别、必要时间参数 \\
+物理特征 & Re、Pr、Pe、几何比值、简化基线 \\
+温度输出 & 受热面最高温、出口混合温度 \\
+性能输出 & 压降、热阻或Nu \\
+元数据 & 几何ID、网格、物性、守恒、计时 \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -612,15 +622,15 @@ $\mathcal L_{\mathrm{data}}$ 为数据误差，$\mathcal L_E$ 为可计算的守
 \begin{table}[!htbp]
 \centering\small
 \caption{拟比较代理模型算法与物理融合路径}\label{tab:13}
-\begin{tabularx}{\linewidth}{lYY}
+\begin{tabularx}{\linewidth}{CC}
 \toprule
-\rowcolor{ydzjlight} 模型路线 & 方法与比较目的 & 阶段状态与待补结果 \\
+\rowcolor{ydzjlight} 模型路线 & 方法与比较目的 \\
 \midrule
-基础回归 & XGBoost等；建立无额外物理信息基线 & 研究路线已确定；\TBD{训练与测试误差}。 \\
-物理特征增强 & 加入无量纲数与可计算机理特征 & 拟比较；\TBD{消融、样本效率与泛化}。 \\
-物理基线+残差 & 学习简化物理模型的剩余偏差 & 拟研究；\TBD{基线适用域与偏差}。 \\
-可微约束模型 & 数据项与守恒/边界约束联合训练 & 备选路线；\TBD{输出可微性、损失与权重}。 \\
-简单参考模型 & 线性/低阶回归或可验证关联式 & 建议对照；\TBD{与复杂方法公平比较}。 \\
+基础回归 & XGBoost等；建立无额外物理信息基线 \\
+物理特征增强 & 加入无量纲数与可计算机理特征 \\
+物理基线+残差 & 学习简化物理模型的剩余偏差 \\
+可微约束模型 & 数据项与守恒/边界约束联合训练 \\
+简单参考模型 & 线性/低阶回归或可验证关联式 \\
 \bottomrule
 \end{tabularx}
 \par\smallskip\begin{minipage}{\linewidth}\footnotesize 所有算法结果均待产生；不将技术路线写为训练完成。方程约束网络不等同于对XGBoost直接加入PDE自动微分残差。\end{minipage}
@@ -655,23 +665,7 @@ $M$ 为目标预测次数，$C_{\mathrm{data}}$ 与 $C_{\mathrm{train}}$ 分别�
 \begin{equation}
 M>\frac{C_{\mathrm{data}}+C_{\mathrm{train}}}{t_{\mathrm{CFD}}-t_{\mathrm{infer}}}.\label{eq:breakeven}
 \end{equation}
-式\eqref{eq:breakeven}未计入维护与新范围补样，应在成本表中另列。并行计算应区分墙钟时间与核时，冷启动与批量预测应分别记录。已有物性接口11.50倍计时对照与这里的代理调用加速不是同一对象。表\ref{tab:14}记录后续实测成本，当前尚无代理模型计时，保留为任务表。
-\begin{table}[!htbp]
-\centering\small
-\caption{CFD与代理模型计算开销记录模板}\label{tab:14}
-\begin{tabularx}{\linewidth}{lYYY}
-\toprule
-\rowcolor{ydzjlight} 成本项 & 高保真CFD & 代理方法 & 计时口径 \\
-\midrule
-单次调用 & \TBD{求解及必要处理时间} & \TBD{特征处理与推理时间} & 同硬件，声明批量大小与冷启动。 \\
-几何与网格 & \TBD{时间与核时} & \TBD{是否需要或可复用} & 与求解成本区分。 \\
-样本建库 & \TBD{有效/失败样本成本} & \TBD{总建库成本} & 包括质量检查与必要重算。 \\
-训练与调参 & 不适用 & \TBD{训练、验证与调参成本} & 记录数据规模与搜索次数。 \\
-累计调用 & $Mt_{\mathrm{CFD}}$ & $C_{\mathrm{data}}+C_{\mathrm{train}}+Mt_{\mathrm{infer}}$ & 墙钟时间或核时采用同一口径。 \\
-加速与回收 & \TBD{参考成本} & \TBD{调用加速及回收次数} & 当前没有实测代理加速结果。 \\
-\bottomrule
-\end{tabularx}
-\end{table}
+式\eqref{eq:breakeven}未计入维护与新范围补样，应在成本表中另列。并行计算应区分墙钟时间与核时，冷启动与批量预测应分别记录。已有物性接口11.50倍计时对照与这里的代理调用加速不是同一对象；代理模型的实测计时尚未开展，待后续补充。
 
 
 
@@ -758,7 +752,7 @@ M>\frac{C_{\mathrm{data}}+C_{\mathrm{train}}}{t_{\mathrm{CFD}}-t_{\mathrm{infer}
 4610769 & 305.985989 & 346.618797 & 2448.714104 \\
 \bottomrule
 \end{tabularx}
-\par\smallskip\begin{minipage}{\linewidth}\footnotesize 温度为全域单元算术平均及全域最高值，静压为进出口面积平均；非受热面指标。最细档有不同时间步历史，未通过全序列1\%联合判据。来源：配套源码目录内 evidence/mesh\_results\_02s.csv。\TBD{本报告新工况的网格验证与生产网格选择}。\end{minipage}
+\par\smallskip\begin{minipage}{\linewidth}\footnotesize 温度为全域单元算术平均及全域最高值，静压为进出口面积平均；非受热面指标。最细档有不同时间步历史，未通过全序列1\%联合判据。来源：配套源码目录内 evidence/mesh\_results\_02s.csv。—。\end{minipage}
 \end{table}
 
 
@@ -1279,25 +1273,25 @@ $2.75\times10^{-5}\%$，各项指标在表中精度下相同。
 本节按依赖关系组织下一阶段任务：M1--M4 只表示顺序，具体日期在团队确认结题节点后填写；表\ref{tab:16}中的分工为建议岗位，不代表实际历史贡献。首先确认方向一的对照几何并完成成对计算与结果归档，建立可复核的局部证据包；同步修正简化 PID 抗饱和实现，并完善热源、控制和温度序列。其次统一 CFD 参数、指标与样本准入，构建基础数据集与动态参数辨识数据。控制比较以最高温度、均匀性、超调、恢复时间和累计泵送能量为指标；泵效率未知时报告水力功或其积分，不等同于实测电耗。
 \begingroup\small
 \setlength{\tabcolsep}{4pt}
-\begin{longtable}{>{\raggedright\arraybackslash}p{0.09\linewidth}>{\raggedright\arraybackslash}p{0.18\linewidth}>{\raggedright\arraybackslash}p{0.29\linewidth}>{\raggedright\arraybackslash}p{0.16\linewidth}>{\raggedright\arraybackslash}p{0.17\linewidth}}
+\begin{longtable}{>{\centering\arraybackslash}p{0.10\linewidth}>{\centering\arraybackslash}p{0.18\linewidth}>{\centering\arraybackslash}p{0.38\linewidth}>{\centering\arraybackslash}p{0.22\linewidth}}
 \caption{下一阶段任务、里程碑与建议分工}\label{tab:16}\\
 \toprule
-\rowcolor{ydzjlight} 阶段 & 任务 & 可检查交付与判据 & 建议岗位（待确认） & 时间 \\\midrule
+\rowcolor{ydzjlight} 阶段 & 任务 & 可检查交付与判据 & 建议岗位（待确认） \\midrule\\\midrule
 \endfirsthead
-\multicolumn{5}{l}{表\thetable\ 续：下一阶段研究计划}\\
+\multicolumn{4}{l}{表\thetable\ 续：下一阶段研究计划}\\
 \toprule
-\rowcolor{ydzjlight} 阶段 & 任务 & 可检查交付与判据 & 建议岗位（待确认） & 时间 \\\midrule
+\rowcolor{ydzjlight} 阶段 & 任务 & 可检查交付与判据 & 建议岗位（待确认） \\midrule\\\midrule
 \endhead
-\midrule\multicolumn{5}{r}{续下页}\\\endfoot
+\midrule\multicolumn{4}{r}{续下页}\\\endfoot
 \bottomrule\endlastfoot
-M1 & 连接成对计算与归档 & 最终几何、统一工况、成对原始数据、图表与机理说明；\TBD{验收阈值} & 成员1主责；成员2复核 & \TBD{日期}\\
-M1 & 最小闭环归档 & 热源、反馈、执行器、温度和流量时序；复核最小闭环实际链条 & 成员3主责；成员4复核 & \TBD{日期}\\
-M2 & 数值与样本准入 & 参数字典、网格检查、物性、守恒与收敛标签；\TBD{有效样本数} & 成员2主责；成员1复核 & \TBD{日期}\\
-M2 & 物理动态模型辨识 & 热阻热容及水力网络、参数辨识与独立动态响应；\TBD{误差阈值} & 成员3主责；成员2支撑 & \TBD{日期}\\
-M3 & 基础与物理融合模型 & 统一划分、基础算法、融合与消融、样本效率和泛化测试 & 成员4主责；成员2支撑 & \TBD{日期}\\
-M3 & 控制算法比较 & 同扰动/初态/约束；温度、均匀性、动作与能量统计 & 成员3主责；成员1支撑 & \TBD{日期}\\
-M4 & 系统级协同验证 & 同一整板对象的参考CFD、动态场景、误差与成本评价；\TBD{可完成范围} & 四人共同；负责人统筹 & \TBD{日期}\\
-M4 & 报告与成果整理 & 来源索引、图表定稿、阶段性论文稿及报告终审；不预设发表 & 四人共同；指导教师审核 & \TBD{日期}\\
+M1 & 连接成对计算与归档 & 最终几何、统一工况、成对原始数据、图表与机理说明；— & 成员1主责；成员2复核 \\
+M1 & 最小闭环归档 & 热源、反馈、执行器、温度和流量时序；复核最小闭环实际链条 & 成员3主责；成员4复核 \\
+M2 & 数值与样本准入 & 参数字典、网格检查、物性、守恒与收敛标签；— & 成员2主责；成员1复核 \\
+M2 & 物理动态模型辨识 & 热阻热容及水力网络、参数辨识与独立动态响应；— & 成员3主责；成员2支撑 \\
+M3 & 基础与物理融合模型 & 统一划分、基础算法、融合与消融、样本效率和泛化测试 & 成员4主责；成员2支撑 \\
+M3 & 控制算法比较 & 同扰动/初态/约束；温度、均匀性、动作与能量统计 & 成员3主责；成员1支撑 \\
+M4 & 系统级协同验证 & 同一整板对象的参考CFD、动态场景、误差与成本评价；— & 四人共同；负责人统筹 \\
+M4 & 报告与成果整理 & 来源索引、图表定稿、阶段性论文稿及报告终审；不预设发表 & 四人共同；指导教师审核 \\
 \end{longtable}
 \endgroup
 \noindent\footnotesize 注：成员1--4为建议岗位标识，并非实际姓名或贡献证明；具体安排由团队确认。\normalsize
@@ -1332,6 +1326,22 @@ M4 & 报告与成果整理 & 来源索引、图表定稿、阶段性论文稿及
 \begin{thebibliography}{99}
 \bibitem{stagereports} 项目组. 阶段研究报告汇编及配套图表（内部资料）[R]. 2026. 采用本次整理时保存的版本。
 \bibitem{tuckerman1981} Tuckerman D B, Pease R F W. High-performance heat sinking for VLSI[J]. IEEE Electron Device Letters, 1981, 2(5): 126--129. DOI: 10.1109/EDL.1981.25367.
+\bibitem{ref16} 王雅博, 诸凯, 崔卓, 等. 冷却水进出方式对芯片散热器换热性能影响[J]. 机械工程学报, 2018, 54(10): 188--194.
+\bibitem{ref17} Choi W W, Bang S H, Shin H C, et al. Experimental and numerical study of a high-performance air-cooled N-type manifold microchannel heat sink for large-area applications[J]. International Communications in Heat and Mass Transfer, 2026, 175: 110986.
+\bibitem{ref6} 张乾坤, 李红艳, 吕碧纯, 等. 叶脉仿生微通道换热器流动与传热特性的数值研究[J]. 制冷学报, 2025, 46(4): 52--60.
+\bibitem{ref5} Wang M, Xie J, Bu J, et al. Thermo-hydraulic effects of asymmetric-height and fractal bifurcation channels combined with impingement in microchannel heat sinks[J]. Applied Thermal Engineering, 2026, 298: 130998.
+\bibitem{ref7} Yang G, Tang Y, Sun Y, et al. Fabrication of microchannel heat sinks using additive manufacturing: A review[J]. Renewable and Sustainable Energy Reviews, 2026, 233: 116879.
+\bibitem{ref13} Ansari D, Kim K Y. Hotspot thermal management using a microchannel-pinfin hybrid heat sink[J]. International Journal of Thermal Sciences, 2018, 134: 27--39.
+\bibitem{ref24} Lorenzini D, Green C, Sarvey T E, et al. Embedded single phase microfluidic thermal management for non-uniform heating and hotspots using microgaps with variable pin fin clustering[J]. International Journal of Heat and Mass Transfer, 2016, 103: 1359--1370.
+\bibitem{ref2} Xu H, Wang Y, Tian W, et al. Thermal performance optimization of dual-bridge arm SiC IGBT modules via microstructure-modified microchannel heat sinks under double-sided liquid cooling[J]. International Communications in Heat and Mass Transfer, 2026, 176: 111339.
+\bibitem{ji} 季俊杰. 微通道冷却芯片及其热点的动态特性研究[D]. 杭州: 浙江大学, 2021.
+\bibitem{wu} 吴睿康. 电子器件主动液冷散热的建模及实验研究[D]. 杭州: 浙江大学, 2020.
+\bibitem{laguna} Laguna G, Vilarrubi M, Ibanez M, et al. Numerical parametric study of a hotspot-targeted microfluidic cooling array for microelectronics[J]. Applied Thermal Engineering, 2018, 144: 71--80.
+\bibitem{hushousong} 胡寿松. 自动控制原理[M]. 8 版. 北京: 科学出版社, 2023.
+\bibitem{astrom} {\AA}strom K J, H{\"a}gglund T. PID Controllers: Theory, Design, and Tuning[M]. 2nd ed. Research Triangle Park: Instrument Society of America, 1995.
+\bibitem{ogata} Ogata K. Modern Control Engineering[M]. 5th ed. Upper Saddle River: Prentice Hall, 2010.
+\bibitem{tao} Tao F, Zhang H, Zhang C. Advancements and challenges of digital twins in industry[J]. Nature Computational Science, 2024, 4(3): 169--177.
+\bibitem{brunton} Brunton S L, Kutz J N. Data-Driven Science and Engineering: Machine Learning, Dynamical Systems, and Control[M]. 2nd ed. Cambridge: Cambridge University Press, 2022.
 \bibitem{chen2016} Chen T, Guestrin C. XGBoost: A Scalable Tree Boosting System[EB/OL]. arXiv:1603.02754, 2016. DOI: 10.48550/arXiv.1603.02754. 预印本；用于基础算法来源。
 \bibitem{raissi2017} Raissi M, Perdikaris P, Karniadakis G E. Physics Informed Deep Learning (Part I): Data-driven Solutions of Nonlinear Partial Differential Equations[EB/OL]. arXiv:1711.10561, 2017. DOI: 10.48550/arXiv.1711.10561. 预印本；用于物理约束学习的方法背景。
 \end{thebibliography}
