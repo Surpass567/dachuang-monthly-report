@@ -1,51 +1,35 @@
 % !TeX program = xelatex
-% Compile twice with XeLaTeX. All body text, tables and bibliography are embedded.
-% Based on geshi/template/ydzjreport.cls, unmodified v1.3.
-\documentclass[stage2,UTF8,fontset=fandol]{ydzjreport}
-\usepackage{bm,longtable,subcaption,etoolbox}
-\setlength{\headheight}{15pt}
-\setcounter{secnumdepth}{4}
+% 中期检查报告 · 正式版式（template/midterm.cls）
+% 编译：xelatex 跑两遍
+\documentclass[UTF8]{midterm}
+
 \setcounter{tocdepth}{2}
 \AtBeginEnvironment{thebibliography}{\raggedright}
 
 
-\DeclareRobustCommand{\TBD}[1]{{\color{ydzjgrey}\textbf{【待补充：#1】}}}
-\newcommand{\pending}[1]{\par\noindent\textbf{证据补充与适用边界：}#1\par}
-\newcommand{\planned}[1]{\par\noindent\textbf{后续拟开展：}#1\par}
-\newcommand{\placeholderbox}[2]{%
-  \begingroup\setlength{\fboxsep}{7pt}%
-  \fbox{\begin{minipage}[c][#2][c]{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}%
-  \centering\small\textbf{真实图片预留位置}\par\medskip #1\%
-  \end{minipage}}\endgroup}
-\newcommand{\placeholderfigure}[4]{%
-  \begin{figure}[!htbp]\centering
-  \placeholderbox{#3}{#4}\caption{#2}\label{#1}\end{figure}}
-\newcommand{\placeholderpair}[7]{%
-  \begin{figure}[!htbp]\centering
-  \begin{subfigure}[t]{0.48\linewidth}\centering
-    \placeholderbox{#4}{#7}\caption{#3}\label{#1:a}
-  \end{subfigure}\hfill
-  \begin{subfigure}[t]{0.48\linewidth}\centering
-    \placeholderbox{#6}{#7}\caption{#5}\label{#1:b}
-  \end{subfigure}
-  \caption{#2}\label{#1}\end{figure}}
-\newcommand{\reportfigure}[4]{\begin{figure}[!htbp]\centering
-  \includegraphics[width=#4]{#3}\caption{#2}\label{#1}\end{figure}}
-\stagetwosetup
-  {中期汇报}
-  {项目团队}
-  {微通道结构设计与动态调控}
-  {截至中期检查}
+% 元信息：标题 / 组员 / 项目名 / 期间 / 关键词 / 摘要
+% （宏 \TBD、\pending、\planned、\placeholderfigure、\reportfigure 等
+%   由 midterm.cls 提供，此处不再重复定义）
+\midtermsetup
+  {微通道热管理 · 中期研究进展}
+  {王佳蔚、冯旭东、陈思文、张昊洋、丁义博}
+  {基于时空非均匀性的微通道热管理系统的\\结构设计与动态调控策略}
+  {截至中期检查（2026 年 10 月）}
   {非均匀热负荷；区域化连接；协同调控；物理融合代理模型}
   {已整理结构复现、小模型、物性对照及网格诊断证据，完成简化 PID 仿真；连接与整板性能仍需独立验证。}
-\setshorttitle{微通道热管理 · 中期研究进展}
-% 模板默认落款为月度报告文字；中期报告改用中性落款，避免出现“月度”字样。
-\renewcommand{\ydzjclosingnote}{—— 本报告由 \ydzjname\ 撰写 ——}
-\hypersetup{pdftitle={基于时空非均匀性的微通道热管理系统的结构设计与动态调控策略——阶段二研究进展}}
+
+% 封面待确认字段：留空则在封面上显示横线，不编造
+\setprojno{}          % 项目编号
+\setleader{}          % 项目负责人
+\setadviser{}         % 指导教师
+\setmajor{}           % 所在学院
+
+\renewcommand{\ydzjclosingnote}{—— 本报告由项目团队撰写 ——}
+\hypersetup{pdftitle={基于时空非均匀性的微通道热管理系统的结构设计与动态调控策略——中期检查报告}}
 \begin{document}
-\makestagetwohead
+\makecover
 % midterm-stage-outline 2026-10-24
-\section{干了什么：研究内容}
+\section{研究内容与目标}
 
 \subsection{项目要解决的问题与目标}
 
@@ -132,7 +116,7 @@
 \end{tabularx}
 \end{table}
 
-\section{怎么干的：研究方法}
+\section{研究方法与技术路线}
 
 \subsection{文献与理论准备}
 
@@ -690,7 +674,7 @@ M>\frac{C_{\mathrm{data}}+C_{\mathrm{train}}}{t_{\mathrm{CFD}}-t_{\mathrm{infer}
 
 
 
-\section{得到了什么：研究结果}
+\section{阶段性研究结果}
 
 \subsection{数值平台的可用性}
 平台的可用性由三组已有记录支持：三类流道复现、七档网格诊断和物性实现对照。三组结果分别说明建模与后处理流程可用、离散误差的量级和物性实现的一致性，不构成对全部构型或全部工况的验证。
@@ -1242,7 +1226,7 @@ $2.75\times10^{-5}\%$，各项指标在表中精度下相同。
 \end{enumerate}
 
 
-\section{未来计划}
+\section{下一步工作计划}
 
 \subsection{与预期的差异}
 
