@@ -47,3 +47,6 @@ reports/figs/src/structure_qa/
 template/*.pdf
 # reports/ 下的报告 PDF 建议提交（是交付物），但如果嫌大可以取消下面注释
 # reports/*.pdf
+
+# reports/ 下的 .cls 是从 template/ 复制过来方便编译的副本，不入库
+reports/*.cls
