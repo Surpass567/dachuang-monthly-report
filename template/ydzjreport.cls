@@ -236,6 +236,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\ydzjstage}{}
 \newcommand{\ydzjname}{}
+% 收尾落款可由各报告重定义；默认保持月度报告原有文字。
+\newcommand{\ydzjclosingnote}{—— 本报告由 \ydzjname\ 撰写，格式遵循《月度总结规范 v1.0》——}
 \newcommand{\ydzjfield}{}
 \newcommand{\ydzjperiod}{}
 \newcommand{\ydzjkeywords}{}
@@ -386,7 +388,7 @@
   \FloatBarrier
   \vfill
   \begin{center}\small\color{ydzjgrey}
-  —— 本报告由 \ydzjname\ 撰写，格式遵循《月度总结规范 v1.0》——
+  \ydzjclosingnote
   \end{center}
 }
 

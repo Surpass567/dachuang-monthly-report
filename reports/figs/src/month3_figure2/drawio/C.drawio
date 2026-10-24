@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" agent="Codex" version="26.0.0" type="device">
+  <diagram id="part-c" name="编译与挂接流程">
+    <mxGraphModel dx="800" dy="700" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="720" pageHeight="620" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="heading-C" value="C  编译与挂接流程" style="rounded=0;whiteSpace=wrap;html=0;fillColor=none;strokeColor=none;fontColor=#19364D;fontSize=22;fontFamily=Microsoft YaHei;fontStyle=1;align=left;verticalAlign=middle;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="640" height="36" as="geometry" />
+        </mxCell>
+        <!-- 竖向对齐的流程节点（宽 400px，居中放置） -->
+        <mxCell id="source" value="编写源码" style="rounded=1;arcSize=12;whiteSpace=wrap;html=0;fillColor=#EDF4F8;strokeColor=#2869AB;strokeWidth=1.5;fontColor=#19364D;fontSize=16;fontFamily=Microsoft YaHei;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="160" y="85" width="400" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="build" value="Build / Load" style="rounded=1;arcSize=12;whiteSpace=wrap;html=0;fillColor=#EDF4F8;strokeColor=#2869AB;strokeWidth=1.5;fontColor=#19364D;fontSize=16;fontFamily=Microsoft YaHei;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="160" y="165" width="400" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="material" value="材料挂接" style="rounded=1;arcSize=12;whiteSpace=wrap;html=0;fillColor=#EDF4F8;strokeColor=#2869AB;strokeWidth=1.5;fontColor=#19364D;fontSize=16;fontFamily=Microsoft YaHei;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="160" y="245" width="400" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="check" value="按需自检" style="rounded=1;arcSize=12;whiteSpace=wrap;html=0;fillColor=#EDF4F8;strokeColor=#2869AB;strokeWidth=1.5;fontColor=#19364D;fontSize=16;fontFamily=Microsoft YaHei;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="160" y="325" width="400" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="solve" value="重新求解与守恒检查" style="rounded=1;arcSize=12;whiteSpace=wrap;html=0;fillColor=#19364D;strokeColor=#19364D;strokeWidth=1.5;fontColor=#FFFFFF;fontSize=16;fontFamily=Microsoft YaHei;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="160" y="405" width="400" height="48" as="geometry" />
+        </mxCell>
+        <!-- 垂直流向下向箭头 -->
+        <mxCell id="source-build" edge="1" parent="1" source="source" target="build" style="rounded=0;html=0;strokeColor=#2869AB;strokeWidth=2;endArrow=block;endFill=1;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="build-material" edge="1" parent="1" source="build" target="material" style="rounded=0;html=0;strokeColor=#2869AB;strokeWidth=2;endArrow=block;endFill=1;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="material-check" edge="1" parent="1" source="material" target="check" style="rounded=0;html=0;strokeColor=#2869AB;strokeWidth=2;endArrow=block;endFill=1;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="check-solve" edge="1" parent="1" source="check" target="solve" style="rounded=0;html=0;strokeColor=#2869AB;strokeWidth=2;endArrow=block;endFill=1;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- 检查点标注 -->
+        <mxCell id="checks" value="※ 关键检查：Kelvin 温标、SI 单位、dh/dT = Cp" style="rounded=0;whiteSpace=wrap;html=0;fillColor=none;strokeColor=none;fontColor=#5B7282;fontSize=15;fontFamily=Microsoft YaHei;fontStyle=0;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="485" width="640" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

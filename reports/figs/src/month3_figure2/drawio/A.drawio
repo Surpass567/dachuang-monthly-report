@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" agent="Codex" version="26.0.0" type="device">
+  <diagram id="part-a" name="常用接口及作用">
+    <mxGraphModel dx="800" dy="500" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="720" pageHeight="380" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="heading-A" value="A  常用接口及作用" style="rounded=0;whiteSpace=wrap;html=0;fillColor=none;strokeColor=none;fontColor=#19364D;fontSize=22;fontFamily=Microsoft YaHei;fontStyle=1;align=left;verticalAlign=middle;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="640" height="36" as="geometry" />
+        </mxCell>
+        <!-- 表头 -->
+        <mxCell id="interfaces-0-0" value="接口" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#19364D;strokeColor=#19364D;fontColor=#FFFFFF;fontSize=16;fontFamily=Microsoft YaHei;fontStyle=1;align=left;verticalAlign=middle;spacingLeft=16;" vertex="1" parent="1">
+          <mxGeometry x="40" y="80" width="300" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="interfaces-0-1" value="用途" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#19364D;strokeColor=#19364D;fontColor=#FFFFFF;fontSize=16;fontFamily=Microsoft YaHei;fontStyle=1;align=left;verticalAlign=middle;spacingLeft=16;" vertex="1" parent="1">
+          <mxGeometry x="340" y="80" width="340" height="46" as="geometry" />
+        </mxCell>
+        <!-- 数据行 1 -->
+        <mxCell id="interfaces-1-0" value="DEFINE_PROPERTY" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#EDF4F8;strokeColor=#D6E4EE;fontColor=#19364D;fontSize=15;fontFamily=Consolas, Microsoft YaHei;fontStyle=1;align=left;verticalAlign=middle;spacingLeft=16;" vertex="1" parent="1">
+          <mxGeometry x="40" y="126" width="300" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="interfaces-1-1" value="密度、黏度、导热系数" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#EDF4F8;strokeColor=#D6E4EE;fontColor=#19364D;fontSize=15;fontFamily=Microsoft YaHei;fontStyle=0;align=left;verticalAlign=middle;spacingLeft=16;" vertex="1" parent="1">
+          <mxGeometry x="340" y="126" width="340" height="46" as="geometry" />
+        </mxCell>
+        <!-- 数据行 2 -->
+        <mxCell id="interfaces-2-0" value="DEFINE_SPECIFIC_HEAT" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#FFFFFF;strokeColor=#D6E4EE;fontColor=#19364D;fontSize=15;fontFamily=Consolas, Microsoft YaHei;fontStyle=1;align=left;verticalAlign=middle;spacingLeft=16;" vertex="1" parent="1">
+          <mxGeometry x="40" y="172" width="300" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="interfaces-2-1" value="返回 Cp，并设置显热 *h" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#FFFFFF;strokeColor=#D6E4EE;fontColor=#19364D;fontSize=15;fontFamily=Microsoft YaHei;fontStyle=0;align=left;verticalAlign=middle;spacingLeft=16;" vertex="1" parent="1">
+          <mxGeometry x="340" y="172" width="340" height="46" as="geometry" />
+        </mxCell>
+        <!-- 数据行 3 -->
+        <mxCell id="interfaces-3-0" value="DEFINE_ON_DEMAND" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#EDF4F8;strokeColor=#D6E4EE;fontColor=#19364D;fontSize=15;fontFamily=Consolas, Microsoft YaHei;fontStyle=1;align=left;verticalAlign=middle;spacingLeft=16;" vertex="1" parent="1">
+          <mxGeometry x="40" y="218" width="300" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="interfaces-3-1" value="独立数值自检" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#EDF4F8;strokeColor=#D6E4EE;fontColor=#19364D;fontSize=15;fontFamily=Microsoft YaHei;fontStyle=0;align=left;verticalAlign=middle;spacingLeft=16;" vertex="1" parent="1">
+          <mxGeometry x="340" y="218" width="340" height="46" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

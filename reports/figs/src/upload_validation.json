@@ -1,0 +1,58 @@
+{
+  "reports/中期报告.tex": {
+    "overfull": 0,
+    "missing_characters": 0,
+    "tex_errors": 0,
+    "undefined_references": 0,
+    "pages": 44
+  },
+  "reports/逻辑月1_基础建立.tex": {
+    "overfull": 0,
+    "missing_characters": 0,
+    "tex_errors": 0,
+    "undefined_references": 0,
+    "pages": 10
+  },
+  "reports/逻辑月2_指标与形态.tex": {
+    "overfull": 0,
+    "missing_characters": 0,
+    "tex_errors": 0,
+    "undefined_references": 0,
+    "pages": 11
+  },
+  "reports/逻辑月3_形态与物理.tex": {
+    "overfull": 0,
+    "missing_characters": 0,
+    "tex_errors": 0,
+    "undefined_references": 0,
+    "pages": 16
+  },
+  "reports/逻辑月4_迭代与调试.tex": {
+    "overfull": 0,
+    "missing_characters": 0,
+    "tex_errors": 0,
+    "undefined_references": 0,
+    "pages": 8
+  },
+  "reports/逻辑月5_整板尝试.tex": {
+    "overfull": 0,
+    "missing_characters": 0,
+    "tex_errors": 0,
+    "undefined_references": 0,
+    "pages": 4
+  },
+  "template/阶段一_空白骨架.tex": {
+    "overfull": 0,
+    "missing_characters": 0,
+    "tex_errors": 0,
+    "undefined_references": 0,
+    "pages": 1
+  },
+  "template/阶段二_空白骨架.tex": {
+    "overfull": 0,
+    "missing_characters": 0,
+    "tex_errors": 0,
+    "undefined_references": 0,
+    "pages": 1
+  }
+}

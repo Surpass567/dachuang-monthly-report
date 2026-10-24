@@ -1,0 +1,37 @@
+<mxfile host="app.diagrams.net" agent="Codex">
+  <diagram id="part-d" name="三种水物性实现方式">
+    <mxGraphModel dx="985" dy="782" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="720" pageHeight="380" background="#FFFFFF" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="heading-D" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fillColor=none;strokeColor=none;fontColor=#19364D;fontSize=22;fontFamily=Microsoft YaHei;fontStyle=1;align=left;verticalAlign=middle;spacing=0;" value="D  三种水物性实现方式" vertex="1">
+          <mxGeometry height="36" width="640" x="40" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="implementations-0-0" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#19364D;strokeColor=#19364D;fontColor=#FFFFFF;fontSize=16;fontFamily=Microsoft YaHei;fontStyle=1;align=left;verticalAlign=middle;spacingLeft=16;" value="形式" vertex="1">
+          <mxGeometry height="46" width="160" x="40" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="implementations-0-1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#19364D;strokeColor=#19364D;fontColor=#FFFFFF;fontSize=16;fontFamily=Microsoft YaHei;fontStyle=1;align=left;verticalAlign=middle;spacingLeft=16;" value="求解期间的计算" vertex="1">
+          <mxGeometry height="46" width="320" x="200" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="implementations-1-0" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#EDF4F8;strokeColor=#D6E4EE;fontColor=#19364D;fontSize=15;fontFamily=Microsoft YaHei;fontStyle=1;align=left;verticalAlign=middle;spacingLeft=16;" value="查表版" vertex="1">
+          <mxGeometry height="46" width="160" x="40" y="126" as="geometry" />
+        </mxCell>
+        <mxCell id="implementations-1-1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#EDF4F8;strokeColor=#D6E4EE;fontColor=#19364D;fontSize=15;fontFamily=Microsoft YaHei;fontStyle=0;align=left;verticalAlign=middle;spacingLeft=16;" value="分段插值，无需 REFPROP DLL" vertex="1">
+          <mxGeometry height="46" width="320" x="200" y="126" as="geometry" />
+        </mxCell>
+        <mxCell id="implementations-2-0" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#FFFFFF;strokeColor=#D6E4EE;fontColor=#19364D;fontSize=15;fontFamily=Microsoft YaHei;fontStyle=1;align=left;verticalAlign=middle;spacingLeft=16;" value="拟合版" vertex="1">
+          <mxGeometry height="46" width="160" x="40" y="172" as="geometry" />
+        </mxCell>
+        <mxCell id="implementations-2-1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#FFFFFF;strokeColor=#D6E4EE;fontColor=#19364D;fontSize=15;fontFamily=Microsoft YaHei;fontStyle=0;align=left;verticalAlign=middle;spacingLeft=16;" value="多项式运算，无需 REFPROP DLL" vertex="1">
+          <mxGeometry height="46" width="320" x="200" y="172" as="geometry" />
+        </mxCell>
+        <mxCell id="implementations-3-0" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#EDF4F8;strokeColor=#D6E4EE;fontColor=#19364D;fontSize=15;fontFamily=Microsoft YaHei;fontStyle=1;align=left;verticalAlign=middle;spacingLeft=16;" value="实时版" vertex="1">
+          <mxGeometry height="46" width="160" x="40" y="218" as="geometry" />
+        </mxCell>
+        <mxCell id="implementations-3-1" parent="1" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#EDF4F8;strokeColor=#D6E4EE;fontColor=#19364D;fontSize=15;fontFamily=Microsoft YaHei;fontStyle=0;align=left;verticalAlign=middle;spacingLeft=16;" value="调用 REFPROP DLL" vertex="1">
+          <mxGeometry height="46" width="320" x="200" y="218" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

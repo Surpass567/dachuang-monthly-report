@@ -301,8 +301,17 @@ s=p.read_text(encoding='utf-8').replace(r'\subsection{已完成的工作}',r'\su
 s=s.replace('分组目标是分离变量影响。','表~\\ref{tab:groups}列出分组设计。分组目标是分离变量影响。')
 s=s.replace(r'\subsubsection{从初步编写到正式修正}',r'''\subsubsection{从初步编写到正式修正}
 接口实现流程如图~\ref{fig:udf-interfaces}所示，正式修改在本月集中核查。
-\begin{figure}[H]\centering
-\includegraphics[width=\linewidth]{figs/udf_learning_interfaces.png}
+\begin{figure}[htbp]\centering
+\begin{subfigure}[t]{.49\linewidth}\centering
+\includegraphics[width=\linewidth]{figs/udf_learning_interfaces_a.png}\caption{常用接口及作用}\end{subfigure}\hfill
+\begin{subfigure}[t]{.49\linewidth}\centering
+\includegraphics[width=\linewidth]{figs/udf_learning_interfaces_b.png}\caption{密度接口示例}\end{subfigure}
+
+\vspace{3mm}
+\begin{subfigure}[t]{.49\linewidth}\centering
+\includegraphics[width=\linewidth]{figs/udf_learning_interfaces_c.png}\caption{编译与挂接流程}\end{subfigure}\hfill
+\begin{subfigure}[t]{.49\linewidth}\centering
+\includegraphics[width=\linewidth]{figs/udf_learning_interfaces_d.png}\caption{三种水物性实现方式}\end{subfigure}
 \caption{水物性 UDF 的接口与实现流程；作为本月修改和核验的方法说明。}\label{fig:udf-interfaces}
 \end{figure}
 ''')

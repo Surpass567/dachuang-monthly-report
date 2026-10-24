@@ -1,0 +1,26 @@
+﻿[
+    {
+        "log":  "build-latex/逻辑月1_基础建立.log",
+        "overfull":  0,
+        "missing":  0,
+        "errors":  0,
+        "undefined":  0,
+        "pdf_exists":  true
+    },
+    {
+        "log":  "reports/build-latex/逻辑月1_基础建立.log",
+        "overfull":  0,
+        "missing":  0,
+        "errors":  0,
+        "undefined":  0,
+        "pdf_exists":  true
+    },
+    {
+        "log":  "reports/build-latex/中期报告.log",
+        "overfull":  0,
+        "missing":  0,
+        "errors":  0,
+        "undefined":  0,
+        "pdf_exists":  true
+    }
+]

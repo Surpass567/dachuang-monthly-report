@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" agent="Codex" version="26.0.0" type="device">
+  <diagram id="part-b" name="密度接口示例">
+    <mxGraphModel dx="800" dy="500" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="720" pageHeight="350" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="heading-B" value="B  密度接口示例" style="rounded=0;whiteSpace=wrap;html=0;fillColor=none;strokeColor=none;fontColor=#19364D;fontSize=22;fontFamily=Microsoft YaHei;fontStyle=1;align=left;verticalAlign=middle;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="640" height="36" as="geometry" />
+        </mxCell>
+        <!-- 代码卡片容器 -->
+        <mxCell id="code-bg" value="" style="rounded=1;arcSize=4;whiteSpace=wrap;html=0;fillColor=#1E293B;strokeColor=#0F172A;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="80" width="640" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="code-content" value="&lt;span style=&quot;color: #38BDF8; font-weight: bold;&quot;&gt;DEFINE_PROPERTY&lt;/span&gt;(water_rp_density, c, t)&lt;br&gt;{&lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;span style=&quot;color: #818CF8;&quot;&gt;real&lt;/span&gt; T = &lt;span style=&quot;color: #38BDF8;&quot;&gt;C_T&lt;/span&gt;(c, t);&lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;span style=&quot;color: #34D399;&quot;&gt;water_check_temperature&lt;/span&gt;(T);&lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;span style=&quot;color: #F472B6;&quot;&gt;return&lt;/span&gt; &lt;span style=&quot;color: #34D399;&quot;&gt;water_poly&lt;/span&gt;(T, a_rho);&lt;br&gt;}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;fontColor=#F8FAFC;fontSize=16;fontFamily=Consolas, 'Courier New', monospace;align=left;verticalAlign=middle;spacingLeft=24;lineHeight=145%;" vertex="1" parent="1">
+          <mxGeometry x="40" y="80" width="640" height="200" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

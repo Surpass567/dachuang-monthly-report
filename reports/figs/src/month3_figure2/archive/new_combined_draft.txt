@@ -1,0 +1,120 @@
+<mxfile host="app.diagrams.net" agent="Codex">
+  <diagram id="month3-figure2" name="UDF 接口与实现流程">
+    <mxGraphModel dx="1563" dy="1241" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1850" background="#FFFFFF" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="layer-title" parent="0" value="标题与说明" />
+        <mxCell id="title" parent="layer-title" style="rounded=0;whiteSpace=wrap;html=0;fillColor=none;strokeColor=none;fontColor=#19364D;fontSize=38;fontFamily=Microsoft YaHei;fontStyle=1;align=left;verticalAlign=middle;spacing=0;" value="UDF 初步学习 | 接口与实现流程" vertex="1">
+          <mxGeometry height="50" width="1200" x="100" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="takeaway" parent="layer-title" style="rounded=0;whiteSpace=wrap;html=0;fillColor=none;strokeColor=none;fontColor=#008C83;fontSize=19;fontFamily=Microsoft YaHei;fontStyle=1;align=left;verticalAlign=middle;spacing=0;" value="学习要点：理解接口、物性单位和编译挂接流程，保持 Cp 与积分一致。" vertex="1">
+          <mxGeometry height="32" width="1200" x="100" y="1175" as="geometry" />
+        </mxCell>
+        <mxCell id="scope" parent="layer-title" style="rounded=0;whiteSpace=wrap;html=0;fillColor=none;strokeColor=none;fontColor=#718393;fontSize=16;fontFamily=Microsoft YaHei;fontStyle=0;align=left;verticalAlign=middle;spacing=0;" value="依据：已有水物性 UDF 源码与使用说明；本例范围为液态纯水 280–360 K、101325 Pa。" vertex="1">
+          <mxGeometry height="28" width="1200" x="100" y="1215" as="geometry" />
+        </mxCell>
+        <mxCell id="layer-A" parent="0" value="A 常用接口" />
+        <mxCell id="heading-A" parent="layer-A" style="rounded=0;whiteSpace=wrap;html=0;fillColor=none;strokeColor=none;fontColor=#19364D;fontSize=24;fontFamily=Microsoft YaHei;fontStyle=1;align=left;verticalAlign=middle;spacing=0;" value="A  常用接口及作用" vertex="1">
+          <mxGeometry height="36" width="1200" x="100" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="interfaces-0-0" parent="layer-A" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#19364D;strokeColor=#19364D;fontColor=#FFFFFF;fontSize=18;fontFamily=Microsoft YaHei;fontStyle=1;align=left;verticalAlign=middle;spacingLeft=20;" value="接口" vertex="1">
+          <mxGeometry height="48" width="480" x="100" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="interfaces-0-1" parent="layer-A" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#19364D;strokeColor=#19364D;fontColor=#FFFFFF;fontSize=18;fontFamily=Microsoft YaHei;fontStyle=1;align=left;verticalAlign=middle;spacingLeft=20;" value="用途" vertex="1">
+          <mxGeometry height="48" width="440" x="450" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="interfaces-1-0" parent="layer-A" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#EDF4F8;strokeColor=#D6E4EE;fontColor=#19364D;fontSize=16;fontFamily=Consolas, Microsoft YaHei;fontStyle=1;align=left;verticalAlign=middle;spacingLeft=20;" value="DEFINE_PROPERTY" vertex="1">
+          <mxGeometry height="48" width="480" x="100" y="218" as="geometry" />
+        </mxCell>
+        <mxCell id="interfaces-1-1" parent="layer-A" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#EDF4F8;strokeColor=#D6E4EE;fontColor=#19364D;fontSize=16;fontFamily=Microsoft YaHei;fontStyle=0;align=left;verticalAlign=middle;spacingLeft=20;" value="密度、黏度、导热系数" vertex="1">
+          <mxGeometry height="48" width="720" x="580" y="218" as="geometry" />
+        </mxCell>
+        <mxCell id="interfaces-2-0" parent="layer-A" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#FFFFFF;strokeColor=#D6E4EE;fontColor=#19364D;fontSize=16;fontFamily=Consolas, Microsoft YaHei;fontStyle=1;align=left;verticalAlign=middle;spacingLeft=20;" value="DEFINE_SPECIFIC_HEAT" vertex="1">
+          <mxGeometry height="48" width="480" x="100" y="266" as="geometry" />
+        </mxCell>
+        <mxCell id="interfaces-2-1" parent="layer-A" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#FFFFFF;strokeColor=#D6E4EE;fontColor=#19364D;fontSize=16;fontFamily=Microsoft YaHei;fontStyle=0;align=left;verticalAlign=middle;spacingLeft=20;" value="返回 Cp，并设置显热 *h" vertex="1">
+          <mxGeometry height="48" width="720" x="580" y="266" as="geometry" />
+        </mxCell>
+        <mxCell id="interfaces-3-0" parent="layer-A" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#EDF4F8;strokeColor=#D6E4EE;fontColor=#19364D;fontSize=16;fontFamily=Consolas, Microsoft YaHei;fontStyle=1;align=left;verticalAlign=middle;spacingLeft=20;" value="DEFINE_ON_DEMAND" vertex="1">
+          <mxGeometry height="48" width="480" x="100" y="314" as="geometry" />
+        </mxCell>
+        <mxCell id="interfaces-3-1" parent="layer-A" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#EDF4F8;strokeColor=#D6E4EE;fontColor=#19364D;fontSize=16;fontFamily=Microsoft YaHei;fontStyle=0;align=left;verticalAlign=middle;spacingLeft=20;" value="独立数值自检" vertex="1">
+          <mxGeometry height="48" width="720" x="580" y="314" as="geometry" />
+        </mxCell>
+        <mxCell id="layer-B" parent="0" value="B 密度代码" />
+        <mxCell id="heading-B" parent="layer-B" style="rounded=0;whiteSpace=wrap;html=0;fillColor=none;strokeColor=none;fontColor=#19364D;fontSize=24;fontFamily=Microsoft YaHei;fontStyle=1;align=left;verticalAlign=middle;spacing=0;" value="B  密度接口示例" vertex="1">
+          <mxGeometry height="36" width="1200" x="100" y="405" as="geometry" />
+        </mxCell>
+        <mxCell id="code-bg" parent="layer-B" style="rounded=1;arcSize=3;whiteSpace=wrap;html=0;fillColor=#1E293B;strokeColor=#0F172A;shadow=0;" value="" vertex="1">
+          <mxGeometry height="205" width="1200" x="100" y="455" as="geometry" />
+        </mxCell>
+        <mxCell id="code-content" parent="layer-B" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;fontColor=#F8FAFC;fontSize=17;fontFamily=Consolas, &#39;Courier New&#39;, monospace;align=left;verticalAlign=middle;spacingLeft=30;lineHeight=145%;" value="&lt;span style=&quot;color: #38BDF8; font-weight: bold;&quot;&gt;DEFINE_PROPERTY&lt;/span&gt;(water_rp_density, c, t)&lt;br&gt;{&lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;span style=&quot;color: #818CF8;&quot;&gt;real&lt;/span&gt; T = &lt;span style=&quot;color: #38BDF8;&quot;&gt;C_T&lt;/span&gt;(c, t);&lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;span style=&quot;color: #34D399;&quot;&gt;water_check_temperature&lt;/span&gt;(T);&lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;span style=&quot;color: #F472B6;&quot;&gt;return&lt;/span&gt; &lt;span style=&quot;color: #34D399;&quot;&gt;water_poly&lt;/span&gt;(T, a_rho);&lt;br&gt;}" vertex="1">
+          <mxGeometry height="205" width="1200" x="100" y="455" as="geometry" />
+        </mxCell>
+        <mxCell id="layer-C" parent="0" value="C 编译挂接流程" />
+        <mxCell id="heading-C" parent="layer-C" style="rounded=0;whiteSpace=wrap;html=0;fillColor=none;strokeColor=none;fontColor=#19364D;fontSize=24;fontFamily=Microsoft YaHei;fontStyle=1;align=left;verticalAlign=middle;spacing=0;" value="C  编译与挂接流程" vertex="1">
+          <mxGeometry height="36" width="1200" x="100" y="700" as="geometry" />
+        </mxCell>
+        <mxCell id="source" parent="layer-C" style="rounded=1;arcSize=12;whiteSpace=wrap;html=0;fillColor=#EDF4F8;strokeColor=#2869AB;strokeWidth=1.5;fontColor=#19364D;fontSize=17;fontFamily=Microsoft YaHei;fontStyle=1;align=center;verticalAlign=middle;" value="编写源码" vertex="1">
+          <mxGeometry height="54" width="180" x="100" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="build" parent="layer-C" style="rounded=1;arcSize=12;whiteSpace=wrap;html=0;fillColor=#EDF4F8;strokeColor=#2869AB;strokeWidth=1.5;fontColor=#19364D;fontSize=17;fontFamily=Microsoft YaHei;fontStyle=1;align=center;verticalAlign=middle;" value="Build / Load" vertex="1">
+          <mxGeometry height="54" width="180" x="340" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="material" parent="layer-C" style="rounded=1;arcSize=12;whiteSpace=wrap;html=0;fillColor=#EDF4F8;strokeColor=#2869AB;strokeWidth=1.5;fontColor=#19364D;fontSize=17;fontFamily=Microsoft YaHei;fontStyle=1;align=center;verticalAlign=middle;" value="材料挂接" vertex="1">
+          <mxGeometry height="54" width="180" x="580" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="check" parent="layer-C" style="rounded=1;arcSize=12;whiteSpace=wrap;html=0;fillColor=#EDF4F8;strokeColor=#2869AB;strokeWidth=1.5;fontColor=#19364D;fontSize=17;fontFamily=Microsoft YaHei;fontStyle=1;align=center;verticalAlign=middle;" value="按需自检" vertex="1">
+          <mxGeometry height="54" width="180" x="820" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="solve" parent="layer-C" style="rounded=1;arcSize=12;whiteSpace=wrap;html=0;fillColor=#19364D;strokeColor=#19364D;strokeWidth=1.5;fontColor=#FFFFFF;fontSize=17;fontFamily=Microsoft YaHei;fontStyle=1;align=center;verticalAlign=middle;" value="求解与守恒检查" vertex="1">
+          <mxGeometry height="54" width="240" x="1060" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="source-build" edge="1" parent="layer-C" source="source" style="rounded=0;html=0;strokeColor=#2869AB;strokeWidth=2;endArrow=block;endFill=1;" target="build">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="build-material" edge="1" parent="layer-C" source="build" style="rounded=0;html=0;strokeColor=#2869AB;strokeWidth=2;endArrow=block;endFill=1;" target="material">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="material-check" edge="1" parent="layer-C" source="material" style="rounded=0;html=0;strokeColor=#2869AB;strokeWidth=2;endArrow=block;endFill=1;" target="check">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="check-solve" edge="1" parent="layer-C" source="check" style="rounded=0;html=0;strokeColor=#2869AB;strokeWidth=2;endArrow=block;endFill=1;" target="solve">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="checks" parent="layer-C" style="rounded=0;whiteSpace=wrap;html=0;fillColor=none;strokeColor=none;fontColor=#5B7282;fontSize=16;fontFamily=Microsoft YaHei;fontStyle=0;align=left;verticalAlign=middle;spacingLeft=4;" value="※ 关键检查：Kelvin 温标、SI 单位、dh/dT = Cp" vertex="1">
+          <mxGeometry height="30" width="1200" x="100" y="830" as="geometry" />
+        </mxCell>
+        <mxCell id="layer-D" parent="0" value="D 三种实现方式" />
+        <mxCell id="heading-D" parent="layer-D" style="rounded=0;whiteSpace=wrap;html=0;fillColor=none;strokeColor=none;fontColor=#19364D;fontSize=24;fontFamily=Microsoft YaHei;fontStyle=1;align=left;verticalAlign=middle;spacing=0;" value="D  三种水物性实现方式" vertex="1">
+          <mxGeometry height="36" width="1200" x="100" y="900" as="geometry" />
+        </mxCell>
+        <mxCell id="implementations-0-0" parent="layer-D" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#19364D;strokeColor=#19364D;fontColor=#FFFFFF;fontSize=18;fontFamily=Microsoft YaHei;fontStyle=1;align=left;verticalAlign=middle;spacingLeft=20;" value="形式" vertex="1">
+          <mxGeometry height="48" width="280" x="100" y="950" as="geometry" />
+        </mxCell>
+        <mxCell id="implementations-0-1" parent="layer-D" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#19364D;strokeColor=#19364D;fontColor=#FFFFFF;fontSize=18;fontFamily=Microsoft YaHei;fontStyle=1;align=left;verticalAlign=middle;spacingLeft=20;" value="求解期间的计算" vertex="1">
+          <mxGeometry height="48" width="920" x="380" y="950" as="geometry" />
+        </mxCell>
+        <mxCell id="implementations-1-0" parent="layer-D" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#EDF4F8;strokeColor=#D6E4EE;fontColor=#19364D;fontSize=16;fontFamily=Microsoft YaHei;fontStyle=1;align=left;verticalAlign=middle;spacingLeft=20;" value="查表版" vertex="1">
+          <mxGeometry height="48" width="280" x="100" y="998" as="geometry" />
+        </mxCell>
+        <mxCell id="implementations-1-1" parent="layer-D" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#EDF4F8;strokeColor=#D6E4EE;fontColor=#19364D;fontSize=16;fontFamily=Microsoft YaHei;fontStyle=0;align=left;verticalAlign=middle;spacingLeft=20;" value="分段插值，无需 REFPROP DLL" vertex="1">
+          <mxGeometry height="48" width="920" x="380" y="998" as="geometry" />
+        </mxCell>
+        <mxCell id="implementations-2-0" parent="layer-D" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#FFFFFF;strokeColor=#D6E4EE;fontColor=#19364D;fontSize=16;fontFamily=Microsoft YaHei;fontStyle=1;align=left;verticalAlign=middle;spacingLeft=20;" value="拟合版" vertex="1">
+          <mxGeometry height="48" width="280" x="100" y="1046" as="geometry" />
+        </mxCell>
+        <mxCell id="implementations-2-1" parent="layer-D" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#FFFFFF;strokeColor=#D6E4EE;fontColor=#19364D;fontSize=16;fontFamily=Microsoft YaHei;fontStyle=0;align=left;verticalAlign=middle;spacingLeft=20;" value="多项式运算，无需 REFPROP DLL" vertex="1">
+          <mxGeometry height="48" width="920" x="380" y="1046" as="geometry" />
+        </mxCell>
+        <mxCell id="implementations-3-0" parent="layer-D" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#EDF4F8;strokeColor=#D6E4EE;fontColor=#19364D;fontSize=16;fontFamily=Microsoft YaHei;fontStyle=1;align=left;verticalAlign=middle;spacingLeft=20;" value="实时版" vertex="1">
+          <mxGeometry height="48" width="280" x="100" y="1094" as="geometry" />
+        </mxCell>
+        <mxCell id="implementations-3-1" parent="layer-D" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#EDF4F8;strokeColor=#D6E4EE;fontColor=#19364D;fontSize=16;fontFamily=Microsoft YaHei;fontStyle=0;align=left;verticalAlign=middle;spacingLeft=20;" value="调用 REFPROP DLL" vertex="1">
+          <mxGeometry height="48" width="920" x="380" y="1094" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -43,7 +43,10 @@
     "figs/midterm_monthly1_11_speed_midplane.png",
     "figs/midterm_monthly1_12_copper_base_temperature.png",
     "figs/midterm_monthly1_13_控制框架框图.png",
-    "figs/midterm_udf_learning_interfaces.png"
+    "figs/udf_learning_interfaces_a.png",
+    "figs/udf_learning_interfaces_b.png",
+    "figs/udf_learning_interfaces_c.png",
+    "figs/udf_learning_interfaces_d.png"
   ],
   "missing_references": [],
   "pid_source": "pid_sim.npz",

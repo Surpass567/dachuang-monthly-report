@@ -15,6 +15,7 @@
 *.vrb
 *.bcf
 *.run.xml
+build-latex/
 
 # 编辑器 / 系统
 .vscode/

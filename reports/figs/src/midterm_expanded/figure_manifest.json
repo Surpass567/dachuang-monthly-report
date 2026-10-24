@@ -92,8 +92,8 @@
   {
     "source": "figs/midterm_diagram_fig_03.pdf",
     "uploaded": "figs/midterm_concept_fig_03.pdf",
-    "sha256": "060100a4dbdcd5a01b0b3df8c8f8b1fa5c157d8c3c04ba9cbc7c551739e1811d",
-    "bytes": 88027
+    "sha256": "ab84022c2c17f691bfc91e9f6f63d4469d818f96a6fe4265e9c67ff51ee7db8c",
+    "bytes": 105370
   },
   {
     "source": "figs/midterm_diagram_fig_11.pdf",
@@ -240,9 +240,27 @@
     "bytes": 281308
   },
   {
-    "source": "figs/udf_learning_interfaces.png",
-    "uploaded": "figs/midterm_udf_learning_interfaces.png",
-    "sha256": "8a4c9d86e55eaf646bdb6f978a8717890dc06a5fc2a90881f3fcab88326546a7",
-    "bytes": 356956
+    "source": "figs/udf_learning_interfaces_a.png",
+    "uploaded": "figs/udf_learning_interfaces_a.png",
+    "sha256": "9eae39962246c41857f1e668321ab556eb098c5156818abbadac2daefeae889a",
+    "bytes": 15827
+  },
+  {
+    "source": "figs/udf_learning_interfaces_b.png",
+    "uploaded": "figs/udf_learning_interfaces_b.png",
+    "sha256": "26c0d24fe7db3056dab6bc1a7066744983c2793341b2b97cc8aa70d43feecfb4",
+    "bytes": 14191
+  },
+  {
+    "source": "figs/udf_learning_interfaces_c.png",
+    "uploaded": "figs/udf_learning_interfaces_c.png",
+    "sha256": "94921b2e411eb71496a50485e2aad47f57e730eff3f894928f43451a74340e51",
+    "bytes": 20717
+  },
+  {
+    "source": "figs/udf_learning_interfaces_d.png",
+    "uploaded": "figs/udf_learning_interfaces_d.png",
+    "sha256": "cc05773b0df2054a10a48fee60068f0c8f91b516664f52656b6232e7f4158a5e",
+    "bytes": 16184
   }
 ]

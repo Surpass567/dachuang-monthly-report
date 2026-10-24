@@ -1,0 +1,8 @@
+{
+  "native_vertices": 35,
+  "native_connectors": 4,
+  "embedded_raster_images": 0,
+  "unique_ids": true,
+  "all_connectors_have_valid_endpoints": true,
+  "source_figure": "reports/figs/udf_learning_interfaces.png"
+}

@@ -191,7 +191,21 @@ udf=r'''
 比热采用 \texttt{DEFINE\_SPECIFIC\_HEAT}，同时返回 $c_p(T)$ 和其积分显焓，满足
 $\mathrm dh/\mathrm dT=c_p$。编译通过只说明接口可用，仍需检查适用温区、数值与变化趋势。
 图~\ref{fig:udf-interface}承接这一学习过程。
-'''+fig('fig:udf-interface','水物性 UDF 的温度输入、函数接口、材料挂接与自检流程，采用月1已有图。','udf_learning_interfaces.png')+r'''
+'''+r'''
+\begin{figure}[htbp]\centering
+\begin{subfigure}[t]{.49\linewidth}\centering
+\includegraphics[width=\linewidth]{figs/udf_learning_interfaces_a.png}\caption{常用接口及作用}\end{subfigure}\hfill
+\begin{subfigure}[t]{.49\linewidth}\centering
+\includegraphics[width=\linewidth]{figs/udf_learning_interfaces_b.png}\caption{密度接口示例}\end{subfigure}
+
+\vspace{3mm}
+\begin{subfigure}[t]{.49\linewidth}\centering
+\includegraphics[width=\linewidth]{figs/udf_learning_interfaces_c.png}\caption{编译与挂接流程}\end{subfigure}\hfill
+\begin{subfigure}[t]{.49\linewidth}\centering
+\includegraphics[width=\linewidth]{figs/udf_learning_interfaces_d.png}\caption{三种水物性实现方式}\end{subfigure}
+\caption{水物性 UDF 的温度输入、函数接口、材料挂接与自检流程；正式修改和核验属于本阶段工作。}\label{fig:udf-interface}
+\end{figure}
+'''+r'''
 \paragraph{已有拟合精度和同一时刻求解对照}
 补充资料在280--360 K、101325 Pa下核对1601个温度点。
 密度、动力黏度、导热系数和比热的最大相对拟合误差分别为
@@ -377,7 +391,7 @@ for ref in images:
     elif name.startswith('midterm_'): new='midterm_asset_'+name[len('midterm_'):]
     elif re.match(r'^\d{2}_',name): new='midterm_monthly1_'+name
     elif name.startswith(('month2_','month3_')): new='midterm_'+name
-    elif name=='udf_learning_interfaces.png': new='midterm_'+name
+    elif name.startswith('udf_learning_interfaces_'): new=name
     else: raise ValueError(name)
     s=s.replace(name,new)
 out.write_text(s,encoding='utf8')

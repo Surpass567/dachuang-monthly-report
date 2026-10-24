@@ -25,21 +25,37 @@
 
 \subsubsection{翼型参数分组设计与数据缺口}
 
+
 \begin{table}[H]\centering
-\caption{翼型参数分组方案（建议设计，完整结果待补）}\label{tab:groups}
-\begin{tabularx}{\textwidth}{@{}Y Y Y@{}}
+\small
+\renewcommand{\arraystretch}{1.12}
+\caption{翼型扰流柱的参数体系与变量取值方式}\label{tab:param-vars}
+\begin{tabularx}{\textwidth}{@{}>{\RaggedRight\arraybackslash}p{0.20\textwidth} Y Y@{}}
 \toprule
-\rowcolor{ydzjlight} 工作 & 状态 & 依据或缺口 \\
+\rowcolor{ydzjlight} 参数类别 & 参数 & 定义与取值方式 \\
 \midrule
-相对厚度组 & 拟固定弯度、攻角与排列 & 改变厚度；范围和组内数据待补 \\
-相对弯度组 & 拟固定厚度、攻角及其余几何 & 改变弯度；弯度位置需单独记录 \\
-攻角组 & 拟固定剖面和排列 & 改变攻角；角度范围及结果待补 \\
-单柱与阵列 & 需分别声明 & 不能把阵列差异直接当作单参数效应 \\
+结构几何参数（翼型主体） & 弦长 & 基础几何量，长度量纲；其余位置类参数以其无量纲化为基准 \\[3pt]
+& 柱高 & 基础几何量，长度量纲，决定扰流柱在通道内的高度 \\[3pt]
+& 迎角 & 基础几何量，角度量纲；统一表征来流方向，不另设来流方向变量 \\[3pt]
+& 弯度幅值 & 核心调控量，随机取值，用于生成差异化的翼型基准构型 \\[3pt]
+& 弯度弦向位置 & 核心调控量，以弦长方向的无量纲比例定义，随机取值 \\[3pt]
+& 厚度幅值 & 核心调控量，随机取值，与弯度幅值共同决定基准剖面形态 \\[3pt]
+& 厚度弦向位置 & 核心调控量，以弦长方向的无量纲比例定义，随机取值 \\[3pt]
+\midrule
+结构几何参数（尾部构型） & 尾部段长度 & 尾缘段沿弦向的延伸长度，长度量纲 \\[3pt]
+& 尾部截面长宽比 & 尾部截面几何比例，无量纲 \\[3pt]
+& 尾部上下段长度比 & 尾部经中线截断后上、下两段长度之比，无量纲 \\[3pt]
+& 尾部过渡连接方式 & 采用形函数平滑过渡，在幂函数、余弦函数、正弦幂函数、指数函数四类候选函数中选型 \\[3pt]
+\midrule
+外部运行参数 & 来流速度 & 唯一可调的运行变量 \\[3pt]
+& 来流方向 & 已纳入迎角参数统一表征，不单列 \\[3pt]
+& 入口温度 & 固定边界条件，取定值，不纳入优化变量范围 \\[3pt]
+& 加热温度 & 固定边界条件，取定值，不纳入优化变量范围 \\[3pt]
 \bottomrule\end{tabularx}\end{table}
 
-表~\ref{tab:groups}列出分组设计。分组目标是分离变量影响。各组需固定热流密度、入口条件、物性版本、网格策略及结果时刻；若无法固定，应记录混杂因素。已有六翼型和保存分支可用于提出问题，不能据其数量宣布完成单因素扫描。
+表~\ref{tab:param-vars}按结构几何参数与外部运行参数两类划分，列出单根翼型扰流柱的全部可调变量及其取值规则。结构几何参数进一步分为翼型主体参数与尾部构型参数：前者以弦长、柱高与迎角三项基础几何量确定扰流柱的尺度与安装姿态，并以弯度幅值、弯度弦向位置、厚度幅值、厚度弦向位置四项核心调控量生成差异化的翼型基准构型，其中位置类参数一律按弦长方向的无量纲比例给出，形态参数采用随机取值；后者描述尾缘段的几何形状及与原翼型曲线的衔接方式，其中过渡连接采用形函数平滑过渡，通过在四类候选函数中选型来调控连接段的几何连续性与流线形态，以抑制流动分离带来的压降损失。外部运行参数仅保留来流速度为可调变量，来流方向已由迎角统一表征，入口温度与加热温度作为固定边界条件取定值，不进入优化变量范围。该表用于明确变量清单与取值规则，各参数的具体上下界、实际分组结果及独立变量影响曲线仍待补充。
 
-【待补：实际分组表、参数上下界、各组统一工况结果和独立变量影响曲线。】
+
 
 \subsubsection{既有六种翼型结果与专题研究动机}
 
@@ -149,8 +165,7 @@ NACA0016、1416、3416 的网格分别为 821,987、792,259、783,184 单元。
 
 
 图~\ref{fig:naca-small} 给出了三种 v2 翼型的实际界面网格和加热面温度。
-各子图分别标注色标；加热面温度是表面局部值，
-与表中固体全域最高温度和固体单元算术平均温度含义不同。
+
 
 \begin{figure}[H]
 \centering
@@ -171,11 +186,9 @@ NACA0016、1416、3416 的网格分别为 821,987、792,259、783,184 单元。
 $2.75\times10^{-5}\%$，各项指标在表中精度下相同。
 因此，这组结果在该时刻对本次时间步减半不敏感；
 这一检查不等同于验证整个瞬态过程，也不能替代网格无关性检验。
-包含月二结构探索和本月翼型资料的 17 条代表结果与源文件对应关系已整理到小模型汇总数据中\cite{smallmodels}。
+
 
 \subsubsection{翼型差异的定性机理解释}
-
-\paragraph{先明确评价口径。}
 
 局部对流换热满足牛顿冷却定律：
 
@@ -212,8 +225,6 @@ PEC = \frac{Nu/Nu_0}{\left(f/f_0\right)^{1/3}},
 式~\eqref{eq:pec} 的含义是：分子衡量换热增益，分母衡量水力代价，
 二者都相对于同一基准，因此 PEC 可以横向比较不同构型。
 
-\paragraph{再追机理链条。}
-
 翼型弯度增大后，前缘迎风侧流速提高，而尾缘背风侧的扩压段变长、
 逆压梯度增强：
 
@@ -241,9 +252,7 @@ h = -\,\frac{k_f}{T_w - T_f}\left.\frac{\partial T}{\partial y}\right|_{w},
 
 这可由式~\eqref{eq:newton} 与傅里叶导热定律在壁面处的匹配直接得到。
 速度梯度下降使热边界层增厚，$\left|\partial T/\partial y\right|_w$ 随之减小，
-因此 $h$ 在死区附近\textbf{显著下降}。
-
-\paragraph{两个后果，方向一致。}
+因此 $h$ 在死区附近\textbf{显著下降}。由此可以得到两个结论：
 
 \begin{enumerate}
   \item \textbf{有效换热面积减小。}
@@ -258,14 +267,11 @@ h = -\,\frac{k_f}{T_w - T_f}\left.\frac{\partial T}{\partial y}\right|_{w},
 分子 $Nu/Nu_0$ 下降、分母 $(f/f_0)^{1/3}$ 上升，PEC 必然回落。
 这就解释了「弯度越大换热越好」的预期为何不成立——
 \textbf{弯度带来的增益被尾缘分离抵消，还额外付出了流阻}。
-
-\paragraph{与厚度效应的对照。}
-
 厚度增加的作用机理不同：它主要提高迎风侧扰动强度与换热面积，
 \textbf{并未引起同等规模的分离}，因此 $Nu$ 上升而 $f$ 增幅有限，
 PEC 得以提高。这一解释与既有表中 PEC 的变化相容，但仍需分离点、回流区和局部换热数据验证，不能作为已完成的因果证明。
 
-\paragraph{本轮结论的边界。}
+综上结论如下：
 
 上述分析是\textbf{定性}的。要给出定量判断，还缺三个量：
 分离点位置、回流区长度、壁面局部 $Nu$ 分布。
@@ -274,8 +280,25 @@ PEC 得以提高。这一解释与既有表中 PEC 的变化相容，但仍需�
 \subsection{UDF 正式修改与验证}
 \subsubsection{从初步编写到正式修正}
 接口实现流程如图~\ref{fig:udf-interfaces}所示，正式修改在本月集中核查。
-\begin{figure}[H]\centering
-\includegraphics[width=\linewidth]{figs/udf_learning_interfaces.png}
+\begin{figure}[htbp]\centering
+\begin{subfigure}[t]{.49\linewidth}\centering
+\includegraphics[width=\linewidth]{figs/udf_learning_interfaces_a.png}
+\caption{常用接口及作用}
+\end{subfigure}\hfill
+\begin{subfigure}[t]{.49\linewidth}\centering
+\includegraphics[width=\linewidth]{figs/udf_learning_interfaces_b.png}
+\caption{密度接口示例}
+\end{subfigure}
+
+\vspace{3mm}
+\begin{subfigure}[t]{.49\linewidth}\centering
+\includegraphics[width=\linewidth]{figs/udf_learning_interfaces_c.png}
+\caption{编译与挂接流程}
+\end{subfigure}\hfill
+\begin{subfigure}[t]{.49\linewidth}\centering
+\includegraphics[width=\linewidth]{figs/udf_learning_interfaces_d.png}
+\caption{三种水物性实现方式}
+\end{subfigure}
 \caption{水物性 UDF 的接口与实现流程；作为本月修改和核验的方法说明。}\label{fig:udf-interfaces}
 \end{figure}
 
@@ -458,10 +481,7 @@ GCI 是三档网格外推指标，不等于式~\eqref{eq:mesh_error} 中的两�
 本轮统一以323万档作为\textbf{后续诊断与成本折中的参考网格}，
 294万档相对该参考的温度、压降和换热指标均较接近；
 但461万档的压降与换热差异仍需解释，现有结果不支持全部网格均已通过联合检验。
-其他构型资料另行保留，直线与混合结构的网格质量合格只表明准备条件满足，
-gao2.1 较早批次也不与本节七档序列混用。
-后续应统一初场、时间推进历史和网格策略，并以323万档为参照，
-继续核查出口、近壁及尾迹区的敏感性。原始数据、统一误差表与流场出处均保留在源码目录。
+
 
 
 
@@ -564,11 +584,11 @@ PID 数学模拟 & 已有时序 & 1800点保存数据；抗饱和实现存在待
 \caption{后续工作及所需产出}\label{tab:plan}
 \begin{tabularx}{\textwidth}{@{}Y Y Y@{}}
 \toprule
-\rowcolor{ydzjlight} 工作 & 状态 & 依据或缺口 \\
+\rowcolor{ydzjlight} 工作 & 状态  \\
 \midrule
-小块适用分界线 & 热流密度与小块选择的条件化关系 & 逻辑月四 \\
-Bi 与扰流柱数量 & 统一定义和对照数据 & 逻辑月四 \\
-翼型 XGBoost 尝试 & 先补分组数据再训练和独立测试 & 逻辑月四 \\
+小块适用分界线 & 热流密度与小块选择的条件化关系 \\
+流道几何形态的优化 & 统一定义和对照数据  \\
+翼型代理模型的 XGBoost 尝试 & 先补分组数据再训练和独立测试  \\
 \bottomrule\end{tabularx}\end{table}
 
 \FloatBarrier
