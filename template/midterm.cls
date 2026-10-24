@@ -36,12 +36,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \RequirePackage[
   a4paper,
-  top=2.54cm, bottom=2.54cm,
-  left=3.17cm, right=3.17cm,
-  headheight=15pt, headsep=0.7cm, footskip=1.1cm
+  top=1.9cm, bottom=1.9cm,
+  left=1.8cm, right=1.8cm,
+  headheight=15pt, headsep=0.6cm, footskip=1.0cm
 ]{geometry}
 
-\linespread{1.5}          % 1.5 倍行距
+\linespread{1.15}         % 1.15 倍行距（原 1.5，压缩页数）
 \setlength{\parindent}{2em}
 \setlength{\parskip}{0pt}
 \raggedbottom
@@ -110,20 +110,20 @@
     number = \chinese{section},
     format = \centering\heiti\zihao{3},
     aftername = {},
-    beforeskip = 2.2ex plus .3ex minus .2ex,
-    afterskip  = 1.8ex plus .2ex,
+    beforeskip = 1.2ex plus .2ex minus .2ex,
+    afterskip  = 1.2ex plus .2ex,
   },
   subsection = {
     number = \arabic{section}.\arabic{subsection},
     format = \heiti\zihao{4}\raggedright,
-    beforeskip = 1.6ex plus .2ex minus .2ex,
-    afterskip  = 1.2ex plus .2ex,
+    beforeskip = 1.2ex plus .2ex minus .2ex,
+    afterskip  = 0.8ex plus .2ex,
   },
   subsubsection = {
     number = \arabic{section}.\arabic{subsection}.\arabic{subsubsection},
     format = \heiti\zihao{-4}\raggedright,
-    beforeskip = 1.3ex plus .2ex minus .2ex,
-    afterskip  = 1.0ex plus .2ex,
+    beforeskip = 1.0ex plus .2ex minus .2ex,
+    afterskip  = 0.7ex plus .2ex,
   },
   paragraph = {
     format = \heiti\zihao{-4}\raggedright,
@@ -142,7 +142,7 @@
 \captionsetup{
   font = {small},        % 五号
   labelsep = quad,
-  skip = 6pt,
+  skip = 3pt,
 }
 \captionsetup[table]{position=top}
 \captionsetup[figure]{position=bottom}
@@ -281,10 +281,17 @@
 \setlist[itemize]{leftmargin=2.2em, itemsep=2pt, topsep=4pt}
 \setlist[enumerate]{leftmargin=2.4em, itemsep=2pt, topsep=4pt}
 
-% 浮动体参数
-\renewcommand{\topfraction}{0.9}
-\renewcommand{\bottomfraction}{0.8}
-\renewcommand{\textfraction}{0.08}
-\renewcommand{\floatpagefraction}{0.75}
+% 浮动体参数（压缩页数：允许更多浮动体、缩小间距）
+\renewcommand{\topfraction}{0.92}
+\renewcommand{\bottomfraction}{0.85}
+\renewcommand{\textfraction}{0.05}
+\renewcommand{\floatpagefraction}{0.72}
+\setcounter{topnumber}{4}
+\setcounter{bottomnumber}{3}
+\setcounter{totalnumber}{6}
+\setlength{\floatsep}{8pt plus 2pt minus 2pt}
+\setlength{\textfloatsep}{10pt plus 3pt minus 3pt}
+\setlength{\intextsep}{8pt plus 2pt minus 2pt}
+\setlength{\dblfloatsep}{8pt plus 2pt minus 2pt}
 
 \endinput
