@@ -59,7 +59,7 @@
 
 \subsubsection{总体目标与方向对应}
 项目的总体目标是在时空非均匀负荷条件下，形成从局部结构、单元连接到动态运行的可验证研究链条。链条分为三个方向：方向一解决区域结构适配与连接性能，方向二解决动态运行下的流量分配与协同控制，方向三为前两者提供快速预测方法。表\ref{tab:01}给出目标、方向与本阶段交付要求的对应关系；实际完成状态见第三部分。
-\begin{table}[htbp]
+\begin{table}[!htbp]
 \centering\small
 \caption{研究目标、对应方向与阶段交付要求}\label{tab:01}
 \begin{tabularx}{\linewidth}{lYY}
@@ -102,7 +102,7 @@
 三个方向各自完成的工作可概括如下。方向一从整板分区与单元划分出发，建立了连接方案库和 40 mm 条带装配，完成了四种流道、六种翼型及多条小模型分支的数值对照，并准备了连接段的成对计算。方向二从动态负荷问题定义出发，形成了十行单向流路、双泵与行级出口阀门的控制架构，建立了非均匀热源模型，并在一阶集总对象上完成了增量式 PID 闭环仿真。方向三从高保真计算成本出发，确定了参数化建模、自动化批量计算、数据集构建与物理信息融合的技术路线，并完成了网格、物性和评价口径的前置整理。
 
 表\ref{tab:work}把三项工作与产出形态对应起来。表中“产出形态”只说明已有材料的类型，不代表性能已经验证；具体数值与边界见第三部分。
-\begin{table}[htbp]
+\begin{table}[!htbp]
 \centering\small
 \caption{三个方向的工作内容与产出形态}\label{tab:work}
 \begin{tabularx}{\linewidth}{@{}lYY@{}}
@@ -122,7 +122,7 @@
 
 \subsubsection{本阶段文献清单}
 本节沿用已核实的三项文献，不从格式范例引入其他项目的仿真数据或参考结论。文献与用途对应关系见表~\ref{tab:reading}。
-\begin{table}[htbp]\centering\small
+\begin{table}[!htbp]\centering\small
 \caption{已有文献与本项目的方法对应}\label{tab:reading}
 \begin{tabularx}{\linewidth}{@{}Y Y Y@{}}\toprule
 \rowcolor{ydzjlight} 文献 & 对应问题 & 本项目采用范围 \\\midrule
@@ -140,7 +140,7 @@ Raissi 等（2017）\cite{raissi2017} & 将物理规律引入学习过程 & 作�
 
 \subsubsection{几何建模与计算域}
 数值研究以整体冷板、局部单元和连接区域三个层级组织。整体设计为 $40\,\mathrm{mm}\times40\,\mathrm{mm}$ 冷板，按 $10\times10$ 个基本单元划分，每个单元节距为 $4\,\mathrm{mm}\times4\,\mathrm{mm}$。节距包含结构主体及连接或间隔空间，不能将其与主体流道的有效尺寸混同。已读取的当前整板几何说明给出 $3.5\,\mathrm{mm}\times3.5\,\mathrm{mm}$ 主体、$3\,\mathrm{mm}$ 总厚度及十条并排流路；这些数据对应具体版本，并非所有历史模型的统一尺寸。表\ref{tab:02}汇总已知参数与待确认尺寸。
-\begin{table}[htbp]
+\begin{table}[!htbp]
 \centering\small
 \caption{冷板及代表性微通道几何参数}\label{tab:02}
 \begin{tabularx}{\linewidth}{lYY}
@@ -162,7 +162,7 @@ Raissi 等（2017）\cite{raissi2017} & 将物理规律引入学习过程 & 作�
 
 图\ref{fig:05}展示实际整板截面，图\ref{fig:06}展示可追溯连接装配局部。翼型模型以 NACA2416 等结构为代表；局部截面、扰流柱和连接段应在图中注明坐标、尺寸及版本。固体域、流体域及交界面需要作为共轭传热对象共同处理，流体连通性和固液接触关系均须检查。当前整板已有几何与热源排布验证，仍需后续流体域处理、网格与求解，不能引用局部模型的结果作为整板计算结果。
 
-\begin{figure}[htbp]\centering
+\begin{figure}[!htbp]\centering
 \begin{subfigure}{0.49\linewidth}\centering
 \includegraphics[width=\linewidth,height=88mm,keepaspectratio]{figs/midterm_asset_whole_plate.png}
 \caption{当前40 mm整板在 z=1.5 mm 的实际 CAD 截面：70个低负荷、27个中负荷、3个高负荷模块。此图为几何与映射核对，不是整板温度场。}\label{fig:05}
@@ -179,7 +179,7 @@ Raissi 等（2017）\cite{raissi2017} & 将物理规律引入学习过程 & 作�
 
 \subsubsection{三类代表性热负荷工况}
 研究按低热负荷、高稳定热负荷和动态波动热负荷组织三类工作模式。低负荷区域重点考察在满足温度要求时控制流动代价；高稳定负荷区域重点考察持续热点和局部传热能力；动态负荷区域重点考察波动下的瞬态温度与后续控制接口。图\ref{fig:12}概括各模式的评价与结构需求，表\ref{tab:07}维护相应边界说明。
-\begin{table}[htbp]
+\begin{table}[!htbp]
 \centering\small
 \caption{三类代表性热负荷工作模式}\label{tab:07}
 \begin{tabularx}{\linewidth}{lYY}
@@ -225,7 +225,7 @@ $T_f$ 为流体温度，$k_f$ 为导热系数，$c_p$ 为定压比热，$s_f$ �
 T_s=T_f,\qquad -k_s\nabla T_s\cdot\bm n=-k_f\nabla T_f\cdot\bm n.\label{eq:interface}
 \end{equation}
 式\eqref{eq:interface}同时约束温度和热流；若后续引入接触热阻，则需改用温度跳跃条件。实际边界配置见表\ref{tab:03}；代表算例与整板规划分别记录，不能仅以控制方程替代实际边界。
-\begin{table}[htbp]
+\begin{table}[!htbp]
 \centering\small
 \caption{CFD工况与边界条件维护表}\label{tab:03}
 \begin{tabularx}{\linewidth}{lYY}
@@ -256,7 +256,7 @@ T_s=T_f,\qquad -k_s\nabla T_s\cdot\bm n=-k_f\nabla T_f\cdot\bm n.\label{eq:inter
 
 \subsubsection{温度相关物性 UDF 与热源设置}
 水物性实现已进行修正和对照，当前可用拟合 UDF 根据温度返回密度、动力黏度、导热系数和比热，比热积分与显热使用同一多项式。已读取版本声明物性拟合压力为 $101325\,\mathrm{Pa}$、材料温度范围为 $280$--$360\,\mathrm{K}$。该压力是物性评估条件，不表示流动压力场被固定。已排查修正的旧物性问题作为方法改进背景保留，不作为当前主要研究障碍。表\ref{tab:05}记录当前物性与热源配置，空间映射见图\ref{fig:05}；实际区域动态轨迹仍待归档。
-\begin{table}[htbp]
+\begin{table}[!htbp]
 \centering\small
 \caption{当前物性模型、热源UDF与实现核对}\label{tab:05}
 \begin{tabularx}{\linewidth}{lYY}
@@ -288,7 +288,7 @@ T_s=T_f,\qquad -k_s\nabla T_s\cdot\bm n=-k_f\nabla T_f\cdot\bm n.\label{eq:inter
 $\mathrm dh/\mathrm dT=c_p$。编译通过只说明接口可用，仍需检查适用温区、数值与变化趋势。
 图~\ref{fig:udf-interface}承接这一学习过程。
 
-\begin{figure}[htbp]\centering
+\begin{figure}[!htbp]\centering
 \begin{subfigure}[t]{.49\linewidth}\centering
 \includegraphics[width=\linewidth]{figs/udf_learning_interfaces_a.png}
 \caption{常用接口及作用}
@@ -340,7 +340,7 @@ $T_{w,\max}$ 为指定受热壁面最高温度，$Q_{\mathrm{in}}$ 为输入热�
 \sigma_{T,A}=\left[\frac{1}{A}\int_A(T_w-\overline T_{w,A})^2\,\mathrm dA\right]^{1/2}.\label{eq:uniformity}
 \end{equation}
 $A$ 为统一的受热面评价区域，二者分别反映极差和整体温度分散程度。表\ref{tab:06}给出指标维护模板。项目后续将优先保证指标含义与统计位置一致，再开展性能排序。
-\begin{table}[htbp]
+\begin{table}[!htbp]
 \centering\small
 \caption{热工与流动性能指标定义及维护模板}\label{tab:06}
 \begin{tabularx}{\linewidth}{lYY}
@@ -376,7 +376,7 @@ $P_h,P_e$ & 水力功与泵电功率/W & \TBD{系统压降、流量、效率} \\
 基本单元按4 mm节距组织，当前整板版本将3.5 mm主体布置在格中心，行内连接长0.5 mm，两端各保留0.25 mm；条间填充与边缘处理用于满足整体外形尺寸。连接段的功能不仅是几何拼接，还包括将不同主体的出口速度分布调整为可接受的下游入口条件，降低突变接口造成的流动偏置。图\ref{fig:13}给出四条条带装配的实际内部截面。
 
 已有连接方案库包含梭形导叶、蜂窝整流格、双排导叶及螺旋槽等版本，方案存在本身不代表均已完成性能计算。当前四条40 mm验证装配记录明确采用低阻梭形直导叶、保留六片导叶和横向轮廓，并对流向长度进行缩短。表\ref{tab:08}仅记录这一可追溯的装配版本；团队已验证连接方案与此版本的对应关系、最终成果版本号仍需确认，不能因多个目录出现“最终版”便推定为同一性能对照对象。
-\begin{table}[htbp]
+\begin{table}[!htbp]
 \centering\small
 \caption{可追溯连接装配版本及最终对照参数模板}\label{tab:08}
 \begin{tabularx}{\linewidth}{lYY}
@@ -395,7 +395,7 @@ $P_h,P_e$ & 水力功与泵电功率/W & \TBD{系统压降、流量、效率} \\
 \end{table}
 
 
-\begin{figure}[htbp]\centering
+\begin{figure}[!htbp]\centering
 \includegraphics[width=\linewidth,height=125mm,keepaspectratio]{figs/midterm_asset_strip_overview.png}
 \caption{四条40 mm装配的实际内部截面，包含gao2.1、翼型、直线及混合排列；用于几何准备和接口检查。}\label{fig:13}
 \end{figure}
@@ -411,7 +411,7 @@ $P_h,P_e$ & 水力功与泵电功率/W & \TBD{系统压降、流量、效率} \\
 
 
 表\ref{tab:09}建立基准与确定方案的最终对照模板。当前可以确认的是已有连接候选和可追溯装配；尚不能确认连接本身能否改善指定指标、其幅度及适用负荷范围。填写表格时，应同时列出受热面最高温度、面积平均温度或均匀性、压降及泵送代价，对不利变化也应如实记录。
-\begin{table}[htbp]
+\begin{table}[!htbp]
 \centering\small
 \caption{连接结构与基准结构的成对性能比较模板}\label{tab:09}
 \begin{tabularx}{\linewidth}{lYYY}
@@ -456,14 +456,14 @@ $P_h$/W & \TBD{数值} & \TBD{数值} & 流量与系统压力范围一致。 \\
 其中预测和增益调度仍属方案；当前量化证据来自后文简化 PID，而非全部层级已经实现。
 流量相关换热与泵送成本需由实际通道和设备特性辨识，不能把幂律指数或泵功立方关系视为所有流况的既定结论。
 
-\begin{figure}[htbp]\centering
+\begin{figure}[!htbp]\centering
 \includegraphics[width=\linewidth]{figs/midterm_monthly1_13_控制框架框图.png}
 \caption{感知、预测、决策、执行与独立安全约束框架，作为后续系统架构方案。}\label{fig:control-month1}
 \end{figure}
 \subsubsection{双泵与行级阀门控制架构}
 系统基本方案为双泵与行级出口阀门协同调控，利用区域温度反馈决定泵工作状态和各行阀门开度。泵主要影响供液压力或总流量，阀门主要改变各行水力阻力；两者通过公共管路作用于全部行，不能简单解释为泵负责温度、阀门负责均匀性而完全独立。图\ref{fig:18}示意系统架构与温度反馈链，表\ref{tab:10}给出输入、状态与输出维护模板。
 \reportfigure{fig:18}{双泵与行级出口阀门协同控制架构}{figs/midterm_concept_fig_18.pdf}{\linewidth}
-\begin{table}[htbp]
+\begin{table}[!htbp]
 \centering\small
 \caption{动态系统的输入、状态、测量及控制输出}\label{tab:10}
 \begin{tabularx}{\linewidth}{lYY}
@@ -553,7 +553,7 @@ $\bm x,\bm u,\bm d,\bm y,\bm\theta$ 分别为状态、控制、热负荷扰动�
 
 \subsubsection{CFD数据集构建方法}
 数据集以算例为基本单位，每条样本应包含输入参数、物性版本、几何版本、网格统计、边界配置、输出指标、质量标签和计算成本。历史算例可用于流程验证和探索，但不同物性、不同时间点或不同压降口径的结果不能未经统一便合并为训练标签。方向三正在构建高保真样本集，尚未确认最终有效样本数。表\ref{tab:12}为候选输入和输出建立统一字典。
-\begin{table}[htbp]
+\begin{table}[!htbp]
 \centering\small
 \caption{代理模型候选输入、输出与数据标识}\label{tab:12}
 \begin{tabularx}{\linewidth}{lYY}
@@ -609,7 +609,7 @@ $\bm z$ 为原始输入，$\bm\phi$ 为只依赖可用输入的物理特征，$y
 \mathcal L=\mathcal L_{\mathrm{data}}+\lambda_E\mathcal L_E+\lambda_B\mathcal L_B.\label{eq:loss}
 \end{equation}
 $\mathcal L_{\mathrm{data}}$ 为数据误差，$\mathcal L_E$ 为可计算的守恒残差，$\mathcal L_B$ 为边界或非负性等一致性惩罚，权重 $\lambda_E,\lambda_B$ 需标定并统一无量纲尺度。表格标量回归不必具备完整流场的空间导数，XGBoost 也不能直接照搬常规神经网络的 PDE 自动微分残差。物理特征增强与残差学习更适合作为树模型的初步融合路径；方程约束网络则属于需另行论证的数据与算法路线。
-\begin{table}[htbp]
+\begin{table}[!htbp]
 \centering\small
 \caption{拟比较代理模型算法与物理融合路径}\label{tab:13}
 \begin{tabularx}{\linewidth}{lYY}
@@ -656,7 +656,7 @@ $M$ 为目标预测次数，$C_{\mathrm{data}}$ 与 $C_{\mathrm{train}}$ 分别�
 M>\frac{C_{\mathrm{data}}+C_{\mathrm{train}}}{t_{\mathrm{CFD}}-t_{\mathrm{infer}}}.\label{eq:breakeven}
 \end{equation}
 式\eqref{eq:breakeven}未计入维护与新范围补样，应在成本表中另列。并行计算应区分墙钟时间与核时，冷启动与批量预测应分别记录。已有物性接口11.50倍计时对照与这里的代理调用加速不是同一对象。表\ref{tab:14}记录后续实测成本，当前尚无代理模型计时，保留为任务表。
-\begin{table}[htbp]
+\begin{table}[!htbp]
 \centering\small
 \caption{CFD与代理模型计算开销记录模板}\label{tab:14}
 \begin{tabularx}{\linewidth}{lYYY}
@@ -683,10 +683,10 @@ M>\frac{C_{\mathrm{data}}+C_{\mathrm{train}}}{t_{\mathrm{CFD}}-t_{\mathrm{infer}
 \subsubsection{三类流道复现与后处理基础}
 已整理方形、六边形和圆形微通道的复现结果，形成水侧中截面温度、静压、速度及铜基板温度
 共12幅云图。表~\ref{m1:tab:repro}列出复现关注点；
-图~\ref{fig:repro-square}、图~\ref{fig:repro-hex}至图~\ref{fig:repro-round}保留原图的坐标、色标和遮罩。
+图~\ref{fig:repro}保留原图的坐标、色标和遮罩。
 这些图用于说明已完成建模、求解与后处理流程，不将不同几何和历史工况的色标直接用于结构排序。
 部分历史温度图的高温区超出当前280--360 K拟合温区，因此也不作为当前变物性单相算例的准入证据。
-\begin{table}[htbp]
+\begin{table}[!htbp]
 		\centering
 		\caption{三种流道的复现情况}
 		\label{m1:tab:repro}
@@ -701,49 +701,48 @@ M>\frac{C_{\mathrm{data}}+C_{\mathrm{train}}}{t_{\mathrm{CFD}}-t_{\mathrm{infer}
 			\bottomrule
 		\end{tabularx}
 	\end{table}
-\begin{figure}[p]\centering
-\begin{subfigure}[t]{.48\linewidth}\centering
-\includegraphics[width=\linewidth]{figs/midterm_monthly1_01_temperature_midplane.png}\caption{水侧温度}\end{subfigure}\hfill
-\begin{subfigure}[t]{.48\linewidth}\centering
-\includegraphics[width=\linewidth]{figs/midterm_monthly1_02_pressure_midplane.png}\caption{水侧表压}\end{subfigure}
-\vspace{2mm}
-\begin{subfigure}[t]{.48\linewidth}\centering
-\includegraphics[width=\linewidth]{figs/midterm_monthly1_03_speed_midplane.png}\caption{水侧速度大小}\end{subfigure}\hfill
-\begin{subfigure}[t]{.48\linewidth}\centering
-\includegraphics[width=\linewidth]{figs/midterm_monthly1_04_copper_base_temperature.png}\caption{铜基板温度}\end{subfigure}
-\vspace{2mm}
-\caption{方形微通道的历史复现云图。水侧取 $Y=0.150$ mm，铜基板取 $Y=0.025$ mm；保留各图原色标，不能由颜色直接比较不同工况。}\label{fig:repro-square}
+\begin{figure}[!htbp]\centering
+{\small\heiti 方形微通道}\par\vspace{1pt}
+\begin{subfigure}{.235\linewidth}\centering
+\includegraphics[width=\linewidth]{figs/midterm_monthly1_01_temperature_midplane.png}
+\caption{水侧温度}\end{subfigure}\hfill
+\begin{subfigure}{.235\linewidth}\centering
+\includegraphics[width=\linewidth]{figs/midterm_monthly1_02_pressure_midplane.png}
+\caption{水侧表压}\end{subfigure}\hfill
+\begin{subfigure}{.235\linewidth}\centering
+\includegraphics[width=\linewidth]{figs/midterm_monthly1_03_speed_midplane.png}
+\caption{水侧速度大小}\end{subfigure}\hfill
+\begin{subfigure}{.235\linewidth}\centering
+\includegraphics[width=\linewidth]{figs/midterm_monthly1_04_copper_base_temperature.png}
+\caption{铜基板温度}\end{subfigure}
+
+\vspace{4pt}
+{\small\heiti 六边形微通道}\par\vspace{1pt}
+\begin{subfigure}{.235\linewidth}\centering
+\includegraphics[width=\linewidth]{figs/midterm_monthly1_05_temperature_midplane.png}\end{subfigure}\hfill
+\begin{subfigure}{.235\linewidth}\centering
+\includegraphics[width=\linewidth]{figs/midterm_monthly1_06_pressure_midplane.png}\end{subfigure}\hfill
+\begin{subfigure}{.235\linewidth}\centering
+\includegraphics[width=\linewidth]{figs/midterm_monthly1_07_speed_midplane.png}\end{subfigure}\hfill
+\begin{subfigure}{.235\linewidth}\centering
+\includegraphics[width=\linewidth]{figs/midterm_monthly1_08_copper_base_temperature.png}\end{subfigure}
+
+\vspace{4pt}
+{\small\heiti 圆形微通道}\par\vspace{1pt}
+\begin{subfigure}{.235\linewidth}\centering
+\includegraphics[width=\linewidth]{figs/midterm_monthly1_09_temperature_midplane.png}\end{subfigure}\hfill
+\begin{subfigure}{.235\linewidth}\centering
+\includegraphics[width=\linewidth]{figs/midterm_monthly1_10_pressure_midplane.png}\end{subfigure}\hfill
+\begin{subfigure}{.235\linewidth}\centering
+\includegraphics[width=\linewidth]{figs/midterm_monthly1_11_speed_midplane.png}\end{subfigure}\hfill
+\begin{subfigure}{.235\linewidth}\centering
+\includegraphics[width=\linewidth]{figs/midterm_monthly1_12_copper_base_temperature.png}\end{subfigure}
+\caption{三组流道的复现云图：自上而下为方形、六边形与圆形微通道，自左至右为水侧温度、水侧表压、水侧速度大小与铜基板温度。水侧取 $Y=0.150$ mm，铜基板取 $Y=0.025$ mm；保留各图原色标，不能由颜色直接比较不同工况。}
+\label{fig:repro}
 \end{figure}
-\begin{figure}[p]\centering
-\begin{subfigure}[t]{.48\linewidth}\centering
-\includegraphics[width=\linewidth]{figs/midterm_monthly1_05_temperature_midplane.png}\caption{水侧温度}\end{subfigure}\hfill
-\begin{subfigure}[t]{.48\linewidth}\centering
-\includegraphics[width=\linewidth]{figs/midterm_monthly1_06_pressure_midplane.png}\caption{水侧表压}\end{subfigure}
-\vspace{2mm}
-\begin{subfigure}[t]{.48\linewidth}\centering
-\includegraphics[width=\linewidth]{figs/midterm_monthly1_07_speed_midplane.png}\caption{水侧速度大小}\end{subfigure}\hfill
-\begin{subfigure}[t]{.48\linewidth}\centering
-\includegraphics[width=\linewidth]{figs/midterm_monthly1_08_copper_base_temperature.png}\caption{铜基板温度}\end{subfigure}
-\vspace{2mm}
-\caption{六边形微通道的历史复现云图。水侧取 $Y=0.150$ mm，铜基板取 $Y=0.025$ mm；保留各图原色标，不能由颜色直接比较不同工况。}\label{fig:repro-hex}
-\end{figure}
-\begin{figure}[p]\centering
-\begin{subfigure}[t]{.48\linewidth}\centering
-\includegraphics[width=\linewidth]{figs/midterm_monthly1_09_temperature_midplane.png}\caption{水侧温度}\end{subfigure}\hfill
-\begin{subfigure}[t]{.48\linewidth}\centering
-\includegraphics[width=\linewidth]{figs/midterm_monthly1_10_pressure_midplane.png}\caption{水侧表压}\end{subfigure}
-\vspace{2mm}
-\begin{subfigure}[t]{.48\linewidth}\centering
-\includegraphics[width=\linewidth]{figs/midterm_monthly1_11_speed_midplane.png}\caption{水侧速度大小}\end{subfigure}\hfill
-\begin{subfigure}[t]{.48\linewidth}\centering
-\includegraphics[width=\linewidth]{figs/midterm_monthly1_12_copper_base_temperature.png}\caption{铜基板温度}\end{subfigure}
-\vspace{2mm}
-\caption{圆形微通道的历史复现云图。水侧取 $Y=0.150$ mm，铜基板取 $Y=0.025$ mm；保留各图原色标，不能由颜色直接比较不同工况。}\label{fig:repro-round}
-\end{figure}
-\FloatBarrier
 \subsubsection{网格诊断结果}
 本报告提取了 NACA2416\_v3 在 $0.2\,\mathrm{s}$ 的七档已有结果，见表\ref{tab:04}。其中“平均温度”沿用原数据的全域单元算术平均，并非体积加权、受热面平均或流体混合温度；“最高温度”为全域最大值；压降为进出口面积平均静压差。该数据只能按原定义解释，不作为连接结构的优势数据。图\ref{fig:08}给出统一平面的实际面网格，图\ref{fig:09}给出已有响应曲线。
-\begin{table}[htbp]
+\begin{table}[!htbp]
 \centering\small
 \caption{NACA2416\_v3七档网格在0.2 s的已有结果}\label{tab:04}
 \begin{tabularx}{\linewidth}{lYYY}
@@ -763,7 +762,7 @@ M>\frac{C_{\mathrm{data}}+C_{\mathrm{train}}}{t_{\mathrm{CFD}}-t_{\mathrm{infer}
 \end{table}
 
 
-\begin{figure}[htbp]\centering
+\begin{figure}[!htbp]\centering
 \begin{subfigure}{0.49\linewidth}\centering
 \includegraphics[width=\linewidth]{figs/midterm_asset_naca_mesh_actual.png}
 \caption{NACA2416 v3三档实际流固界面面网格，统一取 z=0.25 mm。下排采用相同局部范围；此图不等同于三维边界层截面，单元总数增大也不保证每一局部区域同步加密。}\label{fig:08}
@@ -781,7 +780,7 @@ M>\frac{C_{\mathrm{data}}+C_{\mathrm{train}}}{t_{\mathrm{CFD}}-t_{\mathrm{infer}
 $e_{\phi,i}=|\phi_i-\phi_{\mathrm{ref}}|/|\phi_{\mathrm{ref}}|\times100\%$ 计算差异；
 参考档并非精确解，参考档自身差异为零也不能证明网格无关。
 表~\ref{m3:tab:mesh_ref323}和图~\ref{fig:mesh-errors}均采用同一分母。
-\begin{table}[htbp]\centering
+\begin{table}[!htbp]\centering
 \caption{以323万档为参考的温度与压降相对差异（\%）}
 \label{m3:tab:mesh_ref323}
 \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}rrrr@{}}\toprule
@@ -804,7 +803,7 @@ $h_c\approx38210.0$ W/(m$^2$·K)；294万档二者差异约0.11\%，461万档约
 $f_D$差异约4.28\%。$Re\approx6603$只用于记录该特征尺度下的流动量级，
 并不单独证明层流模型在全部参数范围有效，后续还需结合扰流结构和流动形态复核。
 
-\begin{figure}[htbp]\centering
+\begin{figure}[!htbp]\centering
 \begin{subfigure}{0.49\linewidth}\centering
 \includegraphics[width=\linewidth]{figs/midterm_month3_mesh_errors_ref323.png}
 \caption{温度、压降及换热流阻指标统一以323万档为参考的相对差异，虚线为1\%比较线。}\label{fig:mesh-errors}
@@ -823,7 +822,7 @@ $f_D$差异约4.28\%。$Re\approx6603$只用于记录该特征尺度下的流动
 回流质量流量占入口流量分别为0.4754\%和0.2777\%；回流面积扩大而回流质量减少，
 不能概括为461万档的回流整体更严重。两档回流面质量加权温度均为305 K。
 
-\begin{figure}[htbp]\centering
+\begin{figure}[!htbp]\centering
 \begin{subfigure}{0.49\linewidth}\centering
 \includegraphics[width=\linewidth]{figs/midterm_month3_mesh_flowfield.png}
 \caption{323万档（上排）与461万档（下排）的中高平面速度、投影流线、温度和静压。}\label{fig:mesh-flow}
@@ -850,7 +849,7 @@ GCI外推与两档相对差异也需区分：以323万为细档的107万／152�
 该表中原公式密度为999.999985 kg/m$^3$，参考为997.047637 kg/m$^3$，偏高约0.2961\%。
 现阶段保留来源差异，不继续沿用60.8\%作为当前已核实误差；后续需核对历史源码版本。
 
-\begin{figure}[htbp]\centering
+\begin{figure}[!htbp]\centering
 \begin{subfigure}{0.49\linewidth}\centering
 \includegraphics[width=\linewidth]{figs/midterm_asset_udf_01_四项物性温度曲线.png}
 \caption{四项水物性随温度的变化：参考、原公式与最终REFPROP拟合版。排查候选公式与最终拟合版分别保留，不混用。}\label{fig:udf-curves}
@@ -869,7 +868,7 @@ GCI外推与两档相对差异也需区分：以323万为细档的107万／152�
 拟合分支最终到0.2 s，实时分支到0.137 s，因此末态文件不能直接逐点对比。
 图~\ref{fig:udf-common}和图~\ref{fig:udf-time}分别保留共同时间段和共同步数口径。
 
-\begin{figure}[htbp]\centering
+\begin{figure}[!htbp]\centering
 \begin{subfigure}{0.49\linewidth}\centering
 \includegraphics[width=\linewidth]{figs/midterm_asset_udf_04_同一时段求解结果.png}
 \caption{相同初场和时间步下两种物性实现的共同时间段对照。}\label{fig:udf-common}
@@ -888,7 +887,7 @@ GCI外推与两档相对差异也需区分：以323万为细档的107万／152�
 \subsubsection{四种流道在共同热流密度下的比较}
 
 表~\ref{m2:tab:results}列出既有工况下的最高温度、平均温度、压差与水力功率。
-\begin{table}[htbp]
+\begin{table}[!htbp]
 \centering
 \caption{既有工况在共同热流密度下的温度与水力性能}
 \label{m2:tab:results}
@@ -926,7 +925,7 @@ gao2.1 和叶脉 A\_leaf 的保存结果。表~\ref{m2:tab:other-small} 记录�
 最高温度取固体单元最大值，压差取入口与出口的面积加权平均静压之差，
 水力功率按 $P_{\mathrm{hyd}}=\Delta p\,\dot V$ 计算。
 对于 gao2.1 的多个入口和出口，分别按总面积加权，入口体积流量取各入口之和。
-\begin{table}[htbp]
+\begin{table}[!htbp]
 \centering
 \small
 \caption{非 NACA 小模型在各自保存工况下的性能}
@@ -944,7 +943,7 @@ gao2.1 & 600.00 & 88.41 & 53.57 & 13.969 & 0.12572 \\
 \end{tabularx}
 \end{table}
 
-\begin{table}[htbp]
+\begin{table}[!htbp]
 \centering
 \small
 \caption{非 NACA 小模型的网格与计算条件}
@@ -972,7 +971,7 @@ gao2.1 & 2,347,198 & 0.20 & 0.01 & 9.000 \\
 现有单元数可说明离散规模，\textbf{不能仅据此认定网格无关性已经通过}；
 仍需对同一几何在统一工况和收敛标准下比较不同网格的结果。
 
-\begin{figure}[htbp]
+\begin{figure}[!htbp]
 \centering
 \includegraphics[width=\textwidth]{figs/midterm_month2_other_models.png}
 \caption{六边形 v4.2、gao2.1 与叶脉模型的实际界面网格及加热面温度。上排为平面流固界面网格，下排为各自保存工况的加热面温度；各列工况不同，色标独立。}
@@ -982,7 +981,7 @@ gao2.1 & 2,347,198 & 0.20 & 0.01 & 9.000 \\
 
 \subsubsection{六种翼型在基准工况下的比较}
 
-\begin{table}[htbp]
+\begin{table}[!htbp]
 \centering
 \caption{不同翼型构型流热耦合仿真关键结果（基准工况）}
 \label{m2:tab:airfoil}
@@ -1024,7 +1023,7 @@ NACA2416 A00 core 与尾部 BOI 分支分别为 4,371,445 和 3,079,413 单元�
 保存时刻分别为 0.15 s 和 0.20 s，时间步均为 0.01 s；
 NACA2416 v3 列出 3,235,081 单元、时间步 0.001 s、0.20 s 时刻的结果。
 基础 NACA0016 A06 的时间步为 0.01 s。
-\begin{table}[htbp]
+\begin{table}[!htbp]
 \centering
 \small
 \caption{350 W/cm$^2$ 下 NACA 小模型的保存结果}
@@ -1057,7 +1056,7 @@ NACA0016、1416、3416 的网格分别为 821,987、792,259、783,184 单元。
 压差和水力功率均提高约 5.25\%。
 这提示弯度变化带来的温度收益需要与流动代价一起衡量，
 但当前数据只支持该保存时刻的初步比较，仍需检查收敛状态和网格敏感性。
-\begin{table}[htbp]
+\begin{table}[!htbp]
 \centering
 \small
 \caption{同热负荷、同流量与同保存时刻的 v2 翼型结果}
@@ -1078,7 +1077,7 @@ NACA3416 v2 & 450.00 & 85.11 & 43.12 & 2.366 & 0.03785 \\
 各子图分别标注色标；加热面温度是表面局部值，
 与表中固体全域最高温度和固体单元算术平均温度含义不同。
 
-\begin{figure}[htbp]
+\begin{figure}[!htbp]
 \centering
 \includegraphics[width=\textwidth]{figs/midterm_month2_naca_models.png}
 \caption{NACA0016、1416、3416 v2 小模型的界面网格与 0.10 s 加热面温度。上排为实际平面流固界面网格，下排温度来自各自配套 Data 文件，色标独立。}
@@ -1090,7 +1089,7 @@ NACA3416 v2 & 450.00 & 85.11 & 43.12 & 2.366 & 0.03785 \\
 加热边界采用随时间变化的热流，表中 126.82 W/cm$^2$ 为 1 s 的瞬时值，
 不是整个计算过程的恒定热负荷。原始分支流量约为 12.000 mL/s，
 其余三个分支约为 12.041 mL/s；原始与回流温度 300 K 分支的时间步均为 0.01 s。
-\begin{table}[htbp]
+\begin{table}[!htbp]
 \centering
 \small
 \caption{NACA2420 在 1 s 时刻的设置与时间步验证结果}
@@ -1132,12 +1131,12 @@ $2.75\times10^{-5}\%$，各项指标在表中精度下相同。
 方向二的量化结果来自简化闭环时序及其程序复核，尚不包括真实泵阀系统。下面先给出保存的时序，再说明程序核查发现的问题。
 图~\ref{fig:20}直接由已有数组重绘，表~\ref{tab:11}按明确统计窗口复核\cite{stagereports}。
 
-\begin{figure}[htbp]\centering
+\begin{figure}[!htbp]\centering
 \includegraphics[width=.9\linewidth,height=150mm,keepaspectratio]{figs/midterm_asset_pid_verified.png}
 \caption{已有简化 PID 温控数组的只读复核。上图为温度扰动与被控温度，中图为限幅执行量，下图为开关累计误差限幅时的累计值；不表示实物流量。}\label{fig:20}
 \end{figure}
 
-\begin{table}[htbp]\centering\small
+\begin{table}[!htbp]\centering\small
 \caption{保存 PID 时序的工况与复核指标}\label{tab:11}
 \begin{tabularx}{\linewidth}{@{}Y Y Y@{}}\toprule
 \rowcolor{ydzjlight} 项目 & 数值或状态 & 统计与适用范围 \\\midrule
@@ -1167,7 +1166,7 @@ $2.75\times10^{-5}\%$，各项指标在表中精度下相同。
 \subsection{成果清单与结论边界}
 本节把前面的进展收拢为表~\ref{tab:monthly_status}（任务状态）、表~\ref{tab:key_results}（量化记录）和一组结论边界。状态按“已有结果—部分完成—未完成”三级描述，不使用完成百分比。
 
-\begin{table}[htbp]\centering\small
+\begin{table}[!htbp]\centering\small
 \caption{按现有保存记录核对的中期任务状态}\label{tab:monthly_status}
 \begin{tabularx}{\linewidth}{@{}>{\hsize=0.9\hsize}Y c >{\hsize=1.25\hsize}Y >{\hsize=0.85\hsize}Y@{}}
 \toprule
@@ -1185,7 +1184,7 @@ $2.75\times10^{-5}\%$，各项指标在表中精度下相同。
 \subsubsection{关键量化结果}
 
 已有量化记录见表~\ref{tab:key_results}；数值来自既有报告、保存数组的只读复核与物性验证资料，本次整理没有推进 Fluent 求解。
-\begin{table}[htbp]\centering\small
+\begin{table}[!htbp]\centering\small
 \caption{已有量化记录与证据边界}\label{tab:key_results}
 \begin{tabularx}{\linewidth}{@{}>{\hsize=0.8\hsize}Y >{\hsize=1.1\hsize}Y >{\hsize=1.1\hsize}Y@{}}\toprule
 \rowcolor{ydzjlight} 记录 & 量化信息 & 证据边界 \\\midrule
@@ -1310,7 +1309,7 @@ M4 & 报告与成果整理 & 来源索引、图表定稿、阶段性论文稿及
 \subsection{整板与系统验证检查项}
 整板验证把连接、供液和系统性能分解为五项可检查内容。结合已保存的40 mm几何，表~\ref{tab:system_checks}列出各项的统一评价方式与缺口。
 当前整板尚未完成流体域提取、共享拓扑、网格及求解，不能报告温度均匀性或泵功改善。小块选择分界线、Bi 与扰流柱数量的定量证据仍需补充，候选布局不视为已验证的最优配置。
-\begin{table}[htbp]\centering\small
+\begin{table}[!htbp]\centering\small
 \caption{连接与整板的验证项目、指标及缺口}\label{tab:system_checks}
 \begin{tabularx}{\linewidth}{@{}Y Y Y@{}}\toprule
 \rowcolor{ydzjlight} 验证内容 & 统一评价方式 & 当前输入与待补证据 \\\midrule
