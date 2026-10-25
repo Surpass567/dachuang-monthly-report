@@ -1,0 +1,469 @@
+% 2026-10-23：按学习复现、探索尝试、优化验证、迭代调试、整板尝试重组。
+\documentclass[stage2,fontset=fandol]{ydzjreport}
+\usepackage{subcaption,longtable}
+\usepackage{bm}
+\stagetwosetup
+{第 3 个逻辑月 · 优化与验证}
+{冯旭东、陈思文、张昊洋}
+{复合微通道分区冷却}
+{【待确认】逻辑月 3 对应的自然月}
+{翼型专题；参数分组；UDF 修改；网格检验；PID 数学模拟}
+{细化翼型参数研究，整理既有翼型结果与待补分组方案；修改并核验 UDF，分析网格敏感性，并开展纯数学温控模拟。}
+\pagestyle{empty}   % 去掉页眉与页脚（含页码）
+\RemoveFromHook{enddocument}[ydzjreport] % 去掉末页的作者与格式规范收尾说明
+
+
+\makeatletter
+\newcommand{\submissionnumber}[1]{\def\@currentlabel{#1}}
+\makeatother
+\begin{document}
+
+\makestagetwohead
+
+% unified-five-part-outline 2026-10-23
+\section{本月计划}
+
+\subsection{任务目标}
+
+翼型研究从代表结构比较推进到参数分组。这里的分组指厚度、弯度、攻角等翼型参数的分组，不是不同热流密度下的小块选择分界线。与此同时，正式修改 UDF、复核已有网格结果，并在纯数学对象上初试 PID。
+
+\section{研究过程}
+
+\subsection{翼型参数与流热性能研究}
+
+\subsubsection{翼型参数分组设计与数据缺口}
+
+
+
+\par\noindent \begingroup\submissionnumber{1}\phantomsection\label{tab:param-vars}\endgroup 表~1 请参见附件表~1。\par
+
+
+表~\ref{tab:param-vars}按结构几何参数与外部运行参数两类划分，列出单根翼型扰流柱的全部可调变量及其取值规则。结构几何参数进一步分为翼型主体参数与尾部构型参数：前者以弦长、柱高与迎角三项基础几何量确定扰流柱的尺度与安装姿态，并以弯度幅值、弯度弦向位置、厚度幅值、厚度弦向位置四项核心调控量生成差异化的翼型基准构型，其中位置类参数一律按弦长方向的无量纲比例给出，形态参数采用随机取值；后者描述尾缘段的几何形状及与原翼型曲线的衔接方式，其中过渡连接采用形函数平滑过渡，通过在四类候选函数中选型来调控连接段的几何连续性与流线形态，以抑制流动分离带来的压降损失。外部运行参数仅保留来流速度为可调变量，来流方向已由迎角统一表征，入口温度与加热温度作为固定边界条件取定值，不进入优化变量范围。该表用于明确变量清单与取值规则，各参数的具体上下界、实际分组结果及独立变量影响曲线仍待补充。
+
+
+
+\subsubsection{既有六种翼型结果与专题研究动机}
+
+
+\par\noindent \begingroup\submissionnumber{2}\phantomsection\label{tab:airfoil}\endgroup 表~2 请参见附件表~2。\par
+
+
+PEC 以 NACA0015 为基准归一化。厚度增益符合预期：
+NACA0015 增至 NACA0024 后最高温度由 357.9 K 降至 354.9 K，
+表列换热系数提高约 5.5\%。弯度效应与预期存在偏差：
+NACA64 系列 PEC 反而回落至 1.00 附近。
+
+
+\textbf{NACA 小模型的补充结果。}
+在上述六种翼型基准对比之外，我进一步整理了 NACA0016、1416、2416、3416
+及 2420 的已有小模型结果，共 13 条代表性分支。
+这些分支包含几何变化、网格组织、物性验证及时间步验证，不能全部视为独立翼型。
+这 13 条记录整理在表~\ref{tab:results}，平均温度采用固体单元算术平均，水力功率为压差与体积流量之积。其平均温度与表~\ref{tab:airfoil} 的底板平均温度口径不同，不据此补算缺少统一基准的 PEC。
+
+\begingroup
+\small
+\renewcommand{\arraystretch}{1.05}
+\setlength{\tabcolsep}{4pt}
+\setlength{\LTleft}{0pt}
+\setlength{\LTright}{0pt plus 1fill}
+
+\par\noindent \begingroup\submissionnumber{3}\phantomsection\label{tab:results}\endgroup 表~3 请参见附件表~3。\par
+
+
+\endgroup
+
+\textbf{350 W/cm$^2$ 下的几何、网格与物性分支。}
+表~\ref{tab:results} 中 350 W/cm$^2$ 的 NACA 分支入口体积流量均约为 16 mL/s。
+L450 表示弦长 450 $\mu$m，A06 与 A00 分别对应 $6^\circ$ 和 $0^\circ$ 攻角，
+原模型目录中的 98989 阵列标识保留在数据来源中。
+NACA0016 A06 基础分支为 3,048,985 单元，保存时刻 0.10 s；
+其拟合物性和 REFPROP 物性分支采用相同网格，时间步均为 0.001 s，
+但分别保存于 0.200 s 和 0.137 s。
+NACA2416 A00 core 与尾部 BOI 分支分别为 4,371,445 和 3,079,413 单元，
+保存时刻分别为 0.15 s 和 0.20 s，时间步均为 0.01 s；
+NACA2416 v3 列出 3,235,081 单元、时间步 0.001 s、0.20 s 时刻的结果。
+基础 NACA0016 A06 的时间步为 0.01 s。
+
+
+这些记录说明了不同分支的温度与水力量级，但保存时刻、攻角及网格并未全部一致。
+尤其是物性分支的最终保存时刻不同，不能用本表的末态温差代替同一时刻的物性误差；
+core 与 BOI 分支也不能仅凭本表认定网格无关。
+
+\textbf{450 W/cm$^2$ 下三种 v2 翼型的初步比较。}
+三组结果的热流密度均为 450 W/cm$^2$，入口流量约为 16 mL/s，
+时间步均为 0.0002 s，保存时刻均为 0.10 s。
+NACA0016、1416、3416 的网格分别为 821,987、792,259、783,184 单元。
+表~\ref{tab:results} 显示，三者最高温度相差不足 0.23 $^\circ$C；
+与 NACA0016 相比，NACA3416 最高温度降低约 0.230 $^\circ$C，
+压差和水力功率均提高约 5.25\%。
+这提示弯度变化带来的温度收益需要与流动代价一起衡量，
+但当前数据只支持该保存时刻的初步比较，仍需检查收敛状态和网格敏感性。
+
+
+图~\ref{fig:naca-small} 给出了三种 v2 翼型的实际界面网格和加热面温度。
+
+
+
+\par\noindent \begingroup\submissionnumber{1}\phantomsection\label{fig:naca-small}\endgroup 图~1 请参见附件图~1。\par
+
+
+\textbf{NACA2420 的回流设置、物性与时间步检查。}
+表~\ref{tab:results} 中 NACA2420 的四个分支均为 771,225 单元，保存时刻均为 1 s。
+加热边界采用随时间变化的热流，表中 126.82 W/cm$^2$ 为 1 s 的瞬时值，
+不是整个计算过程的恒定热负荷。原始分支流量约为 12.000 mL/s，
+其余三个分支约为 12.041 mL/s；原始与回流温度 300 K 分支的时间步均为 0.01 s。
+
+
+采用 IAPWS 物性后，将时间步从 0.01 s 减小到 0.005 s，
+1 s 时刻的最高温度差约为 $3.68\times10^{-6}$ K，压差相对差约为
+$2.75\times10^{-5}\%$，各项指标在表中精度下相同。
+因此，这组结果在该时刻对本次时间步减半不敏感；
+这一检查不等同于验证整个瞬态过程，也不能替代网格无关性检验。
+
+
+\subsubsection{翼型差异的定性机理解释}
+
+局部对流换热满足牛顿冷却定律：
+
+\begin{equation}
+q'' = h\,(T_w - T_f),
+\label{eq:newton}
+\end{equation}
+
+其中 $q''$ 为壁面热流密度，$T_w$ 为壁面温度，$T_f$ 为流体温度。
+努塞尔数与水力直径定义为
+
+\begin{equation}
+Nu = \frac{h\,D_h}{k_f},\qquad D_h = \frac{4A_c}{P_w},
+\label{eq:nu}
+\end{equation}
+
+$k_f$ 为流体导热系数，$A_c$ 为流通截面积，$P_w$ 为湿周。
+达西摩擦系数由进出口压差反算：
+
+\begin{equation}
+f = \frac{2\,\Delta p\,D_h}{\rho u_m^2 L},
+\label{eq:friction}
+\end{equation}
+
+$u_m$ 为截面平均流速，$L$ 为流道长度。
+综合性能取\textbf{等泵功基准}下的常用定义：
+
+\begin{equation}
+PEC = \frac{Nu/Nu_0}{\left(f/f_0\right)^{1/3}},
+\label{eq:pec}
+\end{equation}
+
+下标 0 表示基准构型（NACA0015）。
+式~\eqref{eq:pec} 的含义是：分子衡量换热增益，分母衡量水力代价，
+二者都相对于同一基准，因此 PEC 可以横向比较不同构型。
+
+翼型弯度增大后，前缘迎风侧流速提高，而尾缘背风侧的扩压段变长、
+逆压梯度增强：
+
+\begin{equation}
+\frac{\mathrm{d}p}{\mathrm{d}x} > 0 .
+\label{eq:adverse}
+\end{equation}
+
+当逆压梯度超过边界层动量的储备，边界层发生\textbf{分离}。
+分离后壁面附近形成回流区，壁面法向速度梯度趋于零：
+
+\begin{equation}
+\left.\frac{\partial u}{\partial y}\right|_{w} \rightarrow 0 ,
+\label{eq:shear}
+\end{equation}
+
+即壁面剪切率显著下降。
+
+对流换热系数与\textbf{壁面温度梯度}直接相关：
+
+\begin{equation}
+h = -\,\frac{k_f}{T_w - T_f}\left.\frac{\partial T}{\partial y}\right|_{w},
+\label{eq:hgrad}
+\end{equation}
+
+这可由式~\eqref{eq:newton} 与傅里叶导热定律在壁面处的匹配直接得到。
+速度梯度下降使热边界层增厚，$\left|\partial T/\partial y\right|_w$ 随之减小，
+因此 $h$ 在死区附近\textbf{显著下降}。由此可以得到两个结论：
+
+\begin{enumerate}
+  \item \textbf{有效换热面积减小。}
+  死区内 $h$ 很低，等效于这部分壁面基本不参与换热；
+  总对流热阻
+  $R_{\mathrm{conv}} = 1/(hA_{\mathrm{eff}})$ 上升。
+  \item \textbf{流阻同时上升。}
+  回流区占据流通截面，主流被挤压、局部速度提高，$f$ 上升。
+\end{enumerate}
+
+代入式~\eqref{eq:pec} 可以看到两者对 PEC 的作用方向\textbf{完全一致}：
+分子 $Nu/Nu_0$ 下降、分母 $(f/f_0)^{1/3}$ 上升，PEC 必然回落。
+这就解释了「弯度越大换热越好」的预期为何不成立——
+\textbf{弯度带来的增益被尾缘分离抵消，还额外付出了流阻}。
+厚度增加的作用机理不同：它主要提高迎风侧扰动强度与换热面积，
+\textbf{并未引起同等规模的分离}，因此 $Nu$ 上升而 $f$ 增幅有限，
+PEC 得以提高。这一解释与既有表中 PEC 的变化相容，但仍需分离点、回流区和局部换热数据验证，不能作为已完成的因果证明。
+
+综上结论如下：
+
+上述分析是\textbf{定性}的。要给出定量判断，还缺三个量：
+分离点位置、回流区长度、壁面局部 $Nu$ 分布。
+这三项都需要从单柱模型或流场后处理中提取，列入下月工作。
+
+\subsection{UDF 正式修改与验证}
+\subsubsection{从初步编写到正式修正}
+接口实现流程如图~\ref{fig:udf-interfaces}所示，正式修改在本月集中核查。
+
+\par\noindent \begingroup\submissionnumber{2}\phantomsection\label{fig:udf-interfaces}\endgroup 图~2 请参见附件图~2。\par
+
+
+月一学习接口和经验公式后，本月正式核对温度相关水物性并修改 UDF。现有拟合版采用101325 Pa下 REFPROP WATER.FLD v9.1 液态水数据，适用材料温度为280--360 K；密度、黏度、导热系数和比热随温度返回。该压力是拟合条件，不表示流动压力场处处固定。
+
+比热与显焓须采用同一多项式及其积分：
+\begin{equation}
+h(T)-h(T_{\mathrm{ref}})=\int_{T_{\mathrm{ref}}}^{T}c_p(\theta)\,\mathrm d\theta,
+\qquad \frac{\mathrm dh}{\mathrm dT}=c_p(T).
+\end{equation}
+编译通过只说明接口可用；校验还需覆盖适用范围、数值趋势和实际调用。以下采用仓库已有拟合与共同时间段对照记录，不重新运行 Fluent 求解，也不把代表算例推广到全部结构。
+\subsubsection{拟合精度与代表算例对照}
+补充资料在280--360 K、101325 Pa下核对1601个温度点。
+密度、动力黏度、导热系数和比热的最大相对拟合误差分别为
+0.0000151\%、0.0005164\%、0.0001216\%和0.0002054\%。
+图~\ref{fig:udf-curves}保留原公式、REFPROP参考与最终拟合曲线；
+图~\ref{fig:udf-fit-error}给出逐项最大误差。这是对同一参考物性的拟合检验，不等于物理模型的实验精度。
+历史月报曾记载298.15 K密度偏低60.8\%，但该说法与现有逐点公式核查表不一致：
+该表中原公式密度为999.999985 kg/m$^3$，参考为997.047637 kg/m$^3$，偏高约0.2961\%。
+现阶段保留来源差异，不继续沿用60.8\%作为当前已核实误差；后续需核对历史源码版本。
+
+
+\par\noindent \begingroup\submissionnumber{3}\phantomsection\label{fig:udf-curves}\endgroup 图~3 请参见附件图~3。\par
+
+
+
+\par\noindent \begingroup\submissionnumber{4}\phantomsection\label{fig:udf-fit-error}\endgroup 图~4 请参见附件图~4。\par
+
+
+在共同0.137 s时刻，拟合与实时REFPROP实现的固体最高温度分别为332.6852693 K和332.6852725 K，
+加热面最高温度分别为332.8039186 K和332.8039218 K；
+进出口面积平均静压差分别为4290.169554 Pa和4290.159872 Pa。
+共同前37步的求解及残差读取耗时分别为5.653 min和64.986 min，实时接口约为拟合版的11.50倍。
+拟合分支最终到0.2 s，实时分支到0.137 s，因此末态文件不能直接逐点对比。
+图~\ref{fig:udf-common}和图~\ref{fig:udf-time}分别保留共同时间段和共同步数口径。
+
+
+\par\noindent \begingroup\submissionnumber{5}\phantomsection\label{fig:udf-common}\endgroup 图~5 请参见附件图~5。\par
+
+
+
+\par\noindent \begingroup\submissionnumber{6}\phantomsection\label{fig:udf-time}\endgroup 图~6 请参见附件图~6。\par
+
+
+\subsection{网格分析与无关性检验}
+\subsubsection{七档网格分析与无关性检验}
+
+本节以 NACA2416 的 $N_{\mathrm{ref}}=3\,235\,081$ 单元（以下简称323万档）
+为\textbf{唯一对比参考}，统一分析七档网格的温度、压降、换热与流阻指标，
+并补充流动场及出口截面图。参考档是本阶段的比较基准，不作为精确解。
+
+\paragraph{统一比较条件与误差定义。}
+
+七档结果统一取 $t=0.2\,\mathrm{s}$，最终时间步长均为 $0.001\,\mathrm{s}$。
+461万档早期保留了一段 $0.0001\,\mathrm{s}$ 的推进历史，且其边界层设置和网格尺度策略
+与323万档存在差别，比较时保留这些条件差异。
+平均温度沿用全域单元算术平均，压降取液体入口与出口面积加权静压之差。
+对所有指标统一计算
+\begin{equation}
+e_{\phi,i}=\frac{|\phi_i-\phi_{323}|}{|\phi_{323}|}\times100\%,
+\qquad \phi\in\{\overline T,T_{\max},\Delta p,Nu,h_c,f_D\}.
+\label{eq:mesh_error}
+\end{equation}
+式~\eqref{eq:mesh_error} 中分母始终取323万档对应指标，
+温度与压降三项差异均不超过 $1\%$ 作为本轮联合比较线。
+参考档自身差异为零仅由定义决定，不能据此宣布网格无关性通过。
+
+
+\par\noindent \begingroup\submissionnumber{4}\phantomsection\label{tab:mesh}\endgroup 表~4 请参见附件表~4。\par
+
+
+表~\ref{tab:mesh} 保留七档原始值，图~\ref{fig:month3_mesh} 展示其变化；
+曲线沿用已有分析图，收敛判断以离散数据点为准。
+
+\par\noindent \begingroup\submissionnumber{7}\phantomsection\label{fig:month3_mesh}\endgroup 图~7 请参见附件图~7。\par
+
+
+\paragraph{全部相对323万档的定量比较。}
+
+
+\par\noindent \begingroup\submissionnumber{5}\phantomsection\label{tab:mesh_ref323}\endgroup 表~5 请参见附件表~5。\par
+
+
+按表~\ref{tab:mesh_ref323}，294万档相对323万档的平均温度、最高温度和压降差异分别为
+$0.0239\%$、$0.0057\%$ 和 $0.3201\%$，三项均低于 $1\%$。
+两档绝对差分别为 $0.0726\,\mathrm{K}$、$0.0198\,\mathrm{K}$ 和 $7.518\,\mathrm{Pa}$，
+表明294--323万附近存在局部接近区间。152万档压降差异为 $1.7722\%$，
+不能将约150万单元认定为本组已验证的网格基准。
+461万档相对323万档的平均温度、最高温度和压降差异分别为
+$0.5537\%$、$0.1835\%$ 和 $4.2751\%$，压降仍超过比较线。
+因此，统一以323万为参考后，局部两档接近与全部网格达到同一阈值仍需区分。
+
+图~\ref{fig:month3_errors323} 将温度、压降和换热流阻指标的参考口径统一到323万档。
+流体侧换热采用 $D_h=2.8070\,\mathrm{mm}$、$L=3.5\,\mathrm{mm}$；
+物性取入口、出口质量流量加权温度平均值对应的数值。
+323万档 $Nu=175.818$、$h_c\approx38210.0\,\mathrm{W/(m^2\cdot K)}$，
+294万档相对其差异均约为 $0.11\%$。
+461万档 $Nu=173.114$、$h_c\approx37621.5\,\mathrm{W/(m^2\cdot K)}$，
+相对323万档差异均约为 $1.54\%$；$f_D$ 差异约为 $4.28\%$。
+$Re$ 与 $Pr$ 接近主要反映入口及物性条件接近，不能替代换热与压降核查。
+
+
+\par\noindent \begingroup\submissionnumber{8}\phantomsection\label{fig:month3_errors323}\endgroup 图~8 请参见附件图~8。\par
+
+
+\paragraph{流动场与出口回流的图像核查。}
+
+图~\ref{fig:month3_flowfield} 以323万档为参照，对照461万档在
+$z=1.50\,\mathrm{mm}$ 平面的主流向速度、平面投影流线、温度与静压。
+流线是三维速度在该平面的投影，黑色边界为 $U_x=0$，不能直接等同于完整三维流线。
+两档均呈现翼型间主流加速、尾缘低速区和沿流向的压力降低；
+局部逆向速度区的形状与范围存在差别。
+原始图中两档使用相同变量色标，便于按323万档观察局部差异，
+但二维图像本身不能证明空间离散误差已收敛。
+
+
+\par\noindent \begingroup\submissionnumber{9}\phantomsection\label{fig:month3_flowfield}\endgroup 图~9 请参见附件图~9。\par
+
+
+图~\ref{fig:month3_outlet} 进一步给出出口法向速度与温度分布。
+323万档的回流面积比例为 $5.1720\%$，回流质量流量占入口流量的 $0.4754\%$；
+461万档对应为 $5.3886\%$ 与 $0.2777\%$。
+相对323万档，461万档回流面积比例增加约0.2167个百分点，
+回流质量流量比例反而减少约0.1977个百分点，不能据此称其回流整体更严重。
+两档回流面质量加权温度均为 $305\,\mathrm{K}$。
+出口局部回流与内部尾迹应分别识别，不能只凭投影流线将二者混为一类。
+
+
+\par\noindent \begingroup\submissionnumber{10}\phantomsection\label{fig:month3_outlet}\endgroup 图~10 请参见附件图~10。\par
+
+
+以相同统计区域的体积加权温度辅助核查时，323万档与461万档分别为
+$305.7793\,\mathrm{K}$ 和 $305.8673\,\mathrm{K}$，
+相对323万档仅约 $0.0288\%$。
+这说明单元算术平均值受网格统计权重影响；七档主表仍保留原始统一口径，
+两档体积加权数值单列说明，不能与其他档算术平均值混用。
+流场与出口对比能定位差异位置，但未进行出口延长或回流温度敏感性重算，
+不能把 $4.2751\%$ 的压降差异直接归因于某一种出口因素。
+
+\paragraph{以323万为细档的 GCI 与阶段结论。}
+
+GCI 沿用以323万为细档、从较粗网格选取对比档的已有结果，
+采用三维等效尺度 $\ell=(V/N)^{1/3}$、安全系数 $F_s=1.25$。
+294万与323万的细化比仅约1.032，尺度间隔较近。
+107万、152万、323万组合的压降形式 GCI 为 $0.7275\%$，表观阶约5.57；
+26万、107万、323万组合的 $Nu$ 与 $h_c$ 形式 GCI 约为 $7.13\%$ 与 $7.24\%$。
+GCI 是三档网格外推指标，不等于式~\eqref{eq:mesh_error} 中的两档相对差异，
+不能通过挑选最小的形式 GCI 认定全部指标通过。
+
+本轮统一以323万档作为\textbf{后续诊断与成本折中的参考网格}，
+294万档相对该参考的温度、压降和换热指标均较接近；
+但461万档的压降与换热差异仍需解释，现有结果不支持全部网格均已通过联合检验。
+
+
+
+
+\subsection{PID 纯数学模拟}
+\subsubsection{初步数学模型与最小闭环验证}
+
+本月采用一阶集总温控对象与增量式 PID，保存1800个采样点，采样周期0.05 s，时间坐标0--89.95 s。
+热源输入是 $82\pm12$ $^\circ$C、周期15 s的\textbf{温度信号}，不是 W/cm$^2$ 表示的区域热流；
+程序以经验加热系数0.45和随执行量变化的冷却系数0.03--0.20推进温度。
+因此，该算例验证抽象冷却动作下的闭环逻辑，不是耦合 Fluent、实物双泵或十行阀门的系统验证。
+图~\ref{fig:20}直接由已有数组重绘，表~\ref{tab:11}按明确统计窗口复核\cite{control}。
+
+
+\par\noindent \begingroup\submissionnumber{11}\phantomsection\label{fig:20}\endgroup 图~11 请参见附件图~11。\par
+
+
+
+\par\noindent \begingroup\submissionnumber{6}\phantomsection\label{tab:11}\endgroup 表~6 请参见附件表~6。\par
+
+原程序先更新并限幅累计误差变量，随后用当前和前两步误差直接计算增量，未使用被限幅的累计值。
+因此两组保存的温度和执行量完全相同，现有结果不能支持“积分限幅已改善超调”的结论。
+后续需将抗饱和反馈或条件积分接入实际控制更新，再与相同扰动、初态和模型下的基准比较。
+当前峰值仍受经验冷却能力上限影响，但不能据此量化真实泵阀系统的结构性超调或节能收益。
+
+基础 PID 可写为
+\begin{equation}\begin{aligned}
+u_i(t)&=\operatorname{sat}\left[u_{i,0}+K_{p,i}e_i(t)+K_{i,i}\int_0^t e_i(\tau)\,\mathrm d\tau+K_{d,i}\frac{\mathrm de_i}{\mathrm dt}\right],\\
+e_i&=T_i-T_{i,\mathrm{set}}.
+\end{aligned}\label{eq:pid}
+\end{equation}
+$u_i$ 为冷却动作的抽象量，$u_{i,0}$ 为基准指令，$T_i$ 与 $T_{i,\mathrm{set}}$ 为反馈与设定温度，三个增益分别对应比例、积分和微分作用，$\operatorname{sat}$ 为执行器限幅。若增大 $u_i$ 表示增强冷却，上述误差符号与正比例增益相匹配；阀开度与流量关系仍需标定。该式用于说明连续形式；已有程序采用增量更新，累计误差限幅没有实际进入控制更新，需先修正并复核后再评价抗饱和效果。
+
+
+
+\section{完成情况}
+
+\subsection{任务完成状态}
+
+
+\par\noindent \begingroup\submissionnumber{7}\phantomsection\label{tab:tasks}\endgroup 表~7 请参见附件表~7。\par
+
+
+\subsection{关键结果与完成边界}
+
+现有证据包括翼型历史对照、UDF 拟合及实现对照、七档网格和纯数学 PID 时序。参数分组研究尚无完整结果，不能宣布最优参数或影响权重；具体量化值及适用边界分别见上文。
+
+
+
+\subsection{可以确定的}
+
+已有资料支持翼型专题研究；UDF 修改已有拟合与代表算例一致性证据；网格结论具有条件限制；PID 目前只验证数学对象下的反馈逻辑。
+
+\subsection{尚不能确定的}
+
+各参数的独立影响、最优翼型及泛化范围尚不能确定。局部物性实现一致性不等于实验精度；数学闭环不代表整板控制性能。
+
+\section{问题与初步对策}
+
+\subsection{与预期的差异}
+
+翼型弯度增大并未在已有记录中始终提高综合性能，定性解释仍需局部场验证；网格加密未使所有指标共同单调收敛；PID 程序中的累计误差限幅未实际进入增量更新，不能把两组相同输出解释为抗饱和有效。
+
+
+
+\subsection{遇到的主要问题}
+
+翼型分组的完整数据未提供；历史分支存在物性、网格及保存时刻差异；网格检验尚未充分统一推进历史；纯数学控制对象尚未与真实泵阀标定。
+
+\subsection{已尝试的方案}
+
+保留原始分支条件，采用共同时间段核对两种物性实现，统一以323万档比较网格，并按保存数组复核 PID 实现。
+
+\subsection{下一步对策}
+
+补充翼型分组数据；统一数值条件后复核网格；修正并独立检验抗饱和更新。随后在逻辑月四研究小块选择分界线、Bi 与扰流柱数量影响，准备翼型代理模型的数据。
+
+\section{下个月计划}
+
+
+\par\noindent \begingroup\submissionnumber{8}\phantomsection\label{tab:plan}\endgroup 表~8 请参见附件表~8。\par
+
+
+
+
+\begin{thebibliography}{9}
+
+\bibitem{smallmodels} 小模型保存结果与性能汇总. 项目仿真资料, 2026. 见配套数据文件 small\_model\_results.csv 及 model\_sources.json；数值由 Case／Data 提取，图像由实际面元及表面温度生成。
+\bibitem{airfoil} 微通道液冷场景下的翼型参数. 项目资料, 2026.
+\bibitem{control} 控制理论与 PID 算法相关资料. 项目资料, 2026.
+
+% ---------- 控制理论学习书籍（张昊洋补充）----------
+\bibitem{hushousong} 胡寿松. 自动控制原理[M]. 8 版. 北京: 科学出版社, 2023.
+\bibitem{astrom} {\AA}STR{\"O}M K J, H{\"A}GGLUND T. PID Controllers: Theory, Design, and Tuning[M]. 2nd ed. Research Triangle Park: Instrument Society of America, 1995.
+\bibitem{franklin} FRANKLIN G F, POWELL J D, EMAMI-NAEINI A. Feedback Control of Dynamic Systems[M]. 8th ed. London: Pearson, 2019.
+\bibitem{ogata} OGATA K. Modern Control Engineering[M]. 5th ed. London: Pearson, 2010.
+\bibitem{brunton} BRUNTON S L, KUTZ J N. Data-Driven Science and Engineering: Machine Learning, Dynamical Systems, and Control[M]. 2nd ed. Cambridge: Cambridge University Press, 2022.
+\end{thebibliography}
+
+
+\end{document}

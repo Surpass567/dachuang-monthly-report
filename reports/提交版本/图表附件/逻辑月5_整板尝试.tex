@@ -1,0 +1,65 @@
+% 2026-10-23：按学习复现、探索尝试、优化验证、迭代调试、整板尝试重组。
+\documentclass[stage2,fontset=fandol]{ydzjreport}
+\usepackage{subcaption,longtable}
+
+\stagetwosetup
+{第 5 个逻辑月 · 整板尝试}
+{冯旭东、陈思文、张昊洋}
+{复合微通道分区冷却}
+{【待确认】逻辑月 5 对应的自然月}
+{整板布局；网络连接；供液；集成尝试；验证准备}
+{承接小块探索与适用边界研究，尝试整板布局、单元连接及供液组织，区分已有几何准备与尚待求解的整板性能。}
+\pagestyle{empty}   % 去掉页眉与页脚（含页码）
+\RemoveFromHook{enddocument}[ydzjreport] % 去掉末页的作者与格式规范收尾说明
+
+
+
+\begin{document}
+\section*{逻辑月5\_整板尝试：图表附件}
+本附件图表编号与对应提交正文及完整报告一致。\par\clearpage
+\setcounter{table}{0}
+\begin{table}[H]\centering
+\caption{整板尝试的输入条件}\label{tab:pre}
+\begin{tabularx}{\textwidth}{@{}Y Y Y@{}}
+\toprule
+\rowcolor{ydzjlight} 工作 & 状态 & 依据或缺口 \\
+\midrule
+小块选择依据 & 月四研究内容 & 候选可先试装，分界线尚待数据支持 \\
+数值条件 & 月三核验 & 323万档仅局部参考，整板需独立网格检查 \\
+物性实现 & 已有代表对照 & 280--360 K拟合，整板实际温区与挂接仍需确认 \\
+执行器特性 & 缺数据 & 供液方式、泵阀曲线、流量计和采样条件 \\
+\bottomrule\end{tabularx}\end{table}
+\clearpage
+\setcounter{table}{1}
+\begin{table}[H]\centering
+\caption{本月工作与材料状态}\label{tab:tasks}
+\begin{tabularx}{\textwidth}{@{}Y Y Y@{}}
+\toprule
+\rowcolor{ydzjlight} 工作 & 状态 & 依据或缺口 \\
+\midrule
+整板几何与热源布局 & 已有记录 & 中期资料保存40 mm整板及热源映射，不代表流热求解完成 \\
+网络与连接设计 & 有方向及候选 & 沿用已有连接、条带装配和供液方案 \\
+整板流体域与网格 & 待完成 & 需按整体几何独立检查 \\
+整板性能对照 & 尚缺结果 & 需支路流量、温度场和压差 \\
+系统控制验证 & 尚缺结果 & 月三数学 PID 不替代泵阀与多行验证 \\
+\bottomrule\end{tabularx}\end{table}
+\clearpage
+\setcounter{table}{2}
+\begin{table}[H]\centering
+\caption{后续工作及所需产出}\label{tab:plan}
+\begin{tabularx}{\textwidth}{@{}Y Y Y@{}}
+\toprule
+\rowcolor{ydzjlight} 工作 & 状态 & 依据或缺口 \\
+\midrule
+整板模型准备 & 流体域、连接与边界核对 & 下一阶段 \\
+整板试算与独立检验 & 守恒、网格和求解记录 & 具备模型后 \\
+统一基准性能对照 & 温度、流量与泵功比较 & 试算可靠后 \\
+控制接口辨识 & 泵阀特性及动态响应 & 具备条件后 \\
+\bottomrule\end{tabularx}\end{table}
+\clearpage
+\begin{thebibliography}{9}
+\bibitem{proposal} 大创项目申报书：研究内容与实施方案. 2026.
+\bibitem{data} 四种流道数据与折线图. 项目计算资料, 2026.
+\bibitem{udf} 项目组. water\_properties\_refprop\_fit.c：液态水物性拟合与 Fluent UDF 源码. 项目计算资料, 2026.
+\end{thebibliography}
+\end{document}

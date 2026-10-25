@@ -1,0 +1,330 @@
+% 2026-10-23：按学习复现、探索尝试、优化验证、迭代调试、整板尝试重组。
+\documentclass[stage2,fontset=fandol]{ydzjreport}
+\usepackage{subcaption,longtable}
+
+\stagetwosetup
+{第 2 个逻辑月 · 探索与尝试}
+{冯旭东、陈思文、张昊洋}
+{复合微通道分区冷却}
+{【待确认】逻辑月 2 对应的自然月}
+{多种小块；代表结构比较；传统 PID；控制流程}
+{探索不同小块结构的温度与水力表现，形成翼型专题研究的动机；学习传统 PID 的具体知识并提出控制流程。}
+\pagestyle{empty}   % 去掉页眉与页脚（含页码）
+\RemoveFromHook{enddocument}[ydzjreport] % 去掉末页的作者与格式规范收尾说明
+
+
+\makeatletter
+\newcommand{\submissionnumber}[1]{\def\@currentlabel{#1}}
+\makeatother
+\begin{document}
+
+\makestagetwohead
+
+% unified-five-part-outline 2026-10-23
+\section{本月计划}
+
+\subsection{任务目标}
+
+本月进一步探究小块理论，尝试常规流道、仿生结构与翼型扰流的小块，关注结构变化带来的温度收益和水力代价。控制方向从基础理论进入传统 PID 的作用、工程约束与流程设计。
+
+\section{研究过程}
+
+\subsection{资料与评价指标的整理}
+
+\subsubsection{本阶段文献与资料}
+表~\ref{tab:lit}说明探索与控制学习所用资料。
+
+
+\par\noindent \begingroup\submissionnumber{1}\phantomsection\label{tab:lit}\endgroup 表~1 请参见附件表~1。\par
+
+
+\subsubsection{对本方向的启示}
+
+\textbf{关于指标}：不能只用某一个温度值或出口温升判断流道优劣。
+固体最高温度反映热点约束，指定表面的平均温度与温差反映均匀性，
+平均努塞尔数反映对流换热，进出口压差反映水力代价。
+综合指标必须建立在\textbf{同一基准}之上，否则数值不可比。
+
+\textbf{关于仿生}：自然演化出的结构往往同时兼顾流动分配均匀与阻力代价低两个目标——叶脉型分形的分支方式可用较少的通道断面实现均匀供液，月牙型沙丘的曲面形态则提供了低阻扰流的思路。这为小块内的流道组织提供了源自自然的参照。具体落到哪一种仿生形态，需与翼型扰流方案在同工况下比较后确定。
+
+\textbf{关于翼型}：相对厚度、相对弯度与攻角是决定扰流柱换热与流阻特性的
+三个基础参数。据此把二维翼型剖面拓展为直棱柱形、锥形、凹坑形三类三维结构，
+扰动强度与流阻代价各不相同，正对应不同热流密度区域的需求。
+
+\textbf{关于控制}：控制效果的瓶颈往往不在算法，而在对控制通道的了解程度。
+从执行器到被控量之间的物理通道必须事先知道，否则算法再好也是盲调。
+本轮按「经典理论 $\rightarrow$ PID 整定 $\rightarrow$ 数据驱动」的顺序系统补了基础\cite{hushousong,astrom,franklin,ogata}：
+经典教材提供传递函数、一阶／二阶响应与稳定性判据的框架\cite{hushousong,franklin}，
+PID 专著侧重三个作用的物理含义与工程整定方法\cite{astrom}，
+数据驱动的部分则在后续月份展开\cite{brunton}。
+
+% ==================================================================
+
+\subsection{小块数据整理方法}
+
+将常规流道、蜂窝、叶脉和翼型纳入同一候选集合。统一列出热负荷、温度、压差和水力功率；对保存时刻、流量及统计口径保留条件说明。同一几何的物性、网格与时间步分支单独标识，不重复计作新结构。
+
+\subsection{传统 PID 学习与控制流程设计}
+
+\subsubsection{PID 三个作用及其代价}
+表~\ref{tab:pid}整理三个作用与工程代价。
+
+
+\par\noindent \begingroup\submissionnumber{2}\phantomsection\label{tab:pid}\endgroup 表~2 请参见附件表~2。\par
+
+
+	与之配套的工程化措施也一并整理了三项：
+	\begin{enumerate}
+		\item \textbf{积分限幅（抗饱和）}：执行器到顶时冻结积分累加，
+		否则退出饱和后积分项会积累成一次大幅超调；
+		\item \textbf{微分先行}：微分只作用于测量值而不作用于设定值，
+		避免设定值阶跃时产生冲击；
+		\item \textbf{不完全微分}：微分项串入低通滤波，抑制噪声放大。
+	\end{enumerate}
+
+	\subsubsection{回到对象：两条整定上的判断}
+
+	把上述理论对应回热控对象，可以收敛为两条在整定时最容易出错的判断：
+
+	\begin{enumerate}
+		\item \textbf{先看执行器余量，再谈参数。}
+		若泵已到上限、阀已全开，而温度仍在上升，
+		那么此时的超调与振荡\textbf{不是整定问题，而是能力问题}。
+		调参数只会把问题掩盖成「响应变慢」。
+		\item \textbf{滞后决定增益上限。}
+		热控对象的相位裕度本就被纯滞后吃掉了一部分，
+		忽略时延而直接提高带宽可能引起振荡；宁可把带宽降下来，
+		换取稳定与可预测。
+	\end{enumerate}
+
+	对象性质与控制设计的逐条对应，已在前文表~\ref{tab:physics-control} 中给出，此处不再重复。
+
+\subsubsection{热控对象对控制设计的要求}
+
+	结构探索和控制设计均需注明所用物性；物性正式修改与核查在逻辑月三进行。
+
+
+	\paragraph{动态热源与控制需求}
+
+	既有的结构优化研究，大多建立在一个前提上：芯片的热载荷是静态的、空间分布已知的。
+	但真实工况并非如此——计算任务在核心之间交替，热点强度与位置随之漂移\cite{wu,ji}。
+	这带来两个直接后果：
+
+	\begin{enumerate}
+		\item 为某一静态热点定制的密集结构（局部加密针肋、扩缩口），
+		一旦热点转移就丧失靶向性；而其局部高流阻反而会加剧整板的流量分配不均，
+		陷入「结构越复杂、适应性越差」的困境。
+		\item 被动结构在时间维度上没有调节自由度。参数化研究已指出，
+		纯被动方案难以应对算力波动引起的随机热冲击\cite{laguna}。
+	\end{enumerate}
+
+	因此，控制的必要性并不来自「结构做得不够好」，而来自\textbf{热载荷自带时间维度}：
+	\textbf{结构决定「能不能冷下来」，控制决定「此刻该给多少冷」}。
+	这两件事是互补的，不是替代的。
+
+	\paragraph{可用于建模的对象性质}
+
+	\begin{enumerate}
+		\item \textbf{执行量到换热系数：单调但收益递减。}
+		冷却液流量由泵转速与水阀开度决定；流量增大时对流换热系数随之提高，
+		但提升幅度逐渐变缓，可近似写成幂律关系
+		$h = h_0 (Q/q_0)^n$，其中指数 $0<n<1$。
+		该简化模型用于说明「加流量有效，但边际收益递减」，也说明一味加大流量并不划算。
+
+		\item \textbf{热容到惯性：一阶环节。}
+		把芯片—冷板—冷却液视为一个热容节点，能量守恒给出
+		$C\,\mathrm{d}T/\mathrm{d}t = Q_{\mathrm{heat}} - hA\,(T - T_f)$，
+		其时间常数 $\tau = C/(hA)$。
+		这是被控对象的主惯性，决定了温度对流量变化的响应快慢。
+
+		\item \textbf{输运与扩散到纯滞后。}
+		冷却液从阀门流到芯片、热量从结区传到测点，都需要时间；
+		控制输入到温度输出之间存在纯滞后。
+		于是对象近似为「一阶惯性 + 纯滞后」（FOPDT）模型。
+		滞后是控制设计中真正的约束：\textbf{滞后越大，可用的反馈增益越低，响应越慢，越容易振荡}。
+	\end{enumerate}
+
+	\paragraph{流量调节与水力代价}
+
+	水力功耗随流量的增长远快于换热能力：在阻力近似随流量平方变化的简化条件下，水力功近似与流量的三次方成正比
+	（$P_{\mathrm{hyd}} \propto Q^3$），而换热系数只按 $Q^n$（$n<1$）增长。
+	因此「全程大流量」的代价非常高；而按需供液可以在热指标不明显劣化的前提下
+	大幅降低泵功。\textbf{这正是控制的价值来源——不是让温度更低，而是让温度「恰好够低」}。
+
+	\paragraph{由对象性质确定控制学习重点}
+
+
+\par\noindent \begingroup\submissionnumber{3}\phantomsection\label{tab:physics-control}\endgroup 表~3 请参见附件表~3。\par
+
+
+	上述对应关系是本阶段最重要的认识：\textbf{控制算法不是从文献里抄参数，
+	而是由对象的物理性质倒推出结构}。它同时解释了为什么后续要把预测（微分项的提前量）
+	与经典反馈（稳健性）结合起来——滞后决定了纯反馈天然「慢半拍」。
+
+	\subsubsection{控制流程图与接口}
+
+	由上述对象性质出发，本阶段确定的控制框架是\textbf{「分层递阶 + 安全约束」}，
+	整体结构如图~\ref{fig:ctrl-framework} 所示。
+
+
+\par\noindent \begingroup\submissionnumber{1}\phantomsection\label{fig:ctrl-framework}\endgroup 图~1 请参见附件图~1。\par
+
+
+	\textbf{为什么分层而不是单一回路。}
+	单一 PID 回路在热控对象上有两个绕不开的矛盾：
+	滞后大，增益一提就振荡（响应慢）；
+	工况漂移时，一套固定参数不可能在所有工况下都合适。
+	把「感知—预测—决策—执行」拆开，可以让每层只解决一个问题：
+	预测层专门对付滞后，决策层专门对付工况漂移，
+	执行层回到它最擅长的快速跟踪，安全层则独立于性能目标。
+
+	\textbf{各层职责与接口。}
+各层方案与待补接口见表~\ref{tab:layers}。
+
+
+\par\noindent \begingroup\submissionnumber{4}\phantomsection\label{tab:layers}\endgroup 表~4 请参见附件表~4。\par
+
+
+	\textbf{三点设计取舍。}
+
+	\begin{enumerate}
+		\item \textbf{预测层放在反馈之外。}
+		预测用于提供提前量；其接入方式、误差和回退策略仍需单独验证，不能仅凭分层架构保证闭环稳定。
+		\item \textbf{安全层独立于性能目标。}
+		结温上限与执行器限幅是\textbf{硬约束}，不能被「性能更优」的决策覆盖。
+		因此把它做成一条旁路，直接作用于执行层。
+		\item \textbf{短期先用固定增益跑通闭环。}
+		预测层与决策层都依赖数据积累，短期内不具备条件。
+		先以固定增益 PID 打通「感知—执行—反馈」链路，
+		确认对象模型与滞后量级无误，再逐层替换。
+	\end{enumerate}
+
+	\textbf{尚未解决的问题。}
+	框架给的是接口约定，不是可运行的参数。以下三项仍未确定，需要在后续月份补齐：
+
+	\begin{itemize}
+		\item 温度传感器的\textbf{数量与布点}：测点数决定能否重构温度场，也决定反馈的可观测性；
+		\item 泵与水阀的\textbf{动态特性}：动作延迟、死区、流量—压差曲线均未辨识，
+		因此 PID 增益目前只能给出量级判断，不能给具体数值；
+		\item 预测层所需的\textbf{数据集}：需要先通过仿真与实验积累「工况—温度响应」样本。
+	\end{itemize}
+
+
+	% ==================================================================
+
+\section{成果总结}
+
+\subsection{任务完成状态}
+
+
+\par\noindent \begingroup\submissionnumber{5}\phantomsection\label{tab:tasks}\endgroup 表~5 请参见附件表~5。\par
+
+
+\subsection{仿真结构设计展示与分析}
+
+图~\ref{fig:contours} 将既有流道的场分布与代表小模型的网格、加热面温度合并展示。各组工况、色标和温度统计口径分别保留，定量指标及保存条件统一列于后续两表，随后作联合分析。
+
+
+\par\noindent \begingroup\submissionnumber{2a}\phantomsection\label{fig:zhixian-t}\endgroup \begingroup\submissionnumber{2b}\phantomsection\label{fig:zhixian-p}\endgroup \begingroup\submissionnumber{2c}\phantomsection\label{fig:zhixian-v}\endgroup \begingroup\submissionnumber{2d}\phantomsection\label{fig:zhixian-cu}\endgroup \begingroup\submissionnumber{2e}\phantomsection\label{fig:sin-t}\endgroup \begingroup\submissionnumber{2f}\phantomsection\label{fig:sin-p}\endgroup \begingroup\submissionnumber{2g}\phantomsection\label{fig:sin-v}\endgroup \begingroup\submissionnumber{2h}\phantomsection\label{fig:sin-cu}\endgroup \begingroup\submissionnumber{2i}\phantomsection\label{fig:naca-t}\endgroup \begingroup\submissionnumber{2j}\phantomsection\label{fig:naca-p}\endgroup \begingroup\submissionnumber{2k}\phantomsection\label{fig:naca-v}\endgroup \begingroup\submissionnumber{2l}\phantomsection\label{fig:naca-cu}\endgroup \begingroup\submissionnumber{2m}\phantomsection\label{fig:gao-t}\endgroup \begingroup\submissionnumber{2n}\phantomsection\label{fig:gao-p}\endgroup \begingroup\submissionnumber{2o}\phantomsection\label{fig:gao-v}\endgroup \begingroup\submissionnumber{2p}\phantomsection\label{fig:gao-cu}\endgroup \begingroup\submissionnumber{2}\phantomsection\label{fig:contours}\endgroup 图~2 请参见附件图~2。\par
+
+
+表~\ref{tab:results} 汇总 5 条既有流道记录与 17 条小模型保存分支，共 22 条记录。不同记录的流量、保存时刻及平均温度口径分别说明，合并列示不代表各组具备相同的比较条件；翼型的详细参数与验证放在逻辑月三。
+
+% month2-merged-performance
+
+\begingroup
+\small
+\renewcommand{\arraystretch}{1.05}
+\setlength{\tabcolsep}{4pt}
+\setlength{\LTleft}{0pt}
+\setlength{\LTright}{0pt plus 1fill}
+
+\par\noindent \begingroup\submissionnumber{6}\phantomsection\label{tab:results}\endgroup 表~6 请参见附件表~6。\par
+
+\endgroup
+
+表~\ref{tab:other-conditions} 列出全部小模型的流量、保存时刻与时间步；各分支网格数保留在配套 CSV 中。
+
+
+\par\noindent \begingroup\submissionnumber{7}\phantomsection\label{tab:other-conditions}\endgroup 表~7 请参见附件表~7。\par
+
+
+\subsubsection{各类小块的联合分析}
+\paragraph{场分布、网格与定量结果结合解读}
+图~\ref{fig:contours} 的上部将四种流道的温度、静压、速度和铜板温度并列，便于结合流动路径观察温度分布与水力代价；下部补充六边形 v4.2、gao2.1 与叶脉的实际流固界面网格及加热面温度，展示不同拓扑的离散形态和局部温度分布。网格取自实际 Case 文件的平面界面面元，温度直接读取配套 Data 文件，没有额外推进求解。各温度图色标独立，不能仅凭颜色深浅给不同结构排序；网格单元数也只能说明离散规模，不能据此认定网格无关性已经通过。
+
+\paragraph{温度收益与水力代价共同决定候选方向}
+结合图~\ref{fig:contours} 与表~\ref{tab:results}，300 W/cm$^2$ 的保存记录中，最高温度和平均温度均为直线低于正弦、正弦低于 NACA2416；压差和水力功率则为 NACA2416 低于直线、直线低于正弦。直线最高温度比正弦低 9.77 $^\circ$C，比 NACA2416 低 19.98 $^\circ$C；相对正弦，其压差低约 37.4\%，水力功率低约 16.6\%。NACA2416 的压差和水力功率均比直线低约 68.2\%，但最高温度较高。这些记录提示温度收益与泵送代价需要共同评价；由于流量并非完全相同，当前仅用于识别候选方向。
+
+\paragraph{仿生与分支结构须连同保存条件比较}
+图~\ref{fig:contours} 下部与表~\ref{tab:other-conditions} 共同说明，六边形 v4 与 v4.2 的热负荷、流量同时变化，不能把温度差解释为结构优化的净收益。600 W/cm$^2$ 下，叶脉 A\_leaf 比 gao2.1 的最高温度低约 26.60 $^\circ$C，水力功率约为其 6.07 倍，但两者流量分别为 16 与 9 mL/s，且分别为稳态与 0.2 s 瞬态保存结果，不能将全部差异归因于形状。合并图中 gao2.1 上部采用 500 W/cm$^2$ 的既有流道结果，下部采用 600 W/cm$^2$ 的小模型记录，两者不能当作同一工况相互验证。叶脉已有建模与稳态保存结果，可作为后续筛选基础；结构优劣仍需在统一工况、收敛标准及网格检验下判断。
+
+\paragraph{翼型内部差异为后续参数分组提供线索}
+450 W/cm$^2$、约 16 mL/s 和 0.10 s 条件下，NACA3416 v2 比 0016 v2 的最高温度低约 0.230 $^\circ$C，压差高约 5.25\%。350 W/cm$^2$ 的基础、core、BOI 和物性分支仍混有时刻与网格差异；NACA2420 的四条记录属于同一几何的设置检查，126.82 W/cm$^2$ 是 1 s 瞬时热流。这些记录与合并图共同展示了候选结构和数值设置的覆盖范围，但同一几何的设置分支不重复计作新结构。
+
+\subsubsection{六种翼型基准结果的统一补充展示}
+表~\ref{tab:airfoil-overview}保留另一组已有基准结果。该组使用 K、底板平均温度、换热系数与 PEC，与前表的固体单元算术平均温度分别标注；不将两种平均方式混为同一指标。月二统一呈现候选结构，参数分组与机理细化在后续继续。
+
+\par\noindent \begingroup\submissionnumber{8}\phantomsection\label{tab:airfoil-overview}\endgroup 表~8 请参见附件表~8。\par
+
+\subsection{结构探索形成的后续方向}
+
+在统一评价框架下保留各类小块，翼型的厚度、弯度和攻角可进一步参数化。下一阶段设计分组并检验数值条件；不同热流密度下的小块选择分界线仍归逻辑月四。
+
+\subsection{阶段认识}
+
+\subsubsection{可以确定的}
+
+已有结构记录支持继续研究温度与水力代价之间的权衡；翼型可作为进一步参数化研究对象；传统 PID 学习已落实为控制流程和接口。
+
+\subsubsection{尚不能确定的}
+
+不同热流密度下的小块选择分界线、翼型参数的独立影响、实物控制性能及节能收益均未得到本月证据支持。
+
+\section{问题与初步对策}
+
+\subsection{探索结果与预期的差异}
+
+原先可能期待结构越复杂、散热越强，但已有结果提示温度改善和压降代价需要共同评价；不同组的流量和保存时刻也会改变比较结果。这是探索阶段发现的问题，尚不能据此给出小块适用分界线。控制方面，流程图目前是方案，不代表已经完成实物泵阀标定或闭环验证。
+
+
+
+\subsection{遇到的主要问题}
+
+各组物性、工况和温度统计口径未完全一致；翼型参数与多柱相互干扰尚未分离；控制对象的执行量和实际流量映射未知。
+
+\subsection{已尝试的方案}
+
+将所有小块纳入同一组表格和综合分析，保留各组条件，比较温度表现与水力代价；将翼型作为下一阶段专题；控制流程先定义输入、输出及安全约束。
+
+\subsection{下一步对策}
+
+后续设计翼型参数分组、修改 UDF 并检查网格，以纯数学对象开展 PID 模拟。参数组未取得结果前，保留研究方案和数据缺口。
+
+\section{下个月计划}
+
+
+\par\noindent \begingroup\submissionnumber{9}\phantomsection\label{tab:plan}\endgroup 表~9 请参见附件表~9。\par
+
+
+
+
+\begin{thebibliography}{9}
+
+\bibitem{smallmodels} 小模型保存结果与性能汇总. 项目仿真资料, 2026. 见配套数据文件 small\_model\_results.csv 及 model\_sources.json；数值由 Case／Data 提取，图像由实际面元及表面温度生成。
+\bibitem{airfoil} 微通道液冷场景下的翼型参数. 项目资料, 2026.
+\bibitem{control} 控制理论与 PID 算法相关资料. 项目资料, 2026.
+
+% ---------- 控制理论学习书籍（张昊洋补充）----------
+\bibitem{hushousong} 胡寿松. 自动控制原理[M]. 8 版. 北京: 科学出版社, 2023.
+\bibitem{astrom} {\AA}STR{\"O}M K J, H{\"A}GGLUND T. PID Controllers: Theory, Design, and Tuning[M]. 2nd ed. Research Triangle Park: Instrument Society of America, 1995.
+\bibitem{franklin} FRANKLIN G F, POWELL J D, EMAMI-NAEINI A. Feedback Control of Dynamic Systems[M]. 8th ed. London: Pearson, 2019.
+\bibitem{ogata} OGATA K. Modern Control Engineering[M]. 5th ed. London: Pearson, 2010.
+\bibitem{brunton} BRUNTON S L, KUTZ J N. Data-Driven Science and Engineering: Machine Learning, Dynamical Systems, and Control[M]. 2nd ed. Cambridge: Cambridge University Press, 2022.
+\bibitem{wu} 吴睿康. 电子器件主动液冷散热的建模及实验研究[D]. 杭州: 浙江大学, 2020.
+\bibitem{ji} 季俊杰. 微通道冷却芯片及其热点的动态特性研究[D]. 杭州: 浙江大学, 2021.
+\bibitem{laguna} LAGUNA G, VILARRUBI M, IBANEZ M, et al. Numerical parametric study of a hotspot-targeted microfluidic cooling array for microelectronics[J]. Applied Thermal Engineering, 2018, 144: 71-80.
+\end{thebibliography}
+
+
+\end{document}

@@ -1,0 +1,134 @@
+[
+  {
+    "report": "逻辑月1_基础建立",
+    "version": "正文",
+    "pages": 6,
+    "figures": 3,
+    "tables": 6,
+    "overfull": 0,
+    "missing": 0,
+    "errors": 0,
+    "undefined": 0
+  },
+  {
+    "report": "逻辑月1_基础建立",
+    "version": "图表附件",
+    "pages": 12,
+    "figures": 3,
+    "tables": 6,
+    "overfull": 0,
+    "missing": 0,
+    "errors": 0,
+    "undefined": 0
+  },
+  {
+    "report": "逻辑月2_指标与形态",
+    "version": "正文",
+    "pages": 6,
+    "figures": 2,
+    "tables": 9,
+    "overfull": 0,
+    "missing": 0,
+    "errors": 0,
+    "undefined": 0
+  },
+  {
+    "report": "逻辑月2_指标与形态",
+    "version": "图表附件",
+    "pages": 13,
+    "figures": 2,
+    "tables": 9,
+    "overfull": 0,
+    "missing": 0,
+    "errors": 0,
+    "undefined": 0
+  },
+  {
+    "report": "逻辑月3_形态与物理",
+    "version": "正文",
+    "pages": 7,
+    "figures": 11,
+    "tables": 8,
+    "overfull": 0,
+    "missing": 0,
+    "errors": 0,
+    "undefined": 0
+  },
+  {
+    "report": "逻辑月3_形态与物理",
+    "version": "图表附件",
+    "pages": 21,
+    "figures": 11,
+    "tables": 8,
+    "overfull": 0,
+    "missing": 0,
+    "errors": 0,
+    "undefined": 0
+  },
+  {
+    "report": "逻辑月4_迭代与调试",
+    "version": "正文",
+    "pages": 4,
+    "figures": 5,
+    "tables": 4,
+    "overfull": 0,
+    "missing": 0,
+    "errors": 0,
+    "undefined": 0
+  },
+  {
+    "report": "逻辑月4_迭代与调试",
+    "version": "图表附件",
+    "pages": 11,
+    "figures": 5,
+    "tables": 4,
+    "overfull": 0,
+    "missing": 0,
+    "errors": 0,
+    "undefined": 0
+  },
+  {
+    "report": "逻辑月5_整板尝试",
+    "version": "正文",
+    "pages": 3,
+    "figures": 0,
+    "tables": 3,
+    "overfull": 0,
+    "missing": 0,
+    "errors": 0,
+    "undefined": 0
+  },
+  {
+    "report": "逻辑月5_整板尝试",
+    "version": "图表附件",
+    "pages": 5,
+    "figures": 0,
+    "tables": 3,
+    "overfull": 0,
+    "missing": 0,
+    "errors": 0,
+    "undefined": 0
+  },
+  {
+    "report": "中期报告",
+    "version": "正文",
+    "pages": 23,
+    "figures": 24,
+    "tables": 28,
+    "overfull": 0,
+    "missing": 0,
+    "errors": 0,
+    "undefined": 0
+  },
+  {
+    "report": "中期报告",
+    "version": "图表附件",
+    "pages": 55,
+    "figures": 24,
+    "tables": 28,
+    "overfull": 0,
+    "missing": 0,
+    "errors": 0,
+    "undefined": 0
+  }
+]
