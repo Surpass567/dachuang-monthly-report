@@ -1,0 +1,52 @@
+[
+  {
+    "source": "逻辑月1_基础建立.tex",
+    "pages": 10,
+    "overfull": 0,
+    "missing": 0,
+    "errors": 0,
+    "undefined_references": 0,
+    "body_text_unchanged": true,
+    "closing_note_removed": true
+  },
+  {
+    "source": "逻辑月2_指标与形态.tex",
+    "pages": 11,
+    "overfull": 0,
+    "missing": 0,
+    "errors": 0,
+    "undefined_references": 0,
+    "body_text_unchanged": true,
+    "closing_note_removed": true
+  },
+  {
+    "source": "逻辑月3_形态与物理.tex",
+    "pages": 16,
+    "overfull": 0,
+    "missing": 0,
+    "errors": 0,
+    "undefined_references": 0,
+    "body_text_unchanged": true,
+    "closing_note_removed": true
+  },
+  {
+    "source": "逻辑月4_迭代与调试.tex",
+    "pages": 8,
+    "overfull": 0,
+    "missing": 0,
+    "errors": 0,
+    "undefined_references": 0,
+    "body_text_unchanged": true,
+    "closing_note_removed": true
+  },
+  {
+    "source": "逻辑月5_整板尝试.tex",
+    "pages": 4,
+    "overfull": 0,
+    "missing": 0,
+    "errors": 0,
+    "undefined_references": 0,
+    "body_text_unchanged": true,
+    "closing_note_removed": true
+  }
+]

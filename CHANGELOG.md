@@ -1,5 +1,12 @@
 # 更新记录
 
+## 2026-10-25 — 五份月度报告删除末页收尾说明
+
+在[月一](reports/逻辑月1_基础建立.tex)、[月二](reports/逻辑月2_指标与形态.tex)、[月三](reports/逻辑月3_形态与物理.tex)、[月四](reports/逻辑月4_迭代与调试.tex)、[月五](reports/逻辑月5_整板尝试.tex)导言区的页眉页脚设置之后，移除共享类注册的 enddocument 收尾钩子，删除最后一页“本报告由……撰写，格式遵循《月度总结规范 v1.0》”说明；同名 PDF 同步重编译。共享类和中期报告未修改。
+
+同步更新[报告目录](reports/README.md)。复现与验证见[脚本](reports/figs/src/verify_monthly_closing_note.py)和[验证记录](reports/figs/src/monthly_closing_note_validation/validation.json)：check.py 静态检查全部通过；本机未安装独立 XeLaTeX，使用已有离线 Tectonic 实际编译，五份报告 Overfull、Missing character、Error、未定义引用均为 0；正文及参考文献文字一致，页数维持 10、11、16、8、4，五份末页渲染核对通过。
+
+
 ## 2026-10-25 — 新增 docs/GitHub使用说明（面向不熟悉 Git 的队友）
 
 仓库新增面向新队员的上手文档：[Markdown 版](docs/GitHub使用说明.md) 与 [PDF 版](docs/GitHub使用说明.pdf)（11 页）。内容覆盖：

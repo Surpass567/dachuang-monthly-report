@@ -2,6 +2,8 @@
 
 本目录存放中期报告、五个月度报告，以及配图。
 
+2026-10-25：五份月报已去掉最后一页的作者与《月度总结规范》收尾说明；对应同名 `.tex` 与 PDF 已同步更新。正文、参考文献和总页数保留。检查见[验证记录](figs/src/monthly_closing_note_validation/validation.json)，可用[复核脚本](figs/src/verify_monthly_closing_note.py)重新编译验证。
+
 2026-10-24 最新发布包括月一小块理论配图、月二合并图及联合分析、月三与中期报告的 UDF 四面板组图，以及中期汇报框架。月一原始配图归档在 [month1_block_inputs](figs/src/month1_block_inputs/)，由[配图脚本](figs/src/prepare_month1_block_figures.py)生成；[学校中期与结题报告模板](本科生科研训练中期+结题报告模板-20251023.docx)一并保存。发布前检查见[验证记录](figs/src/upload_validation.json)。
 
 本机 VS Code 使用全局 `Global Tectonic` 配方，编译预览输出位于各源文件旁的 `build-latex/`，正式同名 PDF 单独保留。环境修复及验证见 [说明](figs/src/latex_environment/README.md)。
